@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyShool</string>
+    <string name="username.vn">Tên đăng nhập</string>
+    <string name="password.vn">Mật khẩu</string>
+    <string name="fullname.vn">Họ và tên</string>
+    <string name="address.vn">Địa chỉ</string>
+
+    <string name="title_activity_register">RegisterActivity</string>
+</resources>
