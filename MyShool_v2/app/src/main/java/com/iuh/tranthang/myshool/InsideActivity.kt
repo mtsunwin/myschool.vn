@@ -54,8 +54,12 @@ class InsideActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
-        email = etEmail?.text.toString()
-        password = etPassword?.text.toString()
+
+        email = edit_username.text.toString()
+        password = edit_password.text.toString()
+
+        Log.e("tmt", email + " - " + password)
+
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             mProgressBar!!.setMessage("Registering User...")
             mProgressBar!!.show()
@@ -78,6 +82,7 @@ class InsideActivity : AppCompatActivity() {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun updateUI() {
         val intent = Intent(this, MainActivity::class.java)
