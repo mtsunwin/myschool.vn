@@ -85,7 +85,7 @@ class InsideActivity : AppCompatActivity() {
 
 
     private fun updateUI() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, AdminActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
