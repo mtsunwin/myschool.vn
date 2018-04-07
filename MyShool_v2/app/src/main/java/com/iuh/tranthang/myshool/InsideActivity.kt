@@ -1,6 +1,7 @@
 package com.iuh.tranthang.myshool
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -28,7 +29,7 @@ class InsideActivity : AppCompatActivity() {
     private var btnLogin: Button? = null
     private var btnCreateAccount: Button? = null
     private var mProgressBar: ProgressDialog? = null
-
+    var token = getSharedPreferences("username",Context.MODE_PRIVATE)
     //Firebase references
     private var mAuth: FirebaseAuth? = null
 
@@ -38,23 +39,6 @@ class InsideActivity : AppCompatActivity() {
         userList= ArrayList()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
-        ref= FirebaseDatabase.getInstance().getReference("USER")
-        ref.addValueEventListener(object:ValueEventListener{
-            override fun onCancelled(p0: DatabaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(p0: DataSnapshot?) {
-                if(p0!!.exists()){
-                    for(User in p0.children){
-                        userList.add(User.toString());
-                    }
-                }
-            }
-
-
-        })
-        Log.e("User",userList.toString());
 
 //        Ẩn Menubar
         supportActionBar!!.hide()
@@ -89,6 +73,9 @@ class InsideActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with signed-in user's information
                             Log.d(TAG, "signInWithEmail:success")
+                            var editor= token.edit()
+                            editor.putString("loginusername",email)
+                            editor.commit()
                             updateUI()
 
                         } else {
