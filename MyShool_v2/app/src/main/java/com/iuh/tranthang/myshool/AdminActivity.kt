@@ -3,6 +3,7 @@ package com.iuh.tranthang.myshool
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.iuh.tranthang.myshool.ViewApdater.CustomAdapter
+import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
 
@@ -18,5 +19,16 @@ class AdminActivity : AppCompatActivity() {
 
         listview.adapter = CustomAdapter(this, arrayInforMenu)
 
+
+        val listHeader = listOf("number", "A")
+        val numberList = listOf("1", "2", "3")
+        val fruitsList = listOf("Thang", "Tam")
+        val listChild = HashMap<String, List<String>>()
+        listChild.put(listHeader[0], numberList)
+        listChild.put(listHeader[1], fruitsList)
+
+        val expandableListAdapter = ExpandableListAdapter(this, listHeader, listChild)
+
+        expandable_list_view.setAdapter(expandableListAdapter)
     }
 }

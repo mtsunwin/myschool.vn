@@ -40,8 +40,8 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>)
         }
 
         var item: adm_display = getItem(p0) as adm_display
-        viewHolder.text_title.text = item.name
-        viewHolder.img_item.setImageResource(item.img)
+        viewHolder.text_title.text = item.getName()
+        viewHolder.img_item.setImageResource(item.getImg())
         return view
     }
 
