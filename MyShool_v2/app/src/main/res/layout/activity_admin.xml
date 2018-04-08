@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.iuh.tranthang.myshool.AdminActivity">
 
     <LinearLayout
@@ -20,7 +20,6 @@
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
-<<<<<<< HEAD
 
         <ExpandableListView
             android:id="@+id/expandable_list_view"
@@ -28,17 +27,17 @@
             android:layout_height="wrap_content">
 
         </ExpandableListView>
-=======
+
         <Button
             android:id="@+id/btnLogOut"
-            android:text="Log out"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
->>>>>>> 5ba91c4de5a57d782525a278fa6d98cbeacde043
+            android:layout_height="wrap_content"
+            android:text="Log out" />
     </LinearLayout>
+
     <android.support.design.widget.NavigationView
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        app:menu="@menu/navigation_menu"
-        android:layout_gravity="start"></android.support.design.widget.NavigationView>
+        android:layout_gravity="start"
+        app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
