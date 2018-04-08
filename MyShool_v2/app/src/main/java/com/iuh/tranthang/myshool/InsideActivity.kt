@@ -3,6 +3,7 @@ package com.iuh.tranthang.myshool
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -29,27 +30,28 @@ class InsideActivity : AppCompatActivity() {
     private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
-    var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-    var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
+
+
+    //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
-       /* if(token.getString("loginusername","")!=" "){
-            var intent = Intent(this,InsideActivity::class.java)
+        var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+        if (token!!.getString("loginusername", " ") != " ") {
+            var intent = Intent(this, AdminActivity::class.java)
             startActivity(intent)
             finish()
-        }*/
-//        Ẩn Menubar
-        supportActionBar!!.hide()
+        }
 
-        var username = edit_username.text;
-        var password = edit_password.text;
+        //        Ẩn Menubar
+        supportActionBar!!.hide()
 
         btn_login.setOnClickListener(View.OnClickListener {
             //            Log.e("tmt", username.toString() + " - " + password.toString())
         })
 
         initialise()
+
     }
 
     private fun initialise() {
@@ -76,13 +78,14 @@ class InsideActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with signed-in user's information
                             Log.d(TAG, "signInWithEmail:success")
-                            var editor= token.edit()
-                            var editor_pw= token_pw.edit()
-                            editor.putString("loginusername",email)
-                            editor_pw.putString("loginpassword",password)
+                            var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+                            var editor = token.edit()
+                            //var editor_pw= token_pw.edit()
+                            editor.putString("loginusername", email)
+                            //editor_pw.putString("loginpassword",password)
                             editor.commit()
-                            editor_pw.commit()
-
+                            // editor_pw.commit()
+                            finish()
                             updateUI()
                         } else {
                             // If sign in fails, display a message to the user.
@@ -99,8 +102,8 @@ class InsideActivity : AppCompatActivity() {
 
     private fun updateUI() {
         val intent = Intent(this, AdminActivity::class.java)
-        intent.putExtra("username",edit_username.toString())
-        intent.putExtra("passwor",edit_password.toString())
+        intent.putExtra("username", edit_username.toString())
+        intent.putExtra("passwor", edit_password.toString())
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
