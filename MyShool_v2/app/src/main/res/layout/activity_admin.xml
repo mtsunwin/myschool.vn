@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iuh.tranthang.myshool.AdminActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.iuh.tranthang.myshool.AdminActivity"
+    android:id="@+id/drawerLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,21 +23,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
 
+
         <ExpandableListView
             android:id="@+id/expandable_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </ExpandableListView>
-
-        <Button
-            android:id="@+id/btnLogOut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Log out" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/menuNavigation"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
