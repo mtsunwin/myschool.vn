@@ -6,7 +6,6 @@ import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,7 +76,9 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         })
 
         listItemText.setOnClickListener(View.OnClickListener {
-            Log.e("tmt", childText.getName() + "")
+            when (childText.getId()) {
+                12 -> addAccount(converView)
+            }
         })
 
         return view
@@ -86,6 +87,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
     // ID 12
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
+
         ContextCompat.startActivity(context, intent, null)
     }
 

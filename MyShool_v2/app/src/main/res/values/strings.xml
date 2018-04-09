@@ -7,4 +7,8 @@
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
     <string name="title_activity_register">RegisterActivity</string>
+
+
+    <!--Thông báo Toast-->
+    <string name="created.success">Bạn đã tạo tài khoản thành công!</string>
 </resources>
