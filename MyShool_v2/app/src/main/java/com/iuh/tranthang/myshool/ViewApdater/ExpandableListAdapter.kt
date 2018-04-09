@@ -1,7 +1,9 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
 import android.util.Log
@@ -10,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import com.iuh.tranthang.myshool.R
+import com.iuh.tranthang.myshool.RegisterActivity
 import com.iuh.tranthang.myshool.model.adm_display
 
 /**
@@ -68,13 +71,22 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         listItemImg.setImageResource(childText.getImg())
 
         listItemImg.setOnClickListener(View.OnClickListener {
-            Log.e("tmt", childText.getName() + "")
+            when (childText.getId()) {
+                12 -> addAccount(converView)
+            }
         })
+
         listItemText.setOnClickListener(View.OnClickListener {
             Log.e("tmt", childText.getName() + "")
         })
 
         return view
+    }
+
+    // ID 12
+    private fun addAccount(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
