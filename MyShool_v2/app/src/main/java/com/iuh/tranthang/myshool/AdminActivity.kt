@@ -16,7 +16,6 @@ class AdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         //edit_password.setText(token_pw.getString("loginpassword"," "))
-
         /* customer list view
         var arrayInforMenu: ArrayList<adm_display> = ArrayList()
         arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))

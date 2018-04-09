@@ -3,7 +3,6 @@ package com.iuh.tranthang.myshool
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -14,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_inside.*
 
 class InsideActivity : AppCompatActivity() {
@@ -30,7 +30,7 @@ class InsideActivity : AppCompatActivity() {
     private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
-
+    private lateinit var mDatabase: DatabaseReference
 
     //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,12 @@ class InsideActivity : AppCompatActivity() {
         supportActionBar!!.hide()
 
         btn_login.setOnClickListener(View.OnClickListener {
-            //            Log.e("tmt", username.toString() + " - " + password.toString())
+            Log.e("tmt", "sign in")
+            loginUser()
+        })
+
+        btn_forgot_password.setOnClickListener(View.OnClickListener {
+            Log.e("tmt", "click")
         })
 
         initialise()
@@ -77,7 +82,7 @@ class InsideActivity : AppCompatActivity() {
                         mProgressBar!!.hide()
                         if (task.isSuccessful) {
                             // Sign in success, update UI with signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success")
+                            // Log.d(TAG, "signInWithEmail:success")
                             var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                             var editor = token.edit()
                             //var editor_pw= token_pw.edit()
@@ -101,6 +106,18 @@ class InsideActivity : AppCompatActivity() {
 
 
     private fun updateUI() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users")
+        mDatabase.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val result = snapshot.child("Users").toString()
+                Log.e("tmt", result)
+            }
+
+        })
         val intent = Intent(this, AdminActivity::class.java)
         intent.putExtra("username", edit_username.toString())
         intent.putExtra("passwor", edit_password.toString())
