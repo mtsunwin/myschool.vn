@@ -53,6 +53,7 @@ class InsideActivity : AppCompatActivity() {
 
         btn_forgot_password.setOnClickListener(View.OnClickListener {
             Log.e("tmt", "click")
+            ForgetPassword()
         })
 
         initialise()
@@ -103,8 +104,12 @@ class InsideActivity : AppCompatActivity() {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun ForgetPassword(){
+        val intent_fp :Intent= Intent(this,ForgetPasswordActivity::class.java)
+        intent_fp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent_fp)
 
-
+    }
     private fun updateUI() {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users")
         mDatabase.addValueEventListener(object : ValueEventListener {
