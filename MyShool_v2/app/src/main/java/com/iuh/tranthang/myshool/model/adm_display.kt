@@ -6,10 +6,12 @@ package com.iuh.tranthang.myshool.model
 open class adm_display {
     private var name: String = ""
     private var img: Int = 0
+    private var id: Int = 0
 
-    constructor(name: String, img: Int) : super() {
+    constructor(name: String, img: Int, id: Int) : super() {
         this.name = name
         this.img = img
+        this.id = id
     }
 
     public fun getName(): String {
@@ -26,6 +28,14 @@ open class adm_display {
 
     public fun setImg(img: Int) {
         this.img = img
+    }
+
+    public fun getId(): Int {
+        return id
+    }
+
+    public fun setId(id: Int) {
+        this.id = id
     }
 
     constructor()
