@@ -13,26 +13,49 @@
         <EditText
             android:id="@+id/fullname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:hint="@string/fullname.vn" />
+
+        <Spinner
+            android:id="@+id/selectPermission"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"></Spinner>
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/address.vn" />
+
+        <EditText
+            android:id="@+id/numberphone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/phonenumber.vn" />
+
+        <EditText
+            android:id="@+id/birthday"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/birthday.vn" />
 
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:hint="@string/username.vn" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:hint="@string/password.vn"
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="Đăng ký" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

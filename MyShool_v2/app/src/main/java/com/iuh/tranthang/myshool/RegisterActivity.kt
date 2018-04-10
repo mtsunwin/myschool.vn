@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -19,22 +17,36 @@ class RegisterActivity : AppCompatActivity() {
     private var fullname: EditText? = null
     private var username: EditText? = null
     private var password: EditText? = null
+    private var address: EditText? = null
+    private var numberphone: EditText? = null
+    private var birthday: EditText? = null
+
     private var btnLogin: Button? = null
     private var mProgressBar: ProgressDialog? = null
 
     private var mDatabaseReference: DatabaseReference? = null
+    private var mDatabaseReferenceInfor: DatabaseReference? = null
     private var mDatabase: FirebaseDatabase? = null
     private var mAuth: FirebaseAuth? = null
 
     private var txtFullname: String? = ""
     private var txtUsername: String? = ""
     private var txtPassword: String? = ""
+    private var txtAddress: String? = ""
+    private var txtNumberphone: String? = ""
+    private var txtBirthday: String? = ""
+    private var txtPermission: String? = ""
+    private var spinnerPermisstion: Spinner? = null
+    private var intPermisstion: Int? = 0
+
+    private val key_Per_staff = "staff"
+    private val key_Per_teacher = "teacher"
+    private val key_Per_accountant = "accountant"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         initialise()
-
     }
 
 
@@ -43,6 +55,14 @@ class RegisterActivity : AppCompatActivity() {
         username = findViewById<View>(R.id.username) as EditText?
         password = findViewById<View>(R.id.password) as EditText?
         btnLogin = findViewById<View>(R.id.btnRegister) as Button?
+        address = findViewById<View>(R.id.address) as EditText?
+        numberphone = findViewById<View>(R.id.numberphone) as EditText?
+        birthday = findViewById<View>(R.id.birthday) as EditText?
+
+        spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
+
+        spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
+                resources.getStringArray(R.array.select_permission))
 
         mProgressBar = ProgressDialog(this)
 
@@ -57,6 +77,19 @@ class RegisterActivity : AppCompatActivity() {
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
         txtPassword = password?.text.toString()
+        txtAddress = address?.text.toString()
+        txtBirthday = birthday?.text.toString()
+        txtNumberphone = numberphone?.text.toString()
+        txtPermission = spinnerPermisstion?.getSelectedItem().toString()
+
+        val listStringPermission = resources.getStringArray(R.array.select_permission)
+        Log.e("tmt list", listStringPermission[0])
+        when (txtPermission!!.toLowerCase().trim()) {
+            listStringPermission[0].toLowerCase().trim() -> intPermisstion = 0 //Giao vien
+            listStringPermission[1].toLowerCase().trim() -> intPermisstion = 1 //Nhan vien
+            listStringPermission[2].toLowerCase().trim() -> intPermisstion = 2 //Ke toan
+            listStringPermission[3].toLowerCase().trim() -> intPermisstion = 3 //Admin
+        }
 
         if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
             mProgressBar!!.hide()
@@ -70,17 +103,18 @@ class RegisterActivity : AppCompatActivity() {
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
                             if (task.isSuccessful) {
-
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
-
                                 // Verify Email
                                 // verifyEmail();
-
                                 // update user profile information
-                                val currentUserDb = mDatabaseReference!!.child(userId)
+                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
                                 currentUserDb.child("fullname").setValue(txtFullname)
+                                currentUserDb.child("address").setValue(txtAddress)
+                                currentUserDb.child("birthday").setValue(txtBirthday)
+                                currentUserDb.child("numberphone").setValue(txtNumberphone)
+                                currentUserDb.child("permission").setValue(intPermisstion)
                                 updateUserInfoAndUI()
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -89,12 +123,8 @@ class RegisterActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT).show()
                             }
                         }
-
             }
-
         }
-
-
     }
 
     private fun updateUserInfoAndUI() {

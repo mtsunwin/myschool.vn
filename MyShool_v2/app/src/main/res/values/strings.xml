@@ -4,11 +4,19 @@
     <string name="password.vn">Mật khẩu</string>
     <string name="fullname.vn">Họ và tên</string>
     <string name="address.vn">Địa chỉ</string>
+    <string name="phonenumber.vn">Số điện thoại</string>
+    <string name="birthday.vn">Ngày sinh</string>
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
     <string name="title_activity_register">RegisterActivity</string>
-
+    <string-array name="select.permission">
+        <item>Giáo viên</item>
+        <item>Nhân viên</item>
+        <item>Kế toán</item>
+        <item>Admin</item>
+    </string-array>
 
     <!--Thông báo Toast-->
     <string name="created.success">Bạn đã tạo tài khoản thành công!</string>
+    <string name="title_activity_teacher">TeacherActivity</string>
 </resources>
