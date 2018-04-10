@@ -33,6 +33,10 @@
         </activity>
         <activity android:name=".ATeacherActivity">
         </activity>
+        <activity android:name=".AStaffActivity">
+        </activity>
+        <activity android:name=".AcountantActivity">
+        </activity>
     </application>
 
 </manifest>

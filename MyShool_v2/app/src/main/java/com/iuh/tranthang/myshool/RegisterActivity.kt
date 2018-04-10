@@ -88,6 +88,7 @@ class RegisterActivity : AppCompatActivity() {
             listStringPermission[0].toLowerCase().trim() -> intPermisstion = 0 //Giao vien
             listStringPermission[1].toLowerCase().trim() -> intPermisstion = 1 //Nhan vien
             listStringPermission[2].toLowerCase().trim() -> intPermisstion = 2 //Ke toan
+            listStringPermission[3].toLowerCase().trim() -> intPermisstion = 3 //Admin
         }
 
         if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {

@@ -13,6 +13,7 @@
         <item>Giáo viên</item>
         <item>Nhân viên</item>
         <item>Kế toán</item>
+        <item>Admin</item>
     </string-array>
 
     <!--Thông báo Toast-->

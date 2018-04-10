@@ -105,18 +105,24 @@ class InsideActivity : AppCompatActivity() {
         val mUserReference = mDatabaseReference!!.child(mUser!!.uid)
         // Get Email User
         Log.d("tmt name:", mUser.email)
-        Log.d("tmt name:", mUser.isEmailVerified.toString())
+        val d = Log.d("tmt name:", mUser.isEmailVerified.toString())
+        var temp = ""
         mUserReference.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onDataChange(snapshot: DataSnapshot?) {
-                Log.e("tmt - new", snapshot!!.child("fullname").value as String)
+                temp = snapshot!!.child("Infor").child("permission").value.toString() + ""
             }
-
         })
-        val intent = Intent(this, AdminActivity::class.java)
+        when (temp) {
+            "0" -> intent = Intent(this, ATeacherActivity::class.java)
+            "1" -> intent = Intent(this, AStaffActivity::class.java)
+            "2" -> intent = Intent(this, AcountantActivity::class.java)
+            "3" -> intent = Intent(this, AdminActivity::class.java)
+            else -> intent = Intent(this, AdminActivity::class.java) // THONG BAO LOI !!!
+        }
         intent.putExtra("username", edit_username.toString())
         intent.putExtra("passwor", edit_password.toString())
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
