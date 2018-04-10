@@ -58,19 +58,15 @@ class RegisterActivity : AppCompatActivity() {
         txtUsername = username?.text.toString()
         txtPassword = password?.text.toString()
 
-        mProgressBar!!.setMessage("Registering User...")
-        mProgressBar!!.show()
-        Log.e("tmt", txtUsername.toString() + txtPassword.toString())
-        if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)){
+        if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
             mProgressBar!!.hide()
-            Toast.makeText(this, "Không được để trống dữ liệu nhập",Toast.LENGTH_SHORT).show()
-        }else{
-            if(txtPassword!!.length<6){
+            Toast.makeText(this, "Không được để trống dữ liệu nhập", Toast.LENGTH_SHORT).show()
+        } else {
+            if (txtPassword!!.length < 6) {
                 mProgressBar!!.hide()
-                Toast.makeText(this, "Mật khẩu phải ít nhất 6 kí tự",Toast.LENGTH_SHORT).show()
-
-            }else{
-                mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtUsername!!)
+                Toast.makeText(this, "Mật khẩu phải ít nhất 6 kí tự", Toast.LENGTH_SHORT).show()
+            } else {
+                mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
                             if (task.isSuccessful) {

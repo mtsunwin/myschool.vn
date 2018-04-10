@@ -78,16 +78,22 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         listItemText.setOnClickListener(View.OnClickListener {
             when (childText.getId()) {
                 12 -> addAccount(converView)
+                11 -> listAccount(converView)
             }
         })
 
         return view
     }
 
-    // ID 12
+    // ID 12: Xem danh sách tài khoản
+    private fun listAccount(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
+
+    // ID 12: Thêm tài khoản
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
-
         ContextCompat.startActivity(context, intent, null)
     }
 

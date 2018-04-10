@@ -30,7 +30,9 @@ class InsideActivity : AppCompatActivity() {
     private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
-    private lateinit var mDatabase: DatabaseReference
+    private var mDatabase: FirebaseDatabase? = null
+    private var mDatabaseReference: DatabaseReference? = null
+
 
     //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,59 +44,46 @@ class InsideActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
         //        Ẩn Menubar
         supportActionBar!!.hide()
-
         btn_login.setOnClickListener(View.OnClickListener {
             Log.e("tmt", "sign in")
             loginUser()
         })
-
         btn_forgot_password.setOnClickListener(View.OnClickListener {
             Log.e("tmt", "click")
             ForgetPassword()
         })
-
         initialise()
-
     }
 
     private fun initialise() {
+        // Firebase
+        mDatabase = FirebaseDatabase.getInstance()
+        mAuth = FirebaseAuth.getInstance()
+        mDatabaseReference = mDatabase!!.reference!!.child("Users")
+        // Comp
         btnLogin = findViewById<View>(R.id.btn_login) as Button
         mProgressBar = ProgressDialog(this)
-        mAuth = FirebaseAuth.getInstance()
         btnLogin!!.setOnClickListener { loginUser() }
     }
 
     private fun loginUser() {
-
         email = edit_username.text.toString()
         password = edit_password.text.toString()
-
-        Log.e("tmt", email + " - " + password)
-
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            mProgressBar!!.setMessage("Registering User...")
-            mProgressBar!!.show()
-            Log.d(TAG, "Logging in user.")
+            Log.e("tmt login", email + " - " + password)
             mAuth!!.signInWithEmailAndPassword(email!!, password!!)
                     .addOnCompleteListener(this) { task ->
                         mProgressBar!!.hide()
                         if (task.isSuccessful) {
-                            // Sign in success, update UI with signed-in user's information
-                            // Log.d(TAG, "signInWithEmail:success")
                             var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                             var editor = token.edit()
-                            //var editor_pw= token_pw.edit()
                             editor.putString("loginusername", email)
-                            //editor_pw.putString("loginpassword",password)
                             editor.commit()
-                            // editor_pw.commit()
                             finish()
                             updateUI()
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.e(TAG, "signInWithEmail:failure", task.exception)
                             Toast.makeText(this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
@@ -104,22 +93,26 @@ class InsideActivity : AppCompatActivity() {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun ForgetPassword(){
-        val intent_fp :Intent= Intent(this,ForgetPasswordActivity::class.java)
+
+    private fun ForgetPassword() {
+        val intent_fp: Intent = Intent(this, ForgetPasswordActivity::class.java)
         intent_fp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent_fp)
-
     }
+
     private fun updateUI() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("Users")
-        mDatabase.addValueEventListener(object : ValueEventListener {
+        val mUser = mAuth!!.currentUser
+        val mUserReference = mDatabaseReference!!.child(mUser!!.uid)
+        // Get Email User
+        Log.d("tmt name:", mUser.email)
+        Log.d("tmt name:", mUser.isEmailVerified.toString())
+        mUserReference.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val result = snapshot.child("Users").toString()
-                Log.e("tmt", result)
+            override fun onDataChange(snapshot: DataSnapshot?) {
+                Log.e("tmt - new", snapshot!!.child("fullname").value as String)
             }
 
         })
