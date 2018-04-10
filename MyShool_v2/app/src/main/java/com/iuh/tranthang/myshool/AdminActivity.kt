@@ -52,10 +52,12 @@ class AdminActivity : AppCompatActivity() {
         val expandableListAdapter = ExpandableListAdapter(this, listHeader, listChild)
 
         expandable_list_view.setAdapter(expandableListAdapter)
-//        listview.adapter = CustomAdapter(this, arrayInforMenu)
-        drawerLayout = findViewById(R.id.drawerLayout)
-        navigationView = findViewById(R.id.menuNavigation)
-        abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
+      
+       //listview.adapter = CustomAdapter(this, arrayInforMenu)
+        drawerLayout= findViewById(R.id.drawerLayout)
+        navigationView= findViewById(R.id.menuNavigation)
+        abdt= ActionBarDrawerToggle(this,drawerLayout,R.string.Open,R.string.Close)
+
         val drawerIndicatorEnabled = abdt!!.isDrawerIndicatorEnabled
         drawerLayout!!.addDrawerListener(abdt!!)
         abdt!!.syncState()
