@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -60,28 +61,43 @@ class RegisterActivity : AppCompatActivity() {
         mProgressBar!!.setMessage("Registering User...")
         mProgressBar!!.show()
         Log.e("tmt", txtUsername.toString() + txtPassword.toString())
-        mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtUsername!!)
-                .addOnCompleteListener(this) { task ->
-                    mProgressBar!!.hide()
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("tmt", "createUserWithEmail:success")
-                        val userId = mAuth!!.currentUser!!.uid
+        if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)){
+            mProgressBar!!.hide()
+            Toast.makeText(this, "Không được để trống dữ liệu nhập",Toast.LENGTH_SHORT).show()
+        }else{
+            if(txtPassword!!.length<6){
+                mProgressBar!!.hide()
+                Toast.makeText(this, "Mật khẩu phải ít nhất 6 kí tự",Toast.LENGTH_SHORT).show()
 
-                        // Verify Email
-                        // verifyEmail();
+            }else{
+                mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtUsername!!)
+                        .addOnCompleteListener(this) { task ->
+                            mProgressBar!!.hide()
+                            if (task.isSuccessful) {
 
-                        // update user profile information
-                        val currentUserDb = mDatabaseReference!!.child(userId)
-                        currentUserDb.child("fullname").setValue(txtFullname)
-                        updateUserInfoAndUI()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("tmt", "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(this@RegisterActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("tmt", "createUserWithEmail:success")
+                                val userId = mAuth!!.currentUser!!.uid
+
+                                // Verify Email
+                                // verifyEmail();
+
+                                // update user profile information
+                                val currentUserDb = mDatabaseReference!!.child(userId)
+                                currentUserDb.child("fullname").setValue(txtFullname)
+                                updateUserInfoAndUI()
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("tmt", "createUserWithEmail:failure", task.exception)
+                                Toast.makeText(this@RegisterActivity, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+            }
+
+        }
+
 
     }
 
