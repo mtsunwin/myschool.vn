@@ -113,7 +113,6 @@ class InsideActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot?) {
-<<<<<<< HEAD
                 permission = snapshot!!.child("Infor").child("permission").value.toString() + ""
                 changeActivy(permission!!)
             }
@@ -122,18 +121,7 @@ class InsideActivity : AppCompatActivity() {
 
     private fun changeActivy(permission: String) {
         Log.e("tmt-123123", permission)
-
         when (permission) {
-=======
-                temp = snapshot!!.child("Infor").child("permission").value.toString()
-                Log.e("PermissionTemp",temp)
-            }
-
-        }
-
-        )
-        when (temp) {
->>>>>>> 42adc543a5e04cae556ba6a6597681453482c2c4
             "0" -> intent = Intent(this, ATeacherActivity::class.java)
             "1" -> intent = Intent(this, AStaffActivity::class.java)
             "2" -> intent = Intent(this, AcountantActivity::class.java)
