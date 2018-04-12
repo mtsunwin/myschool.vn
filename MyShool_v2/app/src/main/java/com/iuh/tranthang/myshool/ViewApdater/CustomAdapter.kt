@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.iuh.tranthang.myshool.R
@@ -16,12 +17,16 @@ import com.iuh.tranthang.myshool.model.adm_display
 class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>) : BaseAdapter() {
 
     class ViewHolder(row: View) {
-        var text_title: TextView
-        var img_item: ImageView
+        var text_fullname: TextView
+        var text_chucvu: TextView
+        var img_avatar: ImageView
+        var btn_call: Button
 
         init {
-            text_title = row.findViewById(R.id.text_logo)
-            img_item = row.findViewById(R.id.img_logo)
+            text_fullname = row.findViewById(R.id.txt_fullname)
+            text_chucvu = row.findViewById(R.id.txt_chucvu)
+            img_avatar = row.findViewById(R.id.img_avatar)
+            btn_call = row.findViewById(R.id.btn_Call)
         }
 
     }
@@ -31,7 +36,7 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>)
         var viewHolder: ViewHolder
         if (converview == null) {
             var layoutinflater: LayoutInflater = LayoutInflater.from(context)
-            view = layoutinflater.inflate(R.layout.layout_item_menu, null)
+            view = layoutinflater.inflate(R.layout.layout_item_list_user, null)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
         } else {
@@ -40,8 +45,8 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>)
         }
 
         var item: adm_display = getItem(p0) as adm_display
-        viewHolder.text_title.text = item.getName()
-        viewHolder.img_item.setImageResource(item.getImg())
+        viewHolder.text_fullname.text = item.getName()
+        viewHolder.img_avatar.setImageResource(item.getImg())
         return view
     }
 

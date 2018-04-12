@@ -25,7 +25,6 @@ class RegisterActivity : AppCompatActivity() {
     private var mProgressBar: ProgressDialog? = null
 
     private var mDatabaseReference: DatabaseReference? = null
-    private var mDatabaseReferenceInfor: DatabaseReference? = null
     private var mDatabase: FirebaseDatabase? = null
     private var mAuth: FirebaseAuth? = null
 
@@ -115,6 +114,7 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("birthday").setValue(txtBirthday)
                                 currentUserDb.child("numberphone").setValue(txtNumberphone)
                                 currentUserDb.child("permission").setValue(intPermisstion)
+                                currentUserDb.child("email").setValue(txtUsername)
                                 updateUserInfoAndUI()
                             } else {
                                 // If sign in fails, display a message to the user.
