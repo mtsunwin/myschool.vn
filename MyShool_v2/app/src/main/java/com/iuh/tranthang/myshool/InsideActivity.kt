@@ -82,8 +82,8 @@ class InsideActivity : AppCompatActivity() {
                             var editor = token.edit()
                             editor.putString("loginusername", email)
                             editor.commit()
-                            finish()
                             updateUI()
+                            finish()
                         } else {
                             Log.e(TAG, "signInWithEmail:failure", task.exception)
                             Toast.makeText(this, "Authentication failed.",
@@ -113,6 +113,7 @@ class InsideActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot?) {
+<<<<<<< HEAD
                 permission = snapshot!!.child("Infor").child("permission").value.toString() + ""
                 changeActivy(permission!!)
             }
@@ -123,11 +124,22 @@ class InsideActivity : AppCompatActivity() {
         Log.e("tmt-123123", permission)
 
         when (permission) {
+=======
+                temp = snapshot!!.child("Infor").child("permission").value.toString()
+                Log.e("PermissionTemp",temp)
+            }
+
+        }
+
+        )
+        when (temp) {
+>>>>>>> 42adc543a5e04cae556ba6a6597681453482c2c4
             "0" -> intent = Intent(this, ATeacherActivity::class.java)
             "1" -> intent = Intent(this, AStaffActivity::class.java)
             "2" -> intent = Intent(this, AcountantActivity::class.java)
             "3" -> intent = Intent(this, AdminActivity::class.java)
             else -> intent = Intent(this, AdminActivity::class.java) // THONG BAO LOI !!!
+
         }
         intent.putExtra("username", edit_username.toString())
         intent.putExtra("passwor", edit_password.toString())
