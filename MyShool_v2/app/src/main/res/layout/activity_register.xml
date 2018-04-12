@@ -37,20 +37,40 @@
             android:id="@+id/birthday"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="@string/birthday.vn" />
-
-        <EditText
-            android:id="@+id/username"
+            android:hint="@string/birthday.vn"
+            android:inputType="date"/>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/username.vn" />
-
-        <EditText
-            android:id="@+id/password"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/username.vn" />
+            <TextView
+                android:id="@+id/ErrorUserName_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fa0000"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/password.vn"
-            android:inputType="textPassword" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/password.vn"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/ErrorPassword_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fa0000"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnRegister"

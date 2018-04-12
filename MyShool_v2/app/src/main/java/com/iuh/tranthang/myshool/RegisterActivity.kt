@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
@@ -37,7 +38,8 @@ class RegisterActivity : AppCompatActivity() {
     private var txtPermission: String? = ""
     private var spinnerPermisstion: Spinner? = null
     private var intPermisstion: Int? = 0
-
+    private var txtErrorUserName: TextView?= null
+    private var txtErrorPassword: TextView?= null
     private val key_Per_staff = "staff"
     private val key_Per_teacher = "teacher"
     private val key_Per_accountant = "accountant"
@@ -45,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
         initialise()
     }
 
@@ -57,7 +60,8 @@ class RegisterActivity : AppCompatActivity() {
         address = findViewById<View>(R.id.address) as EditText?
         numberphone = findViewById<View>(R.id.numberphone) as EditText?
         birthday = findViewById<View>(R.id.birthday) as EditText?
-
+        txtErrorUserName=findViewById<TextView>(R.id.ErrorUserName_register)
+        txtErrorPassword=findViewById<TextView>(R.id.ErrorPassword_register)
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
 
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
@@ -68,8 +72,22 @@ class RegisterActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
-
-        btnLogin!!.setOnClickListener { view -> createNewAccount() }
+        username!!.setOnClickListener{
+            txtErrorUserName!!.setText("")
+        }
+        password!!.setOnClickListener{
+            txtErrorPassword!!.setText("")
+        }
+        btnLogin!!.setOnClickListener { view ->
+            if(password!!.text.length<6)
+                txtErrorPassword!!.setText("Password characters must be more than 6")
+            if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
+                txtErrorUserName!!.setText("Wrong format email.")
+            }
+            if(txtErrorUserName!!.text.length>0 ||txtErrorPassword!!.text.length>0)
+                Toast.makeText(this,"Input complete username and password",Toast.LENGTH_SHORT).show()
+            else
+                createNewAccount() }
     }
 
     private fun createNewAccount() {
