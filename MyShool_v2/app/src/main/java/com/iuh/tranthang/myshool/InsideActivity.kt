@@ -114,6 +114,7 @@ class InsideActivity : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot?) {
                 permission = snapshot!!.child("Infor").child("permission").value.toString() + ""
+//                Log.e("tmt", snapshot!!.child("Infor").toString())
                 changeActivy(permission!!)
             }
         })

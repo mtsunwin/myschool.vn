@@ -19,16 +19,9 @@ class AStaffActivity : AppCompatActivity() {
     private var navigationView: NavigationView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-        //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_astaff)
         val intent = Intent(this, InsideActivity::class.java)
-        //edit_password.setText(token_pw.getString("loginpassword"," "))
-        /* customer list view
-        var arrayInforMenu: ArrayList<adm_display> = ArrayList()
-        arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
-        listview.adapter = CustomAdapter(this, arrayInforMenu)*/
-
 
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
@@ -39,6 +32,7 @@ class AStaffActivity : AppCompatActivity() {
 
         val fruitsList = listOf("Thang", "Nghia")
         val listChild = HashMap<String, ArrayList<adm_display>>()
+        listChild.put(listHeader[0].getName(), inforNotify)
         listChild.put(listHeader[1].getName(), inforNotify)
 
         val expandableListAdapter = ExpandableListAdapter(this, listHeader, listChild)

@@ -8,6 +8,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
+import com.google.firebase.database.GenericTypeIndicator
+
+
+
 
 class ListUserActivity : AppCompatActivity() {
 
@@ -33,32 +37,30 @@ class ListUserActivity : AppCompatActivity() {
 
     private fun firebaseListenerInit() {
         if (mAuth != null) {
-            var dbUser = mDatabase!!.child(Parameter().getDbNodeUser())
-            var dbInfo = dbUser.child(mAuth!!.uid).child(Parameter().getdbNodeInfor())
+            var mUserReference = mDatabase!!.child(Parameter().getDbNodeUser())
+            mUserReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot?) {
+//                    val e = Log.e("tmt", snapshot!!.toString())
+//                    var branch = snapshot.child(mAuth!!.uid)
+//
+//                    val td = snapshot.getValue() as HashMap<String, Any>
+//
+//                    Log.e("tmt list", td["infor"].toString())
+                    val t = object : GenericTypeIndicator<List<String>>() {}
+                    val hashMap = snapshot!!.getValue(t)
+                    if (hashMap != null) {
+                        for (entry in hashMap) {
+                            val educations = entry.value
+                            for (education in educations) {
+                                Log.e("tmt", education.toString())
+                            }
+                        }
+                    }
+                }
 
-            dbInfo.addChildEventListener(object : ChildEventListener {
                 override fun onCancelled(p0: DatabaseError?) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
-
-                override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onChildChanged(p0: DataSnapshot?, p1: String?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
-                    var message = dataSnapshot!!.getValue(User::class.java)
-                    Log.e("tmt", message.toString())
-                    messageList.add(message!!)
-                }
-
-                override fun onChildRemoved(p0: DataSnapshot?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
             })
         }
     }
