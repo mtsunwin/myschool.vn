@@ -21,6 +21,7 @@ class InsideActivity : AppCompatActivity() {
     //global variables
     private var email: String? = null
     private var password: String? = null
+    private var permission: String? = ""
     //UI elements
     private var tvForgotPassword: TextView? = null
     private var etEmail: EditText? = null
@@ -106,17 +107,22 @@ class InsideActivity : AppCompatActivity() {
         // Get Email User
         Log.d("tmt name:", mUser.email)
         val d = Log.d("tmt name:", mUser.isEmailVerified.toString())
-        var temp = ""
         mUserReference.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onDataChange(snapshot: DataSnapshot?) {
-                temp = snapshot!!.child("Infor").child("permission").value.toString() + ""
+                permission = snapshot!!.child("Infor").child("permission").value.toString() + ""
+                changeActivy(permission!!)
             }
         })
-        when (temp) {
+    }
+
+    private fun changeActivy(permission: String) {
+        Log.e("tmt-123123", permission)
+
+        when (permission) {
             "0" -> intent = Intent(this, ATeacherActivity::class.java)
             "1" -> intent = Intent(this, AStaffActivity::class.java)
             "2" -> intent = Intent(this, AcountantActivity::class.java)
