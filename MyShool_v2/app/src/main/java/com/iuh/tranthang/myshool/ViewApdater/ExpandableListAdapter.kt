@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import com.iuh.tranthang.myshool.ListUserActivity
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.RegisterActivity
 import com.iuh.tranthang.myshool.model.adm_display
@@ -78,16 +79,22 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         listItemText.setOnClickListener(View.OnClickListener {
             when (childText.getId()) {
                 12 -> addAccount(converView)
+                11 -> listAccount(converView)
             }
         })
 
         return view
     }
 
-    // ID 12
+    // ID 11: Xem danh sách tài khoản
+    private fun listAccount(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
+
+    // ID 12: Thêm tài khoản
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
-
         ContextCompat.startActivity(context, intent, null)
     }
 

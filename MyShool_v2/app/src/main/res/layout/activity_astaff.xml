@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iuh.tranthang.myshool.AdminActivity"
+    android:id="@+id/drawerLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="THIS IS STAFF" />
+
+        <ListView
+            android:id="@+id/listview_Staff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+
+        <ExpandableListView
+            android:id="@+id/expandable_list_view_Staff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ExpandableListView>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/menuNavigation_Staff"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>

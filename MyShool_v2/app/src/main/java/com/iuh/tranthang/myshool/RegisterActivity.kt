@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -19,6 +18,10 @@ class RegisterActivity : AppCompatActivity() {
     private var fullname: EditText? = null
     private var username: EditText? = null
     private var password: EditText? = null
+    private var address: EditText? = null
+    private var numberphone: EditText? = null
+    private var birthday: EditText? = null
+
     private var btnLogin: Button? = null
     private var mProgressBar: ProgressDialog? = null
 
@@ -29,12 +32,23 @@ class RegisterActivity : AppCompatActivity() {
     private var txtFullname: String? = ""
     private var txtUsername: String? = ""
     private var txtPassword: String? = ""
+    private var txtAddress: String? = ""
+    private var txtNumberphone: String? = ""
+    private var txtBirthday: String? = ""
+    private var txtPermission: String? = ""
+    private var spinnerPermisstion: Spinner? = null
+    private var intPermisstion: Int? = 0
+    private var txtErrorUserName: TextView?= null
+    private var txtErrorPassword: TextView?= null
+    private val key_Per_staff = "staff"
+    private val key_Per_teacher = "teacher"
+    private val key_Per_accountant = "accountant"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        initialise()
 
+        initialise()
     }
 
 
@@ -43,26 +57,60 @@ class RegisterActivity : AppCompatActivity() {
         username = findViewById<View>(R.id.username) as EditText?
         password = findViewById<View>(R.id.password) as EditText?
         btnLogin = findViewById<View>(R.id.btnRegister) as Button?
+        address = findViewById<View>(R.id.address) as EditText?
+        numberphone = findViewById<View>(R.id.numberphone) as EditText?
+        birthday = findViewById<View>(R.id.birthday) as EditText?
+        txtErrorUserName=findViewById<TextView>(R.id.ErrorUserName_register)
+        txtErrorPassword=findViewById<TextView>(R.id.ErrorPassword_register)
+        spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
+
+        spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
+                resources.getStringArray(R.array.select_permission))
 
         mProgressBar = ProgressDialog(this)
 
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
-
-        btnLogin!!.setOnClickListener { view -> createNewAccount() }
+        username!!.setOnClickListener{
+            txtErrorUserName!!.setText("")
+        }
+        password!!.setOnClickListener{
+            txtErrorPassword!!.setText("")
+        }
+        btnLogin!!.setOnClickListener { view ->
+            if(password!!.text.length<6)
+                txtErrorPassword!!.setText("Password characters must be more than 6")
+            if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
+                txtErrorUserName!!.setText("Wrong format email.")
+            }
+            if(txtErrorUserName!!.text.length>0 ||txtErrorPassword!!.text.length>0)
+                Toast.makeText(this,"Input complete username and password",Toast.LENGTH_SHORT).show()
+            else
+                createNewAccount() }
     }
 
     private fun createNewAccount() {
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
         txtPassword = password?.text.toString()
+        txtAddress = address?.text.toString()
+        txtBirthday = birthday?.text.toString()
+        txtNumberphone = numberphone?.text.toString()
+        txtPermission = spinnerPermisstion?.getSelectedItem().toString()
 
-        mProgressBar!!.setMessage("Registering User...")
-        mProgressBar!!.show()
-        Log.e("tmt", txtUsername.toString() + txtPassword.toString())
-        if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)){
+        val listStringPermission = resources.getStringArray(R.array.select_permission)
+        Log.e("tmt list", listStringPermission[0])
+        when (txtPermission!!.toLowerCase().trim()) {
+            listStringPermission[0].toLowerCase().trim() -> intPermisstion = 0 //Giao vien
+            listStringPermission[1].toLowerCase().trim() -> intPermisstion = 1 //Nhan vien
+            listStringPermission[2].toLowerCase().trim() -> intPermisstion = 2 //Ke toan
+            listStringPermission[3].toLowerCase().trim() -> intPermisstion = 3 //Admin
+        }
+
+        if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
             mProgressBar!!.hide()
+// <<<<<<< NGHIA_1004_ValidationLogIn
             Toast.makeText(this, "Username and password not empty",Toast.LENGTH_SHORT).show()
         }else{
             if(txtPassword!!.length<6){
@@ -71,20 +119,31 @@ class RegisterActivity : AppCompatActivity() {
 
             }else{
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtUsername!!)
+// =======
+//             Toast.makeText(this, "Không được để trống dữ liệu nhập", Toast.LENGTH_SHORT).show()
+//         } else {
+//             if (txtPassword!!.length < 6) {
+//                 mProgressBar!!.hide()
+//                 Toast.makeText(this, "Mật khẩu phải ít nhất 6 kí tự", Toast.LENGTH_SHORT).show()
+//             } else {
+//                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
+// >>>>>>> master
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
                             if (task.isSuccessful) {
-
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
-
                                 // Verify Email
                                 // verifyEmail();
-
                                 // update user profile information
-                                val currentUserDb = mDatabaseReference!!.child(userId)
+                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
                                 currentUserDb.child("fullname").setValue(txtFullname)
+                                currentUserDb.child("address").setValue(txtAddress)
+                                currentUserDb.child("birthday").setValue(txtBirthday)
+                                currentUserDb.child("numberphone").setValue(txtNumberphone)
+                                currentUserDb.child("permission").setValue(intPermisstion)
+                                currentUserDb.child("email").setValue(txtUsername)
                                 updateUserInfoAndUI()
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -93,12 +152,8 @@ class RegisterActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT).show()
                             }
                         }
-
             }
-
         }
-
-
     }
 
     private fun updateUserInfoAndUI() {
