@@ -115,7 +115,6 @@ class RegisterActivity : AppCompatActivity() {
 
         if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
             mProgressBar!!.hide()
-// <<<<<<< NGHIA_1004_ValidationLogIn
             Toast.makeText(this, "Username and password not empty",Toast.LENGTH_SHORT).show()
         }else{
             if(txtPassword!!.length<6){
@@ -124,15 +123,6 @@ class RegisterActivity : AppCompatActivity() {
 
             }else{
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtUsername!!)
-// =======
-//             Toast.makeText(this, "Không được để trống dữ liệu nhập", Toast.LENGTH_SHORT).show()
-//         } else {
-//             if (txtPassword!!.length < 6) {
-//                 mProgressBar!!.hide()
-//                 Toast.makeText(this, "Mật khẩu phải ít nhất 6 kí tự", Toast.LENGTH_SHORT).show()
-//             } else {
-//                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
-// >>>>>>> master
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
                             if (task.isSuccessful) {

@@ -99,7 +99,6 @@ class InsideActivity : AppCompatActivity() {
         if(password!!.length>=6)
             txtErrorPassword!!.setText("")
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-<<<<<<< HEAD
             Log.e("tmt login", email + " - " + password)
             mAuth!!.signInWithEmailAndPassword(email!!, password!!)
                     .addOnCompleteListener(this) { task ->
@@ -110,39 +109,6 @@ class InsideActivity : AppCompatActivity() {
                             Log.e("tm", "signInWithEmail:failure", task.exception)
                             Toast.makeText(this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
-=======
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Wrong format email.",
-                        Toast.LENGTH_SHORT).show()
-            } else if (password!!.length < 6) {
-                Toast.makeText(this, "Passwords characters > 6",
-                        Toast.LENGTH_SHORT).show()
-            } else {
-                mProgressBar!!.setMessage("Logging User...")
-                mProgressBar!!.show()
-                Log.d(TAG, "Logging in user.")
-                mAuth!!.signInWithEmailAndPassword(email!!, password!!)
-                        .addOnCompleteListener(this) { task ->
-                            mProgressBar!!.hide()
-                            if (task.isSuccessful) {
-                                // Sign in success, update UI with signed-in user's information
-                                // Log.d(TAG, "signInWithEmail:success")
-                                var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-                                var editor = token.edit()
-                                //var editor_pw= token_pw.edit()
-                                editor.putString("loginusername", email)
-                                //editor_pw.putString("loginpassword",password)
-                                editor.commit()
-                                // editor_pw.commit()
-                                finish()
-                                updateUI()
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.e(TAG, "signInWithEmail:failure", task.exception)
-                                Toast.makeText(this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show()
-                            }
->>>>>>> a4bd33a80e742386db7e6d8a167a8447f653e307
                         }
             }
         }
