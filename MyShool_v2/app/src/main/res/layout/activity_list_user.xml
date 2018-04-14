@@ -6,7 +6,7 @@
     tools:context="com.iuh.tranthang.myshool.ListUserActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_user"
+        android:id="@+id/list_user_recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

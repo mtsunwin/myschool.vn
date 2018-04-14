@@ -12,6 +12,10 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.iuh.tranthang.myshool.model.Parameter
+import com.iuh.tranthang.myshool.model.User
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -38,8 +42,8 @@ class RegisterActivity : AppCompatActivity() {
     private var txtPermission: String? = ""
     private var spinnerPermisstion: Spinner? = null
     private var intPermisstion: Int? = 0
-    private var txtErrorUserName: TextView?= null
-    private var txtErrorPassword: TextView?= null
+    private var txtErrorUserName: TextView? = null
+    private var txtErrorPassword: TextView? = null
     private val key_Per_staff = "staff"
     private val key_Per_teacher = "teacher"
     private val key_Per_accountant = "accountant"
@@ -60,8 +64,8 @@ class RegisterActivity : AppCompatActivity() {
         address = findViewById<View>(R.id.address) as EditText?
         numberphone = findViewById<View>(R.id.numberphone) as EditText?
         birthday = findViewById<View>(R.id.birthday) as EditText?
-        txtErrorUserName=findViewById<TextView>(R.id.ErrorUserName_register)
-        txtErrorPassword=findViewById<TextView>(R.id.ErrorPassword_register)
+        txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
+        txtErrorPassword = findViewById<TextView>(R.id.ErrorPassword_register)
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
 
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
@@ -72,22 +76,23 @@ class RegisterActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
-        username!!.setOnClickListener{
+        username!!.setOnClickListener {
             txtErrorUserName!!.setText("")
         }
-        password!!.setOnClickListener{
+        password!!.setOnClickListener {
             txtErrorPassword!!.setText("")
         }
         btnLogin!!.setOnClickListener { view ->
-            if(password!!.text.length<6)
+            if (password!!.text.length < 6)
                 txtErrorPassword!!.setText("Password characters must be more than 6")
             if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
                 txtErrorUserName!!.setText("Wrong format email.")
             }
-            if(txtErrorUserName!!.text.length>0 ||txtErrorPassword!!.text.length>0)
-                Toast.makeText(this,"Input complete username and password",Toast.LENGTH_SHORT).show()
+            if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
+                Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()
             else
-                createNewAccount() }
+                createNewAccount()
+        }
     }
 
     private fun createNewAccount() {
@@ -133,7 +138,21 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("numberphone").setValue(txtNumberphone)
                                 currentUserDb.child("permission").setValue(intPermisstion)
                                 currentUserDb.child("email").setValue(txtUsername)
-                                updateUserInfoAndUI()
+
+                                val db = FirebaseFirestore.getInstance()
+                                var mUser: User = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                        , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                                        txtBirthday.toString())
+                                // Khởi tạo Root
+                                db.collection(Parameter().root_User)
+                                        .document(userId)
+                                        .set(mUser)
+                                        .addOnSuccessListener { documentReference ->
+                                            updateUserInfoAndUI()
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            Log.e("tmt err", exception.toString())
+                                        }
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("tmt", "createUserWithEmail:failure", task.exception)

@@ -1,6 +1,6 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
-import android.content.Context
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +9,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.iuh.tranthang.myshool.R
-import com.iuh.tranthang.myshool.model.adm_display
+import com.iuh.tranthang.myshool.model.User
 
 /**
  * Created by ThinkPad on 4/7/2018.
  */
-class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>) : BaseAdapter() {
+class CustomAdapter(private var activity: Activity, private var listTitle: ArrayList<User>) : BaseAdapter() {
 
     class ViewHolder(row: View) {
         var text_fullname: TextView
@@ -31,11 +31,11 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>)
 
     }
 
-    override fun getView(p0: Int, converview: View?, p2: ViewGroup?): View {
+    override fun getView(position: Int, converview: View?, p2: ViewGroup?): View {
         var view: View
         var viewHolder: ViewHolder
         if (converview == null) {
-            var layoutinflater: LayoutInflater = LayoutInflater.from(context)
+            var layoutinflater: LayoutInflater = LayoutInflater.from(activity)
             view = layoutinflater.inflate(R.layout.layout_item_list_user, null)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
@@ -44,10 +44,11 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>)
             viewHolder = converview.tag as ViewHolder
         }
 
-        var item: adm_display = getItem(p0) as adm_display
-        viewHolder.text_fullname.text = item.getName()
-        viewHolder.img_avatar.setImageResource(item.getImg())
-        return view
+        var item = listTitle[position]
+        viewHolder.text_fullname.text = item.getFullname()
+        viewHolder.img_avatar.setImageResource(R.drawable.team_group)
+
+        return view as View
     }
 
     override fun getItem(position: Int): Any {
