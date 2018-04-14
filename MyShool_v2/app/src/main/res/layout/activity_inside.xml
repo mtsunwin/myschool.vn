@@ -9,25 +9,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edit_username"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username.vn" />
-
-        <EditText
-            android:id="@+id/edit_password"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/username.vn" />
+            <TextView
+                android:id="@+id/txtErrorUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ff0000"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password.vn"
-            android:inputType="textPassword" />
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password.vn"
+                android:inputType="textPassword" />
+            <TextView
+                android:id="@+id/txtErrorPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ff0000"/>
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng nhập" />
+            android:text="Đăng nhập"
+            android:layout_marginTop="20dp"/>
 
         <Button
             android:id="@+id/btn_forgot_password"
