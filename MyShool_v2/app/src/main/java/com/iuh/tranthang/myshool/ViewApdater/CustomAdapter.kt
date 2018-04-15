@@ -1,6 +1,6 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
-import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import com.iuh.tranthang.myshool.model.User
 /**
  * Created by ThinkPad on 4/7/2018.
  */
-class CustomAdapter(private var activity: Activity, private var listTitle: ArrayList<User>) : BaseAdapter() {
+class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : BaseAdapter() {
 
     class ViewHolder(row: View) {
         var text_fullname: TextView
@@ -35,8 +35,8 @@ class CustomAdapter(private var activity: Activity, private var listTitle: Array
         var view: View
         var viewHolder: ViewHolder
         if (converview == null) {
-            var layoutinflater: LayoutInflater = LayoutInflater.from(activity)
-            view = layoutinflater.inflate(R.layout.layout_item_list_user, null)
+            var layoutinflater = LayoutInflater.from(context)
+            view = layoutinflater.inflate(R.layout.layout_item_list_user, p2, false)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
         } else {
@@ -45,7 +45,20 @@ class CustomAdapter(private var activity: Activity, private var listTitle: Array
         }
 
         var item = listTitle[position]
-        viewHolder.text_fullname.text = item.getFullname()
+        viewHolder.text_fullname.text = item.getFullname().trim()
+
+        val listStringPermission = context.resources.getStringArray(R.array.select_permission)
+
+        when (item.getPermission()) {
+            "0" -> viewHolder.text_chucvu.text = listStringPermission!!.get(0)
+            "1" -> viewHolder.text_chucvu.text = listStringPermission!!.get(1)
+            "2" -> viewHolder.text_chucvu.text = listStringPermission!!.get(2)
+            "3" -> viewHolder.text_chucvu.text = listStringPermission!!.get(3)
+            else -> viewHolder.text_chucvu.text = ""
+        }
+        if (item.getNumberphone() != null) {
+            viewHolder.btn_call.visibility = view.visibility
+        }
         viewHolder.img_avatar.setImageResource(R.drawable.team_group)
 
         return view as View

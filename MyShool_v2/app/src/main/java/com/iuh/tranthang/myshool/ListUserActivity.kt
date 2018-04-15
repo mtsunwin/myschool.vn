@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.CustomAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
+import kotlinx.android.synthetic.main.activity_list_user.*
 import java.util.*
 
 
@@ -58,7 +59,7 @@ class ListUserActivity : AppCompatActivity() {
     }
 
     private fun callAdapter(listUser: ArrayList<User>) {
-        val setAdap = CustomAdapter(this@ListUserActivity, listUser)
-//        list_user_recycleview.adapter = setAdap
+        val setAdap = CustomAdapter(applicationContext, listUser)
+        list_user_recycleview.adapter = setAdap
     }
 }

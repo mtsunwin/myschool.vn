@@ -44,9 +44,6 @@ class RegisterActivity : AppCompatActivity() {
     private var intPermisstion: Int? = 0
     private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
-    private val key_Per_staff = "staff"
-    private val key_Per_teacher = "teacher"
-    private val key_Per_accountant = "accountant"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

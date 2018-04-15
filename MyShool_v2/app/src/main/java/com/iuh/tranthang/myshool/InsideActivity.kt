@@ -55,6 +55,7 @@ class InsideActivity : AppCompatActivity() {
         edit_password.setOnClickListener{
             txtErrorPassword!!.setText("")
         }
+
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         if (token!!.getString("loginusername", " ") != " ") {
             var intent = Intent(this, AdminActivity::class.java)
