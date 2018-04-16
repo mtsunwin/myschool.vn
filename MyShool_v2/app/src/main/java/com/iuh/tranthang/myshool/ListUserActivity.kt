@@ -1,10 +1,10 @@
 package com.iuh.tranthang.myshool
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,21 +18,14 @@ import java.util.*
 
 
 class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
-    private var swipeLayout: SwipeRefreshLayout? = null
+
     /**
      * Swipe Refresh
      */
     override fun onRefresh() {
-        Toast.makeText(this, "Showw", Toast.LENGTH_LONG)
+        Toast.makeText(this, "Showw", Toast.LENGTH_LONG).show()
         firebaseListenerInit()
-        hideLoading()
-    }
-
-    /**
-     * Hide Swipe
-     */
-    private fun hideLoading() {
-        swipeLayout!!.isRefreshing = false
+        swipe_container.setRefreshing(false)
     }
 
 
@@ -46,12 +39,10 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         setContentView(R.layout.activity_list_user)
         mAuth = FirebaseAuth.getInstance().currentUser
 
+        swipe_container.setOnRefreshListener { onRefresh() }
+        swipe_container.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
         firebaseListenerInit()
 
-        swipeLayout = findViewById<View>(R.id.swipe_container) as SwipeRefreshLayout?
-        swipeLayout!!.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorPrimaryDark)
-        swipeLayout!!.setOnRefreshListener { this }
     }
 
     /**
@@ -101,5 +92,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     private fun callAdapter(listUser: ArrayList<User>) {
         val setAdap = CustomAdapter(applicationContext, listUser)
         list_user_recycleview.adapter = setAdap
+        list_user_recycleview.
     }
 }
