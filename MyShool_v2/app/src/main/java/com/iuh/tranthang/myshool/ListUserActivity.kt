@@ -50,8 +50,8 @@ class ListUserActivity : AppCompatActivity() {
                     val hashMap = snapshot!!.getValue(t)
                     if (hashMap != null) {
                         for (entry in hashMap) {
-                            val educations = entry.value
-                            for (education in educations) {
+ ..                           val educations = entry.value
+//                            for (education in educations) {
                                 Log.e("tmt", education.toString())
                             }
                         }

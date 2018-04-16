@@ -1,6 +1,9 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.content.Context
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,52 +17,21 @@ import com.iuh.tranthang.myshool.model.adm_display
 /**
  * Created by ThinkPad on 4/7/2018.
  */
-class CustomAdapter(var context: Context, var listTitle: ArrayList<adm_display>) : BaseAdapter() {
+class CustomAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
 
-    class ViewHolder(row: View) {
-        var text_fullname: TextView
-        var text_chucvu: TextView
-        var img_avatar: ImageView
-        var btn_call: Button
-
-        init {
-            text_fullname = row.findViewById(R.id.txt_fullname)
-            text_chucvu = row.findViewById(R.id.txt_chucvu)
-            img_avatar = row.findViewById(R.id.img_avatar)
-            btn_call = row.findViewById(R.id.btn_Call)
-        }
-
+    var mFm = fm
+    var mFragmentItems:ArrayList<Fragment> = ArrayList()
+    var mFragmentTitle: ArrayList<String> = ArrayList()
+    fun addFragment(fragmentItem: Fragment, fragmentTitle:String){
+        mFragmentItems.add(fragmentItem)
+        mFragmentTitle.add(fragmentTitle)
     }
-
-    override fun getView(p0: Int, converview: View?, p2: ViewGroup?): View {
-        var view: View
-        var viewHolder: ViewHolder
-        if (converview == null) {
-            var layoutinflater: LayoutInflater = LayoutInflater.from(context)
-            view = layoutinflater.inflate(R.layout.layout_item_list_user, null)
-            viewHolder = ViewHolder(view)
-            view.tag = viewHolder
-        } else {
-            view = converview
-            viewHolder = converview.tag as ViewHolder
-        }
-
-        var item: adm_display = getItem(p0) as adm_display
-        viewHolder.text_fullname.text = item.getName()
-        viewHolder.img_avatar.setImageResource(item.getImg())
-        return view
-    }
-
-    override fun getItem(position: Int): Any {
-        return listTitle.get(position)
-    }
-
-    override fun getItemId(p0: Int): Long {
-        return p0.toLong()
+    override fun getItem(position: Int): Fragment {
+        return mFragmentItems[position]
     }
 
     override fun getCount(): Int {
-        return listTitle.size
+        return mFragmentItems.size
     }
 
 }
