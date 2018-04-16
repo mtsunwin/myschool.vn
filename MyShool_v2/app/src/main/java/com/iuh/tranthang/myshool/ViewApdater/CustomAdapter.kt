@@ -1,6 +1,9 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.content.Context
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +19,16 @@ import com.iuh.tranthang.myshool.model.User
 /**
  * Created by ThinkPad on 4/7/2018.
  */
+<<<<<<< HEAD
 class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : BaseAdapter(), SwipeAdapterInterface {
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
         return R.id.swipe_layout
     }
+=======
+
+class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : BaseAdapter() {
+>>>>>>> 8190ab401ef492dba1f268545508ad3f566b636f
 
     class ViewHolder(row: View) {
         var text_fullname: TextView
@@ -83,7 +91,7 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : Base
     }
 
     override fun getCount(): Int {
-        return listTitle.size
+        return mFragmentItems.size
     }
 
 }
