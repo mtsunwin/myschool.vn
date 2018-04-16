@@ -3,21 +3,15 @@ package com.iuh.tranthang.myshool.model
 /**
  * Created by ThinkPad on 4/12/2018.
  */
-class Parameter {
+class Parameter() {
+    public val root_User = "Users"
+    public val comp_UId = "uid"
+    public val comp_Permission = "permission"
+    public val comp_address = "address"
+    public val comp_birthday = "birthday"
+    public val comp_email = "email"
+    public val comp_numberphone = "numberphone"
+    public val comp_fullname = "fullname"
 
-    private var dbNodeUser: String? = ""
-    private var dbNodeInfor: String? = ""
 
-    init {
-        this.dbNodeUser = "Users"
-        this.dbNodeInfor = "Infor"
-    }
-
-    fun getDbNodeUser(): String? {
-        return dbNodeUser
-    }
-
-    fun getdbNodeInfor(): String? {
-        return dbNodeUser
-    }
 }

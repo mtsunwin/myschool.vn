@@ -22,9 +22,9 @@
                 android:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center|left"
                 android:orientation="vertical">
 
                 <TextView
@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="20dp"
                     android:text="Name" />
             </LinearLayout>
         </LinearLayout>
@@ -58,7 +58,8 @@
                 android:id="@+id/btn_Call"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Gọi" />
+                android:text="Gọi"
+                android:visibility="invisible" />
 
         </LinearLayout>
     </LinearLayout>

@@ -14,9 +14,13 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.iuh.tranthang.myshool.model.Parameter
 import kotlinx.android.synthetic.main.activity_inside.*
 import org.w3c.dom.Text
+
 
 class InsideActivity : AppCompatActivity() {
     private val TAG = "LoginActivity"
@@ -51,6 +55,7 @@ class InsideActivity : AppCompatActivity() {
         edit_password.setOnClickListener{
             txtErrorPassword!!.setText("")
         }
+
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         if (token!!.getString("loginusername", " ") != " ") {
             var intent = Intent(this, AdminActivity::class.java)
@@ -95,37 +100,16 @@ class InsideActivity : AppCompatActivity() {
         if(password!!.length>=6)
             txtErrorPassword!!.setText("")
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Wrong format email.",
-                        Toast.LENGTH_SHORT).show()
-            } else if (password!!.length < 6) {
-                Toast.makeText(this, "Passwords characters > 6",
-                        Toast.LENGTH_SHORT).show()
-            } else {
-                mProgressBar!!.setMessage("Logging User...")
-                mProgressBar!!.show()
-                Log.d(TAG, "Logging in user.")
-                mAuth!!.signInWithEmailAndPassword(email!!, password!!)
-                        .addOnCompleteListener(this) { task ->
-                            mProgressBar!!.hide()
-                            if (task.isSuccessful) {
-                                // Sign in success, update UI with signed-in user's information
-                                // Log.d(TAG, "signInWithEmail:success")
-                                var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-                                var editor = token.edit()
-                                //var editor_pw= token_pw.edit()
-                                editor.putString("loginusername", email)
-                                //editor_pw.putString("loginpassword",password)
-                                editor.commit()
-                                // editor_pw.commit()
-                                finish()
-                                updateUI()
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.e(TAG, "signInWithEmail:failure", task.exception)
-                                Toast.makeText(this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show()
-                            }
+            Log.e("tmt login", email + " - " + password)
+            mAuth!!.signInWithEmailAndPassword(email!!, password!!)
+                    .addOnCompleteListener(this) { task ->
+                        mProgressBar!!.hide()
+                        if (task.isSuccessful) {
+                            updateUI()
+                        } else {
+                            Log.e("tm", "signInWithEmail:failure", task.exception)
+                            Toast.makeText(this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
                         }
             }
         }
@@ -205,21 +189,26 @@ class InsideActivity : AppCompatActivity() {
 
     private fun updateUI() {
         val mUser = mAuth!!.currentUser
-        val mUserReference = mDatabaseReference!!.child(mUser!!.uid)
-        // Get Email User
-        Log.d("tmt name:", mUser.email)
-        val d = Log.d("tmt name:", mUser.isEmailVerified.toString())
-        mUserReference.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot?) {
-                permission = snapshot!!.child("Infor").child("permission").value.toString() + ""
-//                Log.e("tmt", snapshot!!.child("Infor").toString())
-                changeActivy(permission!!)
-            }
-        })
+        Log.e("tmt check", "start")
+        val db = FirebaseFirestore.getInstance()
+        db.collection(Parameter().root_User)
+                .whereEqualTo(Parameter().comp_UId, mAuth!!.uid)
+                .get()
+                .addOnCompleteListener({ task ->
+                    if (task.isSuccessful) {
+                        for (document in task.result) {
+                            // Authentication
+                            var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+                            var editor = token.edit()
+                            editor.putString("loginusername", email)
+                            editor.commit()
+                            // Check Permission
+                            changeActivy(document.data[Parameter().comp_Permission] as String)
+                        }
+                    } else {
+                        Log.d("tmt", "Error getting documents: ", task.exception)
+                    }
+                })
     }
 
     private fun changeActivy(permission: String) {
@@ -236,5 +225,6 @@ class InsideActivity : AppCompatActivity() {
         intent.putExtra("passwor", edit_password.toString())
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
+        finish()
     }
 }

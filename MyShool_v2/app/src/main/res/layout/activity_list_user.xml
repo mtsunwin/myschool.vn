@@ -5,10 +5,16 @@
     android:layout_height="match_parent"
     tools:context="com.iuh.tranthang.myshool.ListUserActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_user"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <ListView
+            android:id="@+id/list_user_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>

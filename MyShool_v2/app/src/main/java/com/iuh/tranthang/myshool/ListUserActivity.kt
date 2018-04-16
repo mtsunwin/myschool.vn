@@ -1,67 +1,97 @@
 package com.iuh.tranthang.myshool
 
+import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.iuh.tranthang.myshool.ViewApdater.CustomAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
-import com.google.firebase.database.GenericTypeIndicator
+import kotlinx.android.synthetic.main.activity_list_user.*
+import java.util.*
 
 
+class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-
-class ListUserActivity : AppCompatActivity() {
+    /**
+     * Swipe Refresh
+     */
+    override fun onRefresh() {
+        Toast.makeText(this, "Showw", Toast.LENGTH_LONG).show()
+        firebaseListenerInit()
+        swipe_container.setRefreshing(false)
+    }
 
 
     private var mAuth: FirebaseUser? = null
     private var mDatabase: DatabaseReference? = null
     private var mMessageReference: DatabaseReference? = null
 
-    val messageList = ArrayList<User>()
-
+    val listUser = ArrayList<User>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user)
-        mDatabase = FirebaseDatabase.getInstance().reference
-        mMessageReference = FirebaseDatabase.getInstance().getReference("Infor")
         mAuth = FirebaseAuth.getInstance().currentUser
 
+        swipe_container.setOnRefreshListener { onRefresh() }
+        swipe_container.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
         firebaseListenerInit()
-
-        Log.e("tmt", messageList.toString())
 
     }
 
+    /**
+     * Lấy danh sách User từ Firebase
+     */
     private fun firebaseListenerInit() {
         if (mAuth != null) {
-            var mUserReference = mDatabase!!.child(Parameter().getDbNodeUser())
-            mUserReference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot?) {
-//                    val e = Log.e("tmt", snapshot!!.toString())
-//                    var branch = snapshot.child(mAuth!!.uid)
-//
-//                    val td = snapshot.getValue() as HashMap<String, Any>
-//
-//                    Log.e("tmt list", td["infor"].toString())
-                    val t = object : GenericTypeIndicator<List<String>>() {}
-                    val hashMap = snapshot!!.getValue(t)
-                    if (hashMap != null) {
-                        for (entry in hashMap) {
- ..                           val educations = entry.value
-//                            for (education in educations) {
-                                Log.e("tmt", education.toString())
+            val db = FirebaseFirestore.getInstance()
+            db.collection(Parameter().root_User)
+                    .get()
+                    .addOnCompleteListener({ task ->
+                        if (task.isSuccessful) {
+                            Log.e("tmt data", task.result.size().toString())
+                            for (document in task.result) {
+                                var mUser = User(document.data[Parameter().comp_UId] as String,
+                                        document.data[Parameter().comp_fullname] as String,
+                                        document.data[Parameter().comp_Permission] as String,
+                                        document.data[Parameter().comp_numberphone] as String,
+                                        document.data[Parameter().comp_address] as String,
+                                        document.data[Parameter().comp_email] as String,
+                                        document.data[Parameter().comp_birthday] as String)
+                                var temp: Boolean = false
+                                for (cUser in listUser) {
+                                    if (cUser.getUid() == mUser.getUid()) {
+                                        cUser.setAddress(mUser.getAddress())
+                                        cUser.setBirthday(mUser.getBirthday())
+                                        cUser.setEmail(mUser.getEmail())
+                                        cUser.setFullname(mUser.getFullname())
+                                        temp = true
+                                    }
+                                }
+                                if (!temp) {
+                                    listUser.add(mUser)
+                                    Log.e("tmt add", "oke")
+                                }
                             }
+                            callAdapter(listUser)
+                        } else {
+                            Log.d("tmt", "Error getting documents: ", task.exception)
+                            // Lỗi trả về
                         }
-                    }
-                }
+                    })
 
-                override fun onCancelled(p0: DatabaseError?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
         }
+    }
+
+    private fun callAdapter(listUser: ArrayList<User>) {
+        val setAdap = CustomAdapter(applicationContext, listUser)
+        list_user_recycleview.adapter = setAdap
+        list_user_recycleview.
     }
 }

@@ -23,6 +23,8 @@ class User {
         this.birthday = birthday
     }
 
+    constructor()
+
     public fun getUid(): String {
         return uid
     }
