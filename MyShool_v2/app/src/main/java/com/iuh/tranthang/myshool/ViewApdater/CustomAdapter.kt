@@ -1,6 +1,9 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.content.Context
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +17,7 @@ import com.iuh.tranthang.myshool.model.User
 /**
  * Created by ThinkPad on 4/7/2018.
  */
+
 class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : BaseAdapter() {
 
     class ViewHolder(row: View) {
@@ -73,7 +77,7 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : Base
     }
 
     override fun getCount(): Int {
-        return listTitle.size
+        return mFragmentItems.size
     }
 
 }
