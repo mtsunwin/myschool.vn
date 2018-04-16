@@ -34,6 +34,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     private var mMessageReference: DatabaseReference? = null
 
     val listUser = ArrayList<User>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user)
@@ -42,7 +43,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         swipe_container.setOnRefreshListener { onRefresh() }
         swipe_container.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
         firebaseListenerInit()
-
     }
 
     /**
@@ -85,13 +85,14 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                             // Lỗi trả về
                         }
                     })
-
         }
     }
 
+    /*
+    * Khơi tạo Adapter và danh sách
+    * */
     private fun callAdapter(listUser: ArrayList<User>) {
         val setAdap = CustomAdapter(applicationContext, listUser)
         list_user_recycleview.adapter = setAdap
-        list_user_recycleview.
     }
 }
