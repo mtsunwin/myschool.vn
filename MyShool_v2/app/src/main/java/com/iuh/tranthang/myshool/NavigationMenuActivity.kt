@@ -32,6 +32,10 @@ class NavigationMenuActivity : AppCompatActivity() {
                     var intent= Intent(this, InsideActivity::class.java)
                     startActivity(intent)
                     }
+                R.id.itemTrangCaNhan->{
+                    var intent= Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
 

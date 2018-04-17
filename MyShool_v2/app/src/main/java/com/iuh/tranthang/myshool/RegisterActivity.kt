@@ -119,7 +119,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Password characters >6",Toast.LENGTH_SHORT).show()
 
             }else{
-                mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtUsername!!)
+                mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
                             if (task.isSuccessful) {

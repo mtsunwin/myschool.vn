@@ -13,9 +13,9 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/txtChucVu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="THIS IS ADMIN" />
+            android:layout_height="wrap_content" />
 
         <ListView
             android:id="@+id/listview"
