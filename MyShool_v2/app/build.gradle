@@ -43,6 +43,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.0.0'
     compile 'com.android.support:support-v4:26.0.0'
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    // Check validation FORM
     compile 'com.basgeekball:awesome-validation:1.3'
 }
 

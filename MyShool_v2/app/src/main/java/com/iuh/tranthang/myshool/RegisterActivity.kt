@@ -1,5 +1,7 @@
 package com.iuh.tranthang.myshool
 
+
+import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +11,16 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
+import com.basgeekball.awesomevalidation.AwesomeValidation
+import com.basgeekball.awesomevalidation.ValidationStyle
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -41,14 +46,17 @@ class RegisterActivity : AppCompatActivity() {
     private var txtBirthday: String? = ""
     private var txtPermission: String? = ""
     private var spinnerPermisstion: Spinner? = null
+    private var spinnerPerTeacher: Spinner? = null
+    private var spinnerPerTeacherLead: Spinner? = null
     private var intPermisstion: Int? = 0
     private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
 
+    private var awesomeValidation: AwesomeValidation? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
         initialise()
     }
 
@@ -63,12 +71,48 @@ class RegisterActivity : AppCompatActivity() {
         birthday = findViewById<View>(R.id.birthday) as EditText?
         txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
         txtErrorPassword = findViewById<TextView>(R.id.ErrorPassword_register)
-        spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
 
+        spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
 
+        spinnerPerTeacher = findViewById<View>(R.id.selectPerTeacher) as Spinner?
+        spinnerPerTeacher!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
+                resources.getStringArray(R.array.select_permission_teacher))
+        spinnerPerTeacher!!.visibility = View.GONE
+
+        spinnerPerTeacherLead = findViewById<View>(R.id.selectPerTeacherLead) as Spinner?
+        spinnerPerTeacherLead!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
+                resources.getStringArray(R.array.select_permission_teacher_leader))
+        spinnerPerTeacherLead!!.visibility = View.GONE
+
         mProgressBar = ProgressDialog(this)
+
+        // Validation
+        awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.password, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.address, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.address, "^[0-9]{9,}\$", R.string.validation_phone)
+
+        // POP DATE
+        var calendar = Calendar.getInstance()
+        val DateFragment = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month + 1)
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+            val dateFormat = "dd/MM/yyyy"
+            val sdf = SimpleDateFormat(dateFormat, Locale.US)
+            birthday!!.setText(sdf.format(calendar.time))
+        }
+
+        birthday!!.setOnClickListener { view ->
+            Log.e("tmt check", "oke roi")
+            DatePickerDialog(this, DateFragment,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
 
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference.child("Users")
@@ -79,16 +123,19 @@ class RegisterActivity : AppCompatActivity() {
         password!!.setOnClickListener {
             txtErrorPassword!!.setText("")
         }
+
         btnLogin!!.setOnClickListener { view ->
-            if (password!!.text.length < 6)
-                txtErrorPassword!!.setText("Password characters must be more than 6")
-            if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
-                txtErrorUserName!!.setText("Wrong format email.")
+            if (awesomeValidation!!.validate()) {
+                if (password!!.text.length < 6)
+                    txtErrorPassword!!.setText("Password characters must be more than 6")
+                if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
+                    txtErrorUserName!!.setText("Wrong format email.")
+                }
+                if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
+                    Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()
+                else
+                    createNewAccount()
             }
-            if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
-                Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()
-            else
-                createNewAccount()
         }
     }
 
@@ -112,13 +159,14 @@ class RegisterActivity : AppCompatActivity() {
 
         if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
             mProgressBar!!.hide()
-            Toast.makeText(this, "Username and password not empty",Toast.LENGTH_SHORT).show()
-        }else{
-            if(txtPassword!!.length<6){
+            Toast.makeText(this, "Username and password not empty", Toast.LENGTH_SHORT).show()
+        } else {
+            if (txtPassword!!.length < 6) {
                 mProgressBar!!.hide()
-                Toast.makeText(this, "Password characters >6",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Password characters >6", Toast.LENGTH_SHORT).show()
 
-            }else{
+
+            } else {
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()

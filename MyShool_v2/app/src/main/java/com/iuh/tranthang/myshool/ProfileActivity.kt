@@ -10,10 +10,14 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 
 import android.support.v7.app.AppCompatActivity
+
 import android.view.MenuItem
+
+
 import com.iuh.tranthang.myshool.ViewApdater.ActivityFragment
 import com.iuh.tranthang.myshool.ViewApdater.PageAdapter
 import com.iuh.tranthang.myshool.ViewApdater.ProfileFragment
+
 
 class ProfileActivity : AppCompatActivity(){
     var viewPager: ViewPager?=null
