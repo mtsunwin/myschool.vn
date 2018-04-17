@@ -112,13 +112,14 @@ class RegisterActivity : AppCompatActivity() {
 
         if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
             mProgressBar!!.hide()
-            Toast.makeText(this, "Username and password not empty",Toast.LENGTH_SHORT).show()
-        }else{
-            if(txtPassword!!.length<6){
+            Toast.makeText(this, "Username and password not empty", Toast.LENGTH_SHORT).show()
+        } else {
+            if (txtPassword!!.length < 6) {
                 mProgressBar!!.hide()
-                Toast.makeText(this, "Password characters >6",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Password characters >6", Toast.LENGTH_SHORT).show()
 
-            }else{
+
+            } else {
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
