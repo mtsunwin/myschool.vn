@@ -21,6 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"></Spinner>
 
+        <Spinner
+            android:id="@+id/selectPerTeacher"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"></Spinner>
+
+        <Spinner
+            android:id="@+id/selectPerTeacherLead"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"></Spinner>
+
         <EditText
             android:id="@+id/address"
             android:layout_width="match_parent"
@@ -38,26 +48,31 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/birthday.vn"
-            android:inputType="date"/>
+            android:inputType="date" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="@string/username.vn" />
+
             <TextView
                 android:id="@+id/ErrorUserName_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fa0000"/>
+                android:textColor="#fa0000" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -69,7 +84,7 @@
                 android:id="@+id/ErrorPassword_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fa0000"/>
+                android:textColor="#fa0000" />
         </LinearLayout>
 
         <Button

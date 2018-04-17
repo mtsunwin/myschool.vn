@@ -9,11 +9,28 @@
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
     <string name="title_activity_register">RegisterActivity</string>
+
+    <string name="validation.null">Bạn không được để trống!</string>
+    <string name="validation.email">Địa chỉ E-Mail không chính xác</string>
+    <string name="validation.number">Bạn phải nhập trên 6 ký tự</string>
+
     <string-array name="select.permission">
+        <item>Công việc..</item>
         <item>Giáo viên</item>
         <item>Nhân viên</item>
         <item>Kế toán</item>
         <item>Admin</item>
+    </string-array>
+    <string-array name="select.permission.teacher">
+        <item>Tổ công tác..</item>
+        <item>Tổ Toán</item>
+        <item>Tổ Lý</item>
+        <item>Tổ Hóa</item>
+    </string-array>
+    <string-array name="select.permission.teacher.leader">
+        <item>Chức vụ..</item>
+        <item>Tổ trưởng</item>
+        <item>Tổ phó</item>
     </string-array>
 
     <!--Thông báo Toast-->
