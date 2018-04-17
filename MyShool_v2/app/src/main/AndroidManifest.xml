@@ -26,12 +26,12 @@
         </activity>
         <activity android:name=".AdminActivity">
         </activity>
+        <activity android:name=".ProfileActivity">
+        </activity>
         <activity
-            android:name=".TeacherActivity"
+            android:name=".ATeacherActivity"
             android:label="@string/title_activity_teacher"
             android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".ATeacherActivity">
         </activity>
         <activity android:name=".AStaffActivity">
         </activity>
