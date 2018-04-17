@@ -18,11 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username.vn" />
-            <TextView
-                android:id="@+id/txtErrorUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#ff0000"/>
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,11 +30,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password.vn"
                 android:inputType="textPassword" />
-            <TextView
-                android:id="@+id/txtErrorPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#ff0000"/>
+
         </LinearLayout>
 
 
