@@ -3,99 +3,128 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color.Background"
     tools:context="com.iuh.tranthang.myshool.RegisterActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="30dp"
-        android:scrollbars="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
-
-        <EditText
-            android:id="@+id/fullname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/fullname.vn" />
-
-        <Spinner
-            android:id="@+id/selectPermission"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"></Spinner>
-
-        <Spinner
-            android:id="@+id/selectPerTeacher"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"></Spinner>
-
-        <Spinner
-            android:id="@+id/selectPerTeacherLead"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"></Spinner>
-
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/address.vn" />
-
-        <EditText
-            android:id="@+id/numberphone"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/phonenumber.vn" />
-
-        <EditText
-            android:id="@+id/birthday"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/birthday.vn"
-            android:inputType="date" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="30dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/fullname"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="@string/username.vn" />
+                android:hint="@string/fullname.vn"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
 
-            <TextView
-                android:id="@+id/ErrorUserName_register"
+            <Spinner
+                android:id="@+id/selectPermission"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#fa0000" />
-        </LinearLayout>
+                android:layout_height="50dp"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark"></Spinner>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <Spinner
+                android:id="@+id/selectPerTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark"></Spinner>
+
+            <Spinner
+                android:id="@+id/selectPerTeacherLead"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark"></Spinner>
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="@string/password.vn"
-                android:inputType="textPassword" />
+                android:hint="@string/address.vn"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
 
-            <TextView
-                android:id="@+id/ErrorPassword_register"
+            <EditText
+                android:id="@+id/numberphone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/phonenumber.vn"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+            <EditText
+                android:id="@+id/birthday"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/birthday.vn"
+                android:inputType="date"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fa0000" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Đăng ký" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/username.vn"
+                    android:textColor="@color/color.Text.in.Background"
+                    android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+                <TextView
+                    android:id="@+id/ErrorUserName_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fa0000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/password.vn"
+                    android:inputType="textPassword"
+                    android:textColor="@color/color.Text.in.Background"
+                    android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+                <TextView
+                    android:id="@+id/ErrorPassword_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fa0000" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_register"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp"
+                android:paddingTop="15dp"
+                android:text="@string/btnRegister"
+                android:textColor="@color/color.Text.in.Background" />
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

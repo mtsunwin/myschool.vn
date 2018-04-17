@@ -1,4 +1,5 @@
 <resources>
+    <!--Fillter-->
     <string name="app_name">MySchool</string>
     <string name="username.vn">Địa chỉ Email</string>
     <string name="password.vn">Mật khẩu</string>
@@ -6,8 +7,14 @@
     <string name="address.vn">Địa chỉ</string>
     <string name="phonenumber.vn">Số điện thoại</string>
     <string name="birthday.vn">Ngày sinh</string>
+    <string name="btnRegister">Đăng ký</string>
+    <!--Fillter END-->
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
+
+
+
+
     <string name="title_activity_register">RegisterActivity</string>
 
     <string name="validation.null">Bạn không được để trống!</string>
