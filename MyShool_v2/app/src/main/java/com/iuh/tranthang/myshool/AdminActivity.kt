@@ -17,18 +17,12 @@ class AdminActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-        //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         val intent = Intent(this, InsideActivity::class.java)
-        //edit_password.setText(token_pw.getString("loginpassword"," "))
-//         customer list view
-//        var arrayInforMenu: ArrayList<adm_display> = ArrayList()
-//        arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
-//        listview.adapter = CustomAdapter(this, arrayInforMenu)
-
 
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
@@ -43,7 +37,6 @@ class AdminActivity : AppCompatActivity() {
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.team_group, 21))
         inforNotify.add(adm_display("Tạo thông báo", R.drawable.team_group, 22))
 
-        val fruitsList = listOf("Thang", "Nghia")
         val listChild = HashMap<String, ArrayList<adm_display>>()
 
         listChild.put(listHeader[0].getName(), inforStaff)
@@ -53,7 +46,6 @@ class AdminActivity : AppCompatActivity() {
 
         expandable_list_view.setAdapter(expandableListAdapter)
 
-        //listview.adapter = CustomAdapter(this, arrayInforMenu)
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
@@ -80,7 +72,6 @@ class AdminActivity : AppCompatActivity() {
                     }
                 }
         )
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
