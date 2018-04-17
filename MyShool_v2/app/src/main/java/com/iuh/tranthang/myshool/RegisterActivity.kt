@@ -1,6 +1,7 @@
 package com.iuh.tranthang.myshool
 
 
+import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -81,13 +84,35 @@ class RegisterActivity : AppCompatActivity() {
         spinnerPerTeacherLead = findViewById<View>(R.id.selectPerTeacherLead) as Spinner?
         spinnerPerTeacherLead!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission_teacher_leader))
-        spinnerPerTeacher!!.visibility = View.GONE
+        spinnerPerTeacherLead!!.visibility = View.GONE
 
         mProgressBar = ProgressDialog(this)
-        awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
 
+        // Validation
+        awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
-        awesomeValidation!!.addValidation(this, R.id.password, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.password, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.address, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.address, "^[0-9]{9,}\$", R.string.validation_phone)
+
+        // POP DATE
+        var calendar = Calendar.getInstance()
+        val DateFragment = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month + 1)
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+            val dateFormat = "dd/MM/yyyy"
+            val sdf = SimpleDateFormat(dateFormat, Locale.US)
+            birthday!!.setText(sdf.format(calendar.time))
+        }
+
+        birthday!!.setOnClickListener { view ->
+            Log.e("tmt check", "oke roi")
+            DatePickerDialog(this, DateFragment,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
 
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference.child("Users")
@@ -98,8 +123,6 @@ class RegisterActivity : AppCompatActivity() {
         password!!.setOnClickListener {
             txtErrorPassword!!.setText("")
         }
-
-
 
         btnLogin!!.setOnClickListener { view ->
             if (awesomeValidation!!.validate()) {
