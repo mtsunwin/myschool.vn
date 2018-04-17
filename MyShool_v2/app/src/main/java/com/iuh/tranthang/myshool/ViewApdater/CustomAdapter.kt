@@ -15,6 +15,7 @@ import com.iuh.tranthang.myshool.model.User
 /**
  * Created by ThinkPad on 4/7/2018.
  */
+
 class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : BaseAdapter(), SwipeAdapterInterface {
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
@@ -84,5 +85,4 @@ class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : Base
     override fun getCount(): Int {
         return listTitle.size
     }
-
 }

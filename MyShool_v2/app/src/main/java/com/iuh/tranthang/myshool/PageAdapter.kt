@@ -19,4 +19,7 @@ public class PageAdapter(fm:FragmentManager):FragmentPagerAdapter(fm){
         return mFragmentItems.size
     }
 
+    override fun getPageTitle(position: Int): CharSequence {
+        return mFragmentTitle[position]
+    }
 }

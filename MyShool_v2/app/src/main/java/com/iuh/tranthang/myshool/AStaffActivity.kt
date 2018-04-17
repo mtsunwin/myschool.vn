@@ -22,7 +22,7 @@ class AStaffActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_astaff)
         val intent = Intent(this, InsideActivity::class.java)
-
+        val intent_profile=Intent(this,ProfileActivity::class.java)
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
         listHeader.add(adm_display("Quản lý thông báo", R.drawable.team_group, 2))
@@ -59,9 +59,15 @@ class AStaffActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                             boolean = true
-                        } else {
+                        }
+                        else if (item!!.itemId == R.id.itemTrangCaNhan) {
+                            startActivity(intent_profile)
+                            boolean = true
+                        }
+                        else {
                             boolean = false
                         }
+
                         return boolean!!
                     }
                 }
@@ -80,7 +86,13 @@ class AStaffActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
             boolean = true
-        } else {
+        }
+        else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile=Intent(this, ProfileActivity::class.java)
+            startActivity(intent_profile)
+            boolean = true
+        }
+        else {
             boolean = super.onOptionsItemSelected(item)
         }
         return boolean!!
