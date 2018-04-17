@@ -160,19 +160,20 @@ class InsideActivity : AppCompatActivity() {
     }
 
     private fun changeActivy(permission: String) {
-        Log.e("tmt-123123", permission)
         when (permission) {
-            "0" -> intent = Intent(this, ATeacherActivity::class.java)
+            "0" -> {
+                Log.e("tmt-123123", permission)
+                intent = Intent(this, ATeacherActivity::class.java)
+                startActivity(intent)
+            }
             "1" -> intent = Intent(this, AStaffActivity::class.java)
             "2" -> intent = Intent(this, AcountantActivity::class.java)
             "3" -> intent = Intent(this, AdminActivity::class.java)
-            else -> intent = Intent(this, AdminActivity::class.java) // THONG BAO LOI !!!
+            else -> {
+                Log.e("tmt-123123", permission + " - Lỗi")
+            } // THONG BAO LOI !!!
         }
 
-        intent.putExtra("username", edit_username.toString())
-        intent.putExtra("passwor", edit_password.toString())
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
         finish()
     }
 }
