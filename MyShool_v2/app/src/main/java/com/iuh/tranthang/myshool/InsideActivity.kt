@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.basgeekball.awesomevalidation.AwesomeValidation
+import com.basgeekball.awesomevalidation.ValidationStyle
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -36,26 +38,21 @@ class InsideActivity : AppCompatActivity() {
     private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
+
     private var txtErrorUsername: TextView? = null
     private var txtErrorPassword: TextView? = null
+
     private var mDatabase: FirebaseDatabase? = null
     private var mDatabaseReference: DatabaseReference? = null
-
+    private var awesomeValidation: AwesomeValidation?=null
     //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
 
-        txtErrorUsername = findViewById<TextView>(R.id.txtErrorUsername)
-        txtErrorPassword = findViewById(R.id.txtErrorPassword)
-        edit_username.setOnClickListener {
-            txtErrorUsername!!.setText("")
-        }
-        edit_password.setOnClickListener {
-            txtErrorPassword!!.setText("")
-        }
+         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
 
-        var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+ 
         if (token!!.getString("loginusername", " ") != " ") {
             var intent = Intent(this, AdminActivity::class.java)
             startActivity(intent)
@@ -89,7 +86,8 @@ class InsideActivity : AppCompatActivity() {
         email = edit_username.text.toString()
         password = edit_password.text.toString()
 
-        if (!TextUtils.isEmpty(email)) {
+        Log.e("tmt", email + " - " + password)
+/*        if (!TextUtils.isEmpty(email))
             txtErrorUsername!!.setText("Not empty")
         }
 
@@ -101,11 +99,26 @@ class InsideActivity : AppCompatActivity() {
 
         if (password!!.length > 0 || password!!.length < 6) {
             txtErrorPassword!!.setText("Not empty and characters more than 6")
+
+        if(password!!.length>=6)
+            txtErrorPassword!!.setText("")*/
+        awesomeValidation= AwesomeValidation(ValidationStyle.BASIC)
+        awesomeValidation!!.addValidation(this,R.id.edit_username,Patterns.EMAIL_ADDRESS,R.string.usernameLogInError)
+        awesomeValidation!!.addValidation(this,R.id.edit_password,"[A-Za-z0-9]{6,}",R.string.PasswordLogInError)
+        if(awesomeValidation!!.validate()){
+            mAuth!!.signInWithEmailAndPassword(email!!, password!!)
+                    .addOnCompleteListener(this) { task ->
+                        mProgressBar!!.hide()
+                        if (task.isSuccessful) {
+                            updateUI()
+                        } else {
+                            Log.e("tm", "signInWithEmail:failure", task.exception)
+                            Toast.makeText(this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
+                        }
+                    }
         }
-        if (password!!.length >= 6) {
-            txtErrorPassword!!.setText("")
-        }
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+       /* if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             Log.e("tmt login", email + " - " + password)
 
@@ -121,8 +134,8 @@ class InsideActivity : AppCompatActivity() {
                             Toast.makeText(this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
                         }
-                    }
-        }
+            }
+        }*/
     }
 
     private fun ForgetPassword() {
