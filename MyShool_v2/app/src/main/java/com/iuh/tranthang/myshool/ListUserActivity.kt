@@ -1,9 +1,13 @@
 package com.iuh.tranthang.myshool
 
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -11,6 +15,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.CustomAdapter
+import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
+import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
+import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_list_user.*
@@ -32,6 +39,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     private var mAuth: FirebaseUser? = null
     private var mDatabase: DatabaseReference? = null
     private var mMessageReference: DatabaseReference? = null
+    private val p = Paint()
+    private var recyclerView: RecyclerView? = null
 
     val listUser = ArrayList<User>()
 
@@ -92,7 +101,35 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     * Khơi tạo Adapter và danh sách
     * */
     private fun callAdapter(listUser: ArrayList<User>) {
+
         val setAdap = CustomAdapter(applicationContext, listUser)
         list_user_recycleview.adapter = setAdap
+
+        recyclerView = findViewById(R.id.recycle) as RecyclerView
+        recyclerView!!.layoutManager = LinearLayoutManager(this)
+        val names = ArrayList<String>()
+        var adapter = DataAdapter(names)
+        val simpleAdapter = SimpleAdapter(names)
+        recyclerView!!.adapter = simpleAdapter
+        names.add("Kaushal")
+        names.add("Alex")
+        names.add("Ram")
+        names.add("Abhishek")
+        names.add("Narendra Modi")
+
+        adapter!!.notifyDataSetChanged()
+
+        val swipeHandler = object : SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView!!.adapter as SimpleAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        fab.setOnClickListener { view ->
+            simpleAdapter.addItem("New item")
+        }
     }
 }
