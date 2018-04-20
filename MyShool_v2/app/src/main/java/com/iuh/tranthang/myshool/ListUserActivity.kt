@@ -66,7 +66,9 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter().comp_numberphone] as String,
                                         document.data[Parameter().comp_address] as String,
                                         document.data[Parameter().comp_email] as String,
-                                        document.data[Parameter().comp_birthday] as String)
+                                        document.data[Parameter().comp_birthday] as String,
+                                        document.data[Parameter().comp_toCongTac] as String,
+                                        document.data[Parameter().comp_chucVu] as String)
                                 var temp: Boolean = false
                                 for (cUser in listUser) {
                                     if (cUser.getUid() == mUser.getUid()) {

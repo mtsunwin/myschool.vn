@@ -12,6 +12,6 @@ class Parameter() {
     public val comp_email = "email"
     public val comp_numberphone = "numberphone"
     public val comp_fullname = "fullname"
-
-
+    public val comp_toCongTac="toCongTac"
+    public val comp_chucVu="ChucVu"
 }
