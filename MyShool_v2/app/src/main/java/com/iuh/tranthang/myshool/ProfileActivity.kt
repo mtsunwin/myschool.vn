@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 
 import android.view.MenuItem
 
@@ -38,7 +39,7 @@ class ProfileActivity : AppCompatActivity(){
         tabLayout=findViewById(R.id.tabLayout)
         viewPager!!.adapter=pageAdapter
         tabLayout!!.setupWithViewPager(viewPager)
-
+        Log.e("abc","")
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
