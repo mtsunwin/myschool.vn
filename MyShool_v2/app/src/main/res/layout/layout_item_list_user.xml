@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:orientation="vertical">
 
@@ -41,14 +41,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:paddingLeft="20dp"
-                    android:text="Name" />
+                    android:paddingLeft="10dp"
+                    android:text="Chức vụ" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_Call"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="end|center"
             android:orientation="horizontal"
@@ -56,10 +58,12 @@
 
             <Button
                 android:id="@+id/btn_Call"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Gọi"
-                android:visibility="invisible" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_phone_call"
+                android:gravity="center"
+                android:visibility="visible" />
 
         </LinearLayout>
     </LinearLayout>

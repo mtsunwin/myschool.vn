@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.iuh.tranthang.myshool.R
+import com.iuh.tranthang.myshool.model.User
 
 /**
  * Created by ThinkPad on 4/19/2018.
  */
-internal class DataAdapter(private val names: ArrayList<String>) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
+internal class DataAdapter(private val names: ArrayList<User>) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): DataAdapter.ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.layout_item_list_user, viewGroup, false)
@@ -18,7 +19,7 @@ internal class DataAdapter(private val names: ArrayList<String>) : RecyclerView.
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.tv_names.text = names[i]
+        viewHolder.tv_names.text = names[i].getFullname()
     }
 
     override fun getItemCount(): Int {
@@ -26,7 +27,7 @@ internal class DataAdapter(private val names: ArrayList<String>) : RecyclerView.
     }
 
     fun addItem(country: String) {
-        names.add(country)
+//        names.add(country)
         notifyItemInserted(names.size)
     }
 
