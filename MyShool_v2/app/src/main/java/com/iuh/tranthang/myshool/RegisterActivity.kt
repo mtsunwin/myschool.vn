@@ -56,10 +56,12 @@ class RegisterActivity : AppCompatActivity() {
     private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
+    private var textCongviec:Boolean?=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         initialise()
+        Log.e("CongViecCreate:......",textCongviec.toString())
     }
 
 
@@ -86,9 +88,18 @@ class RegisterActivity : AppCompatActivity() {
                 if(selectedItem.equals("Giáo viên")){
                     spinnerPerTeacher!!.visibility=View.VISIBLE
                     spinnerPerTeacherLead!!.visibility=View.VISIBLE
-                }else{
+                }
+                else{
                     spinnerPerTeacher!!.visibility=View.GONE
                     spinnerPerTeacherLead!!.visibility=View.GONE
+                }
+                if (!selectedItem.equals("Công việc..")){
+                    textCongviec=false
+                    Log.e("CongViecOnFalse:..",textCongviec.toString())
+                }
+                else{
+                    textCongviec=true
+                    Log.e("CongViecOnTrue",textCongviec.toString())
                 }
 
         }
@@ -142,6 +153,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         btnLogin!!.setOnClickListener { view ->
+            Log.e("CongViec:............",textCongviec.toString())
             if (awesomeValidation!!.validate()) {
                 if (password!!.text.length < 6)
                     txtErrorPassword!!.setText("Password characters must be more than 6")
@@ -150,8 +162,9 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
                     Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()
-                else
-                    createNewAccount()
+                else if(textCongviec==true)
+                    Toast.makeText(this,"Chọn công việc",Toast.LENGTH_SHORT).show()
+                 else   createNewAccount()
             }
         }
     }
