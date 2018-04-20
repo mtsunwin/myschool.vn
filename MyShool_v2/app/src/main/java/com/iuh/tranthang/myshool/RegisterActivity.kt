@@ -57,6 +57,9 @@ class RegisterActivity : AppCompatActivity() {
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
     private var textCongviec:Boolean?=true
+    private var textToCongTac:String?=""
+    private var textChucVu:String?="Nhan vien"
+    private var mUser: User?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -108,12 +111,32 @@ class RegisterActivity : AppCompatActivity() {
         spinnerPerTeacher!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission_teacher))
         spinnerPerTeacher!!.visibility = View.GONE
+        spinnerPerTeacher!!.onItemSelectedListener= object:AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
 
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedItem= p0!!.getItemAtPosition(p2).toString()
+                if(selectedItem.equals("Tổ công tác.."))
+                    textToCongTac=""
+                else
+                    textToCongTac=selectedItem
+            }
+        }
         spinnerPerTeacherLead = findViewById<View>(R.id.selectPerTeacherLead) as Spinner?
         spinnerPerTeacherLead!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission_teacher_leader))
         spinnerPerTeacherLead!!.visibility = View.GONE
+        spinnerPerTeacherLead!!.onItemSelectedListener= object:AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
 
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedItem= p0!!.getItemAtPosition(p2).toString()
+                textChucVu=selectedItem
+
+            }
+        }
         mProgressBar = ProgressDialog(this)
 
         // Validation
@@ -200,6 +223,7 @@ class RegisterActivity : AppCompatActivity() {
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
+                            var mUser:User
                             if (task.isSuccessful) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("tmt", "createUserWithEmail:success")
@@ -214,12 +238,22 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("numberphone").setValue(txtNumberphone)
                                 currentUserDb.child("permission").setValue(intPermisstion)
                                 currentUserDb.child("email").setValue(txtUsername)
-
+                                currentUserDb.child("toCongTac").setValue(textToCongTac)
+                                currentUserDb.child("ChucVu").setValue(textChucVu)
+                                Log.e("User:",userId+"-"+txtFullname.toString()+"-"+ intPermisstion.toString()
+                                        +"-"+ txtNumberphone.toString()+"-"+ txtAddress.toString()+"-"+ txtUsername.toString()+"-"+
+                                        txtBirthday.toString()+"-"+textToCongTac.toString()+"-"+textChucVu.toString())
                                 val db = FirebaseFirestore.getInstance()
-                                var mUser: User = User(userId, txtFullname.toString(), intPermisstion.toString()
-                                        , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                        txtBirthday.toString())
+                                if(intPermisstion==1){
+                                    mUser= User(userId, txtFullname.toString(), intPermisstion.toString()
+                                            , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                                            txtBirthday.toString(),textToCongTac.toString(),textChucVu.toString())
+                                }
+                               else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                       , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                                       txtBirthday.toString(), "", "")
                                 // Khởi tạo Root
+
                                 db.collection(Parameter().root_User)
                                         .document(userId)
                                         .set(mUser)

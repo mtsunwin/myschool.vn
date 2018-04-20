@@ -176,15 +176,15 @@ class InsideActivity : AppCompatActivity() {
         when (permission) {
             "0" -> {
                 Log.e("tmt-123123", permission)
-                intent = Intent(this, ATeacherActivity::class.java)
+                intent = Intent(this, AcountantActivity::class.java)
                 startActivity(intent)
             }
             "1" -> {
-                intent = Intent(this, AStaffActivity::class.java)
+                intent = Intent(this, ATeacherActivity::class.java)
                 startActivity(intent)
             }
             "2" -> {
-                intent = Intent(this, AcountantActivity::class.java)
+                intent = Intent(this, AStaffActivity::class.java)
                 startActivity(intent)
             }
             "3" -> {
