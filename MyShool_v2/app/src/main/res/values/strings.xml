@@ -36,7 +36,7 @@
         <item>Tổ Hóa</item>
     </string-array>
     <string-array name="select.permission.teacher.leader">
-        <item>Chức vụ..</item>
+        <item>Nhân viên</item>
         <item>Tổ trưởng</item>
         <item>Tổ phó</item>
     </string-array>
