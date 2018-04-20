@@ -4,6 +4,7 @@ package com.iuh.tranthang.myshool
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -21,6 +22,9 @@ import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import java.text.SimpleDateFormat
 import java.util.*
+import android.widget.TextView
+
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -51,9 +55,7 @@ class RegisterActivity : AppCompatActivity() {
     private var intPermisstion: Int? = 0
     private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
-
     private var awesomeValidation: AwesomeValidation? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -75,7 +77,22 @@ class RegisterActivity : AppCompatActivity() {
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
+        spinnerPermisstion!!.onItemSelectedListener= object:AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
 
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedItem= p0!!.getItemAtPosition(p2).toString()
+                if(selectedItem.equals("Giáo viên")){
+                    spinnerPerTeacher!!.visibility=View.VISIBLE
+                    spinnerPerTeacherLead!!.visibility=View.VISIBLE
+                }else{
+                    spinnerPerTeacher!!.visibility=View.GONE
+                    spinnerPerTeacherLead!!.visibility=View.GONE
+                }
+
+        }
+        }
         spinnerPerTeacher = findViewById<View>(R.id.selectPerTeacher) as Spinner?
         spinnerPerTeacher!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission_teacher))
@@ -93,8 +110,8 @@ class RegisterActivity : AppCompatActivity() {
         awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
         awesomeValidation!!.addValidation(this, R.id.password, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
         awesomeValidation!!.addValidation(this, R.id.address, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
-        awesomeValidation!!.addValidation(this, R.id.address, "^[0-9]{9,}\$", R.string.validation_phone)
-
+        awesomeValidation!!.addValidation(this, R.id.numberphone, "^[0-9]{9,}\$", R.string.validation_phone)
+//        awesomeValidation!!.addValidation(this, R.id.selectPermission, "!=", R.string.validation_phone)
         // POP DATE
         var calendar = Calendar.getInstance()
         val DateFragment = DatePickerDialog.OnDateSetListener { view, year, month, day ->
