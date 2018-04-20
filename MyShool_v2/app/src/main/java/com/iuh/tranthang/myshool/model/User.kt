@@ -11,7 +11,6 @@ class User {
     private var address: String = ""
     private var birthday: String = ""
     private var email: String = ""
-
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String) {
         this.address = address

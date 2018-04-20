@@ -179,9 +179,18 @@ class InsideActivity : AppCompatActivity() {
                 intent = Intent(this, ATeacherActivity::class.java)
                 startActivity(intent)
             }
-            "1" -> intent = Intent(this, AStaffActivity::class.java)
-            "2" -> intent = Intent(this, AcountantActivity::class.java)
-            "3" -> intent = Intent(this, AdminActivity::class.java)
+            "1" -> {
+                intent = Intent(this, AStaffActivity::class.java)
+                startActivity(intent)
+            }
+            "2" -> {
+                intent = Intent(this, AcountantActivity::class.java)
+                startActivity(intent)
+            }
+            "3" -> {
+                intent = Intent(this, AdminActivity::class.java)
+                startActivity(intent)
+            }
             else -> {
                 Log.e("tmt-123123", permission + " - Lỗi")
             } // THONG BAO LOI !!!
