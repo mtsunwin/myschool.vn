@@ -69,6 +69,10 @@ class AdminActivity : AppCompatActivity() {
                             var editor = token.edit()
                             editor.putString("loginusername", " ")
                             editor.commit()
+                            var token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
+                            var editor_ps = token_ps.edit()
+                            editor_ps.putString("permission", " ")
+                            editor_ps.commit()
                             startActivity(intent)
                             finish()
                             boolean = true
