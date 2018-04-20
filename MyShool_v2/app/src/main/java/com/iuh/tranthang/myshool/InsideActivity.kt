@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -44,21 +43,20 @@ class InsideActivity : AppCompatActivity() {
 
     private var mDatabase: FirebaseDatabase? = null
     private var mDatabaseReference: DatabaseReference? = null
-    private var awesomeValidation: AwesomeValidation?=null
+    private var awesomeValidation: AwesomeValidation? = null
     //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
 
-         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+        var token = getSharedPreferences("username", Context.MODE_PRIVATE)
 
- 
         if (token!!.getString("loginusername", " ") != " ") {
             var intent = Intent(this, AdminActivity::class.java)
             startActivity(intent)
             finish()
         }
-        //        Ẩn Menubar
+        //Ẩn Menubar
         supportActionBar!!.hide()
         btn_login.setOnClickListener(View.OnClickListener {
             Log.e("tmt", "sign in")
@@ -102,10 +100,10 @@ class InsideActivity : AppCompatActivity() {
 
         if(password!!.length>=6)
             txtErrorPassword!!.setText("")*/
-        awesomeValidation= AwesomeValidation(ValidationStyle.BASIC)
-        awesomeValidation!!.addValidation(this,R.id.edit_username,Patterns.EMAIL_ADDRESS,R.string.usernameLogInError)
-        awesomeValidation!!.addValidation(this,R.id.edit_password,"[A-Za-z0-9]{6,}",R.string.PasswordLogInError)
-        if(awesomeValidation!!.validate()){
+        awesomeValidation = AwesomeValidation(ValidationStyle.BASIC)
+        awesomeValidation!!.addValidation(this, R.id.edit_username, Patterns.EMAIL_ADDRESS, R.string.usernameLogInError)
+        awesomeValidation!!.addValidation(this, R.id.edit_password, "[A-Za-z0-9]{6,}", R.string.PasswordLogInError)
+        if (awesomeValidation!!.validate()) {
             mAuth!!.signInWithEmailAndPassword(email!!, password!!)
                     .addOnCompleteListener(this) { task ->
                         mProgressBar!!.hide()
@@ -118,24 +116,24 @@ class InsideActivity : AppCompatActivity() {
                         }
                     }
         }
-       /* if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+        /* if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
-            Log.e("tmt login", email + " - " + password)
+             Log.e("tmt login", email + " - " + password)
 
-            mAuth!!.signInWithEmailAndPassword(email!!.trim(), password!!.trim())
-                    .addOnCompleteListener(this) { task ->
+             mAuth!!.signInWithEmailAndPassword(email!!.trim(), password!!.trim())
+                     .addOnCompleteListener(this) { task ->
 
-                        mProgressBar!!.hide()
-                        if (task.isSuccessful) {
-                            Log.e("tmt", "thanh cong")
-                            updateUI()
-                        } else {
-                            Log.e("tm", "signInWithEmail:failure", task.exception)
-                            Toast.makeText(this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
-                        }
-            }
-        }*/
+                         mProgressBar!!.hide()
+                         if (task.isSuccessful) {
+                             Log.e("tmt", "thanh cong")
+                             updateUI()
+                         } else {
+                             Log.e("tm", "signInWithEmail:failure", task.exception)
+                             Toast.makeText(this, "Authentication failed.",
+                                     Toast.LENGTH_SHORT).show()
+                         }
+             }
+         }*/
     }
 
     private fun ForgetPassword() {
@@ -164,6 +162,7 @@ class InsideActivity : AppCompatActivity() {
                             editor.putString("loginusername", email)
                             editor.commit()
                             // Check Permission
+                            Log.e("tmt", document.data[Parameter().comp_Permission].toString())
                             changeActivy(document.data[Parameter().comp_Permission] as String)
                         }
                     } else {
