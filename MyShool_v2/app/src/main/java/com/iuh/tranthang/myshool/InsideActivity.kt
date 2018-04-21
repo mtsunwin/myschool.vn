@@ -44,26 +44,24 @@ class InsideActivity : AppCompatActivity() {
     private var mDatabase: FirebaseDatabase? = null
     private var mDatabaseReference: DatabaseReference? = null
 
-    private var awesomeValidation: AwesomeValidation?=null
-    private var permissionForLogIn:String?=null
+    private var awesomeValidation: AwesomeValidation? = null
+    private var permissionForLogIn: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-        var token_ps= getSharedPreferences("permission",Context.MODE_PRIVATE)
+        var token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
 
-        var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+        Log.e("permission abc:", token_ps!!.getString("permission", " "))
+        permissionForLogIn = token_ps!!.getString("permission", " ")
+        Log.e("permission abc:", permissionForLogIn)
 
-        Log.e("permission abc:",token_ps!!.getString("permission", " "))
-        permissionForLogIn= token_ps!!.getString("permission", " ")
-        Log.e("permission abc:",permissionForLogIn)
-      
         if (token!!.getString("loginusername", " ") != " ") {
             when (permissionForLogIn) {
                 "0" -> {
                     intent = Intent(this, AcountantActivity::class.java)
-                   }
+                }
                 "1" -> {
                     intent = Intent(this, ATeacherActivity::class.java)
                 }
@@ -194,9 +192,9 @@ class InsideActivity : AppCompatActivity() {
     }
 
     private fun changeActivy(permission: String) {
-        val token_ps= getSharedPreferences("permission",Context.MODE_PRIVATE)
+        val token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
         var editor_ps = token_ps.edit()
-        Log.e("PermissionChange",permission.toString())
+        Log.e("PermissionChange", permission.toString())
         editor_ps.putString("permission", permission.toString())
         editor_ps.commit()
         when (permission) {
