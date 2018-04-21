@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iuh.tranthang.myshool.AdminActivity">
+
+    <ProgressBar
+        android:id="@+id/MyprogressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_text" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.iuh.tranthang.myshool.AdminActivity"
-        android:id="@+id/drawerLayout">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.iuh.tranthang.myshool.ProfileActivity"
         android:orientation="vertical">
 
         <LinearLayout
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#011059">
+            android:background="#011059"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imgCover"
@@ -28,12 +39,11 @@
 
             <ImageView
                 android:id="@+id/imgAvatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="-70dp"
-                android:background="@drawable/avatar"
-                />
+                android:layout_marginTop="-90dp"
+                android:background="@drawable/avatar" />
 
             <TextView
                 android:id="@+id/txt_nickname"
@@ -41,9 +51,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="abc"
-                android:textColor="#ffffff"
                 android:textAlignment="center"
-                android:textSize="30dp" />
+                android:textColor="#ffffff"
+                android:textSize="26dp" />
 
             <TextView
                 android:id="@+id/txt_summaryInfor"
@@ -52,18 +62,20 @@
                 android:gravity="center"
                 android:text="Xin chào các bạn"
                 android:textAlignment="center"
-                android:textSize="15dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:textSize="15dp" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="#f5f5f5" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
@@ -78,18 +90,21 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+                    android:layout_height="match_parent">
 
-
+                </android.support.v4.view.ViewPager>
             </FrameLayout>
 
         </LinearLayout>
+
         <android.support.design.widget.NavigationView
             android:id="@+id/menuNavigation"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
+            app:menu="@menu/navigation_menu">
+
+        </android.support.design.widget.NavigationView>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
 

@@ -23,7 +23,7 @@ class AdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         val intent = Intent(this, InsideActivity::class.java)
-        val intent_profile=Intent(this, ProfileActivity::class.java)
+        val intent_profile = Intent(this, ProfileActivity::class.java)
         //edit_password.setText(token_pw.getString("loginpassword"," "))
 //         customer list view
 //        var arrayInforMenu: ArrayList<adm_display> = ArrayList()
@@ -76,12 +76,10 @@ class AdminActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                             boolean = true
-                        }
-                        else if (item!!.itemId == R.id.itemTrangCaNhan) {
+                        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
                             startActivity(intent_profile)
                             boolean = true
-                        }
-                        else {
+                        } else {
                             boolean = false
                         }
 
@@ -102,13 +100,11 @@ class AdminActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
             boolean = true
-        }
-        else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            val intent_profile=Intent(this, ProfileActivity::class.java)
+        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile = Intent(this, ProfileActivity::class.java)
             startActivity(intent_profile)
             boolean = true
-        }
-        else {
+        } else {
             boolean = super.onOptionsItemSelected(item)
         }
         return boolean!!
