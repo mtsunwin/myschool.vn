@@ -43,16 +43,37 @@ class InsideActivity : AppCompatActivity() {
 
     private var mDatabase: FirebaseDatabase? = null
     private var mDatabaseReference: DatabaseReference? = null
-    private var awesomeValidation: AwesomeValidation? = null
-    //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
+
+    private var awesomeValidation: AwesomeValidation?=null
+    private var permissionForLogIn:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
+        var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+        var token_ps= getSharedPreferences("permission",Context.MODE_PRIVATE)
 
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
 
+        Log.e("permission abc:",token_ps!!.getString("permission", " "))
+        permissionForLogIn= token_ps!!.getString("permission", " ")
+        Log.e("permission abc:",permissionForLogIn)
+      
         if (token!!.getString("loginusername", " ") != " ") {
-            var intent = Intent(this, AdminActivity::class.java)
+            when (permissionForLogIn) {
+                "0" -> {
+                    intent = Intent(this, AcountantActivity::class.java)
+                   }
+                "1" -> {
+                    intent = Intent(this, ATeacherActivity::class.java)
+                }
+                "2" -> {
+                    intent = Intent(this, AStaffActivity::class.java)
+                }
+                "3" -> {
+                    intent = Intent(this, AdminActivity::class.java)
+                }
+            }
             startActivity(intent)
             finish()
         }
@@ -164,6 +185,7 @@ class InsideActivity : AppCompatActivity() {
                             // Check Permission
                             Log.e("tmt", document.data[Parameter().comp_Permission].toString())
                             changeActivy(document.data[Parameter().comp_Permission] as String)
+                            Log.e("tmt", document.data[Parameter().comp_UId].toString())
                         }
                     } else {
                         Log.d("tmt", "Error getting documents: ", task.exception)
@@ -172,6 +194,11 @@ class InsideActivity : AppCompatActivity() {
     }
 
     private fun changeActivy(permission: String) {
+        val token_ps= getSharedPreferences("permission",Context.MODE_PRIVATE)
+        var editor_ps = token_ps.edit()
+        Log.e("PermissionChange",permission.toString())
+        editor_ps.putString("permission", permission.toString())
+        editor_ps.commit()
         when (permission) {
             "0" -> {
                 Log.e("tmt-123123", permission)

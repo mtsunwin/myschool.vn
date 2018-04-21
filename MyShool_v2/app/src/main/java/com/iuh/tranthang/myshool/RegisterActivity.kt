@@ -1,9 +1,11 @@
 package com.iuh.tranthang.myshool
 
 
-import android.app.DatePickerDialog
-import android.app.ProgressDialog
+import android.app.*
+import android.app.VoiceInteractor.PickOptionRequest
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -21,6 +23,8 @@ import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import java.text.SimpleDateFormat
 import java.util.*
+import android.widget.TextView
+import java.net.URI
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -53,10 +57,14 @@ class RegisterActivity : AppCompatActivity() {
     private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
-    private var textCongviec: Boolean? = true
-    private var textToCongTac: String? = ""
-    private var textChucVu: String? = "Nhan vien"
-    private var mUser: User? = null
+
+    private var textCongviec:Boolean?=true
+    private var textToCongTac:String?=""
+    private var textChucVu:String?="Nhan vien"
+    private var mUser: User?=null
+    private var btnUpload:Button?=null
+    private val PICK_IMAGE_REQUEST=1234
+    private var filePath:Uri?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -74,8 +82,8 @@ class RegisterActivity : AppCompatActivity() {
         numberphone = findViewById<View>(R.id.numberphone) as EditText?
         birthday = findViewById<View>(R.id.birthday) as EditText?
         txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
-        txtErrorPassword = findViewById<TextView>(R.id.ErrorPassword_register)
-
+//        txtErrorPassword = findViewById<TextView>(R.id.ErrorPassword_register)
+        btnUpload=findViewById<Button>(R.id.btnUploadFile)
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
@@ -133,7 +141,10 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         mProgressBar = ProgressDialog(this)
-
+        //btnUploadImage
+        btnUpload!!.setOnClickListener { view->
+            showFileChooser()
+        }
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
@@ -185,6 +196,14 @@ class RegisterActivity : AppCompatActivity() {
                 else createNewAccount()
             }
         }
+    }
+
+    private fun showFileChooser() {
+        val intent= Intent()
+        intent.type="image/*"
+        intent.action= Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(Intent.createChooser(intent,"Chon hinh"), PICK_IMAGE_REQUEST)
     }
 
     private fun createNewAccount() {
@@ -264,6 +283,15 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+  /*  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==PICK_IMAGE_REQUEST && resultCode== Activity.RESULT_OK && data!=null &&data.data!=null){
+            filePath=data.data
+            try{
+                val bitmap == Medi
+            }catch ()
+        }
+    }*/
     private fun updateUserInfoAndUI() {
         var intent: Intent = Intent(this@RegisterActivity, AdminActivity::class.java)
         Toast.makeText(this@RegisterActivity, R.string.created_success, Toast.LENGTH_LONG)

@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -41,6 +42,7 @@ class ProfileActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         val intent = Intent(this, InsideActivity::class.java)
+
         val intent_profile = Intent(this, ProfileActivity::class.java)
         var token = getSharedPreferences("usename", Context.MODE_PRIVATE)
 //        Log.e("tmt check", mAuth!!.uid)
@@ -82,6 +84,7 @@ class ProfileActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabLayout)
         viewPager!!.adapter = pageAdapter
         tabLayout!!.setupWithViewPager(viewPager)
+
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
 

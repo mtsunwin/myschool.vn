@@ -107,11 +107,11 @@
                     android:textColor="@color/color.Text.in.Background"
                     android:textColorHint="@color/color.Text.in.Background.Dark" />
 
-                <TextView
-                    android:id="@+id/ErrorPassword_register"
+                <Button
+                    android:id="@+id/btnUploadFile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fa0000" />
+                    android:text="up avatar"/>
             </LinearLayout>
 
             <Button
