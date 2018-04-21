@@ -13,11 +13,16 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.ActivityFragment
 import com.iuh.tranthang.myshool.ViewApdater.PageAdapter
 import com.iuh.tranthang.myshool.ViewApdater.ProfileFragment
 import com.iuh.tranthang.myshool.model.Parameter
+import com.iuh.tranthang.myshool.model.User
+import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.layout_item_list_user.*
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -42,11 +47,33 @@ class ProfileActivity : AppCompatActivity() {
 
         var db = dbConnect()
         if (db.isAuthentication()) {
-            db.getDocument(Parameter().root_User, mAuth!!.uid!!)
+            var dbFireStore = FirebaseFirestore.getInstance()
+            dbFireStore!!.collection("User").document(mAuth!!.uid!!)
+                    .get().addOnCompleteListener({ task ->
+                        if (task.isSuccessful) {
+                            var result: DocumentSnapshot = task.result
+                            if (result.exists()) {
+                                var tUser = User()
+                                tUser!!.setAddress(result.data[Parameter().comp_address].toString())
+                                txt_nickname.setText(result.data[Parameter().comp_fullname].toString())
+                                var tChv = ""
+                                val listStringPermission = applicationContext.resources.getStringArray(R.array.select_permission)
+                                when (result.data[Parameter().comp_Permission].toString()) {
+                                    "0" -> tChv = listStringPermission.get(1)
+                                    "1" -> tChv = listStringPermission.get(2)
+                                    "2" -> tChv = listStringPermission.get(3)
+                                    "3" -> tChv = listStringPermission.get(4)
+                                }
+                                txt_chucvu.setText(tChv)
+                            }
+                        }
+                    })
+//            MyTask().execute();
+            Log.e("tmtgetfata:", db.getUser());
         } else {
+            // Xử lý quay trở về đăng nhập
             Log.e("tmt", "false")
         }
-
 
         pageAdapter = PageAdapter(supportFragmentManager)
         pageAdapter!!.addFragment(ProfileFragment(), "PROFILE")
@@ -106,4 +133,5 @@ class ProfileActivity : AppCompatActivity() {
         }
         return boolean!!
     }
+
 }

@@ -26,6 +26,10 @@ class dbConnect {
         this.user!!.setAddress(mUser.getAddress())
     }
 
+    fun getUser(): String {
+        return this.user!!.getAddress()
+    }
+
     /**
      *  Check Xem con login hay không
      */
@@ -59,8 +63,6 @@ class dbConnect {
                         }
                     }
                 })
-        Log.e("tmt db 123", user!!.getAddress() + " 123")
     }
-
 
 }
