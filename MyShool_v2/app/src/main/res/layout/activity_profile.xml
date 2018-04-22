@@ -35,7 +35,7 @@
                 android:id="@+id/imgCover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="150dp" />
+                android:minHeight="110dp" />
 
             <ImageView
                 android:id="@+id/imgAvatar"
@@ -56,7 +56,7 @@
                 android:textSize="26dp" />
 
             <TextView
-                android:id="@+id/txt_summaryInfor"
+                android:id="@+id/txt_chucvu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -65,10 +65,6 @@
                 android:textColor="#ffffff"
                 android:textSize="15dp" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f5f5f5" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,9 +98,7 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/navigation_menu">
-
-        </android.support.design.widget.NavigationView>
+            app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
 

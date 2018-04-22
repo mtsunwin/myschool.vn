@@ -103,22 +103,6 @@ class InsideActivity : AppCompatActivity() {
         email = edit_username.text.toString()
         password = edit_password.text.toString()
 
-        Log.e("tmt", email + " - " + password)
-/*        if (!TextUtils.isEmpty(email))
-            txtErrorUsername!!.setText("Not empty")
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            txtErrorUsername!!.setText("Wrong format email.")
-        } else {
-            txtErrorUsername!!.setText("")
-        }
-
-        if (password!!.length > 0 || password!!.length < 6) {
-            txtErrorPassword!!.setText("Not empty and characters more than 6")
-
-        if(password!!.length>=6)
-            txtErrorPassword!!.setText("")*/
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC)
         awesomeValidation!!.addValidation(this, R.id.edit_username, Patterns.EMAIL_ADDRESS, R.string.usernameLogInError)
         awesomeValidation!!.addValidation(this, R.id.edit_password, "[A-Za-z0-9]{6,}", R.string.PasswordLogInError)
@@ -135,24 +119,6 @@ class InsideActivity : AppCompatActivity() {
                         }
                     }
         }
-        /* if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-
-             Log.e("tmt login", email + " - " + password)
-
-             mAuth!!.signInWithEmailAndPassword(email!!.trim(), password!!.trim())
-                     .addOnCompleteListener(this) { task ->
-
-                         mProgressBar!!.hide()
-                         if (task.isSuccessful) {
-                             Log.e("tmt", "thanh cong")
-                             updateUI()
-                         } else {
-                             Log.e("tm", "signInWithEmail:failure", task.exception)
-                             Toast.makeText(this, "Authentication failed.",
-                                     Toast.LENGTH_SHORT).show()
-                         }
-             }
-         }*/
     }
 
     private fun ForgetPassword() {
@@ -162,10 +128,6 @@ class InsideActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        val mUser = mAuth!!.currentUser
-        Log.e("tmt check", "start")
-        Log.e("tmt check", mAuth!!.uid)
-
         val db = FirebaseFirestore.getInstance()
         db.collection(Parameter().root_User)
                 .whereEqualTo(Parameter().comp_UId, mAuth!!.uid)
@@ -175,15 +137,12 @@ class InsideActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         for (document in task.result) {
                             // Authentication
-                            Log.e("tmt success", email)
                             var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                             var editor = token.edit()
                             editor.putString("loginusername", email)
                             editor.commit()
                             // Check Permission
-                            Log.e("tmt", document.data[Parameter().comp_Permission].toString())
                             changeActivy(document.data[Parameter().comp_Permission] as String)
-                            Log.e("tmt", document.data[Parameter().comp_UId].toString())
                         }
                     } else {
                         Log.d("tmt", "Error getting documents: ", task.exception)
@@ -194,12 +153,10 @@ class InsideActivity : AppCompatActivity() {
     private fun changeActivy(permission: String) {
         val token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
         var editor_ps = token_ps.edit()
-        Log.e("PermissionChange", permission.toString())
         editor_ps.putString("permission", permission.toString())
         editor_ps.commit()
         when (permission) {
             "0" -> {
-                Log.e("tmt-123123", permission)
                 intent = Intent(this, AcountantActivity::class.java)
                 startActivity(intent)
             }
@@ -219,7 +176,6 @@ class InsideActivity : AppCompatActivity() {
                 Log.e("tmt-123123", permission + " - Lỗi")
             } // THONG BAO LOI !!!
         }
-
         finish()
     }
 }

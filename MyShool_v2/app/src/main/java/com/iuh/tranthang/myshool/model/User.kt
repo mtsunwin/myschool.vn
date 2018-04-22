@@ -29,7 +29,9 @@ class User {
     }
 
     constructor()
-
+    public fun getChucVu():String{
+        return chucVu
+    }
     public fun getUid(): String {
         return uid
     }

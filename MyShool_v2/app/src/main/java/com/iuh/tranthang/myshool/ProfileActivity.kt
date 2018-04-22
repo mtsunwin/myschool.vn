@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -23,10 +22,18 @@ import com.iuh.tranthang.myshool.ViewApdater.ProfileFragment
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.layout_item_list_user.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() {
+    override fun onSelected(dUser: User) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    val frm_birthday: String = "birthday"
+    val frm_address: String = "address"
+    val frm_email: String = "email"
+    val frm_phone: String = "phone"
 
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
@@ -42,22 +49,24 @@ class ProfileActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         val intent = Intent(this, InsideActivity::class.java)
-
         val intent_profile = Intent(this, ProfileActivity::class.java)
+
         var token = getSharedPreferences("usename", Context.MODE_PRIVATE)
 //        Log.e("tmt check", mAuth!!.uid)
 
         var db = dbConnect()
         if (db.isAuthentication()) {
+            txt_nickname.setText("Thắng đẹp trai hihi")
             var dbFireStore = FirebaseFirestore.getInstance()
-            dbFireStore!!.collection("User").document(mAuth!!.uid!!)
+            dbFireStore!!.collection(Parameter().root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
+                            Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                             var result: DocumentSnapshot = task.result
                             if (result.exists()) {
                                 var tUser = User()
-                                tUser!!.setAddress(result.data[Parameter().comp_address].toString())
-                                txt_nickname.setText(result.data[Parameter().comp_fullname].toString())
+                                tUser.setAddress(result.data[Parameter().comp_address].toString())
+                                tUser.setFullname(result.data[Parameter().comp_fullname].toString())
                                 var tChv = ""
                                 val listStringPermission = applicationContext.resources.getStringArray(R.array.select_permission)
                                 when (result.data[Parameter().comp_Permission].toString()) {
@@ -66,7 +75,11 @@ class ProfileActivity : AppCompatActivity() {
                                     "2" -> tChv = listStringPermission.get(3)
                                     "3" -> tChv = listStringPermission.get(4)
                                 }
-                                txt_chucvu.setText(tChv)
+                                tUser.setChucVu(tChv)
+                                Log.e("Tmt inside", "nnnnnnnnnnn")
+                                updateUI(tUser)
+                            } else {
+                                Log.e("tmt false", "false")
                             }
                         }
                     })
@@ -77,22 +90,14 @@ class ProfileActivity : AppCompatActivity() {
             Log.e("tmt", "false")
         }
 
-        pageAdapter = PageAdapter(supportFragmentManager)
-        pageAdapter!!.addFragment(ProfileFragment(), "PROFILE")
-        pageAdapter!!.addFragment(ActivityFragment(), "ACTIVITY")
-        viewPager = findViewById(R.id.viewPager)
-        tabLayout = findViewById(R.id.tabLayout)
-        viewPager!!.adapter = pageAdapter
-        tabLayout!!.setupWithViewPager(viewPager)
-
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
 
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
-        val mUser = mAuth!!.currentUser
-        val drawerIndicatorEnabled = abdt!!.isDrawerIndicatorEnabled
+
         drawerLayout!!.addDrawerListener(abdt!!)
         abdt!!.syncState()
+
         navigationView!!.setNavigationItemSelectedListener(
                 object : NavigationView.OnNavigationItemSelectedListener {
                     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -114,6 +119,38 @@ class ProfileActivity : AppCompatActivity() {
                     }
                 }
         )
+    }
+
+    /**
+     * Cập nhật UI chính
+     */
+    private fun updateUI(tUser: User) {
+        Log.e("tmt UI", "oke")
+        txt_nickname.setText(tUser.getFullname())
+        txt_chucvu.setText(tUser.getChucVu())
+
+        val bundle = Bundle()
+        bundle.putString(frm_address, tUser.getAddress())
+        bundle.putString(frm_birthday, tUser.getBirthday())
+        bundle.putString(frm_email, tUser.getEmail())
+        bundle.putString(frm_phone, tUser.getNumberphone())
+        var fragment_profile = ProfileFragment()
+        fragment_profile.arguments = bundle
+        pageAdapter = PageAdapter(supportFragmentManager)
+
+        pageAdapter!!.addFragment(fragment_profile, resources.getString(R.string.frmInfo))
+        pageAdapter!!.addFragment(ActivityFragment(), resources.getString(R.string.frmAction))
+
+        viewPager = findViewById(R.id.viewPager)
+        tabLayout = findViewById(R.id.tabLayout)
+
+        viewPager!!.adapter = pageAdapter
+        tabLayout!!.setupWithViewPager(viewPager)
+
+        fab_changeInfo.setOnClickListener { view ->
+            var intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
