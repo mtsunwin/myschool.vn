@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/itemTrangCaNhan" android:title="Thong tin ca nhan"></item>
-    <item android:id="@+id/Quanlycongviec" android:title="Quan li cong viec"></item>
-    <item android:id="@+id/Tracuucongvan" android:title="Tra cuu cong van"></item>
-    <item android:id="@+id/DangXuat" android:title="Dang xuat"></item>
-
+    <item
+        android:id="@+id/itemTrangCaNhan"
+        android:title="@string/nav.infor"></item>
+    <item
+        android:id="@+id/Quanlycongviec"
+        android:title="@string/nav.working"></item>
+    <item
+        android:id="@+id/Tracuucongvan"
+        android:title="@string/nav.search"></item>
+    <item
+        android:id="@+id/DangXuat"
+        android:title="@string/nav.logout"></item>
 </menu>
