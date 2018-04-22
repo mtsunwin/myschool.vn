@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
@@ -24,6 +25,10 @@ import com.iuh.tranthang.myshool.model.User
 import java.text.SimpleDateFormat
 import java.util.*
 import android.widget.TextView
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.activity_register.*
+import java.io.IOException
 import java.net.URI
 
 
@@ -65,6 +70,8 @@ class RegisterActivity : AppCompatActivity() {
     private var btnUpload:Button?=null
     private val PICK_IMAGE_REQUEST=1234
     private var filePath:Uri?=null
+    private var btnUp:Button?=null
+    private var storageReference:StorageReference?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -82,8 +89,9 @@ class RegisterActivity : AppCompatActivity() {
         numberphone = findViewById<View>(R.id.numberphone) as EditText?
         birthday = findViewById<View>(R.id.birthday) as EditText?
         txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
-//        txtErrorPassword = findViewById<TextView>(R.id.ErrorPassword_register)
+//      upload file
         btnUpload=findViewById<Button>(R.id.btnUploadFile)
+        btnUp=findViewById(R.id.btnUp)
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
@@ -145,6 +153,7 @@ class RegisterActivity : AppCompatActivity() {
         btnUpload!!.setOnClickListener { view->
             showFileChooser()
         }
+        btnUp!!.setOnClickListener { view->upload() }
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
@@ -189,15 +198,32 @@ class RegisterActivity : AppCompatActivity() {
                 if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
                     txtErrorUserName!!.setText("Wrong format email.")
                 }
-                if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
-                    Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()
-                else if (textCongviec == true)
-                    Toast.makeText(this, "Chọn công việc", Toast.LENGTH_SHORT).show()
-                else createNewAccount()
+/*                if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
+                    Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()*/
+                else if(textCongviec==true)
+                    Toast.makeText(this,"Chọn công việc",Toast.LENGTH_SHORT).show()
+                 else   createNewAccount()
+            }
+        }
+    }
+    //hàm upload file
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==PICK_IMAGE_REQUEST&& resultCode==Activity.RESULT_OK&&
+                data!=null &&data.data!=null){
+            filePath=data.data
+            try {
+                val bitmap=MediaStore.Images.Media.getBitmap(contentResolver,filePath)
+                imageView!!.setImageBitmap(bitmap)
+            }catch (e:IOException){
+                e.printStackTrace()
             }
         }
     }
 
+    // hiển thị hình lên giao diện
     private fun showFileChooser() {
         val intent= Intent()
         intent.type="image/*"
@@ -205,7 +231,26 @@ class RegisterActivity : AppCompatActivity() {
 
         startActivityForResult(Intent.createChooser(intent,"Chon hinh"), PICK_IMAGE_REQUEST)
     }
+    //upload hinh len firebase
+    private fun upload() {
+/*
+        if(filePath!=null){
+            val progressDialog=ProgressDialog(this)
+            progressDialog.setTitle("Uploading...")
+            progressDialog.show()
+            val imageRef= storageReference!!.child("infor")
+            imageRef.putFile(filePath!!).addOnSuccessListener {
+                progressDialog.dismiss()
+                Toast.makeText(applicationContext,"KHONG THANH CONG",Toast.LENGTH_SHORT).show()
 
+            }
+                    .addOnProgressListener { taskSnapshot ->
+                        val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
+                        progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                    }
+        }
+*/
+    }
     private fun createNewAccount() {
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
@@ -245,6 +290,7 @@ class RegisterActivity : AppCompatActivity() {
                                 // Verify Email
                                 // verifyEmail();
                                 // update user profile information
+
                                 val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
                                 currentUserDb.child("fullname").setValue(txtFullname)
                                 currentUserDb.child("address").setValue(txtAddress)
@@ -255,13 +301,31 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
-                                if (intPermisstion == 1) {
-                                    mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                if(filePath!=null){
+                                    val progressDialog=ProgressDialog(this)
+                                    progressDialog.setTitle("Uploading...")
+                                    progressDialog.show()
+                                    val imageRef= storageReference!!.child("infor")
+                                    imageRef.putFile(filePath!!).addOnSuccessListener {
+                                        progressDialog.dismiss()
+                                        Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
+
+                                    }
+                                            .addOnProgressListener { taskSnapshot ->
+                                                val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
+                                                progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                                            }
+                                }
+                                if(intPermisstion==1){
+                                    mUser= User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                            txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString())
-                                } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
-                                        , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                        txtBirthday.toString(), "", "")
+                                            txtBirthday.toString(),textToCongTac.toString(),textChucVu.toString())
+                                }
+
+                               else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                       , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                                       txtBirthday.toString(), "", "")
+
                                 // Khởi tạo Root
                                 db.collection(Parameter().root_User)
                                         .document(userId)
