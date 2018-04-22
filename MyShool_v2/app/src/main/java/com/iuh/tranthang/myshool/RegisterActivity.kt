@@ -305,6 +305,21 @@ class RegisterActivity : AppCompatActivity() {
                                         +"-"+ txtNumberphone.toString()+"-"+ txtAddress.toString()+"-"+ txtUsername.toString()+"-"+
                                         txtBirthday.toString()+"-"+textToCongTac.toString()+"-"+textChucVu.toString())
                                 val db = FirebaseFirestore.getInstance()
+                                if(filePath!=null){
+                                    val progressDialog=ProgressDialog(this)
+                                    progressDialog.setTitle("Uploading...")
+                                    progressDialog.show()
+                                    val imageRef= storageReference!!.child("infor")
+                                    imageRef.putFile(filePath!!).addOnSuccessListener {
+                                        progressDialog.dismiss()
+                                        Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
+
+                                    }
+                                            .addOnProgressListener { taskSnapshot ->
+                                                val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
+                                                progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                                            }
+                                }
                                 if(intPermisstion==1){
                                     mUser= User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
