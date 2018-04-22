@@ -24,12 +24,6 @@ class AdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin)
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
-        //edit_password.setText(token_pw.getString("loginpassword"," "))
-//         customer list view
-//        var arrayInforMenu: ArrayList<adm_display> = ArrayList()
-//        arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
-//        listview.adapter = CustomAdapter(this, arrayInforMenu)
-
 
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))

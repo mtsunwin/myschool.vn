@@ -7,12 +7,13 @@
     <string name="address.vn">Địa chỉ</string>
     <string name="phonenumber.vn">Số điện thoại</string>
     <string name="birthday.vn">Ngày sinh</string>
+    <string name="frmInfo">Thông tin</string>
+    <string name="frmAction">Hoạt động</string>
     <string name="btnRegister">Đăng ký</string>
+    <string name="updateInfor">Vui lòng cập nhật thông tin</string>
     <!--Fillter END-->
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
-
-
 
 
     <string name="title_activity_register">RegisterActivity</string>

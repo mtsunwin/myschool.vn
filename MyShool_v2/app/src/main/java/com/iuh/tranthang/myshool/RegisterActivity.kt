@@ -1,10 +1,10 @@
 package com.iuh.tranthang.myshool
 
 
-import android.app.*
-import android.app.VoiceInteractor.PickOptionRequest
+import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -20,16 +20,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
-import java.text.SimpleDateFormat
-import java.util.*
-import android.widget.TextView
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_register.*
 import java.io.IOException
-import java.net.URI
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -63,15 +60,15 @@ class RegisterActivity : AppCompatActivity() {
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
 
-    private var textCongviec:Boolean?=true
-    private var textToCongTac:String?=""
-    private var textChucVu:String?="Nhan vien"
-    private var mUser: User?=null
-    private var btnUpload:Button?=null
-    private val PICK_IMAGE_REQUEST=1234
-    private var filePath:Uri?=null
-    private var btnUp:Button?=null
-    private var storageReference:StorageReference?=null
+    private var textCongviec: Boolean? = true
+    private var textToCongTac: String? = ""
+    private var textChucVu: String? = "Nhan vien"
+    private var mUser: User? = null
+    private var btnUpload: Button? = null
+    private val PICK_IMAGE_REQUEST = 1234
+    private var filePath: Uri? = null
+    private var btnUp: Button? = null
+    private var storageReference: StorageReference? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -90,8 +87,8 @@ class RegisterActivity : AppCompatActivity() {
         birthday = findViewById<View>(R.id.birthday) as EditText?
         txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
 //      upload file
-        btnUpload=findViewById<Button>(R.id.btnUploadFile)
-        btnUp=findViewById(R.id.btnUp)
+        btnUpload = findViewById<Button>(R.id.btnUploadFile)
+        btnUp = findViewById(R.id.btnUp)
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
@@ -150,10 +147,10 @@ class RegisterActivity : AppCompatActivity() {
         }
         mProgressBar = ProgressDialog(this)
         //btnUploadImage
-        btnUpload!!.setOnClickListener { view->
+        btnUpload!!.setOnClickListener { view ->
             showFileChooser()
         }
-        btnUp!!.setOnClickListener { view->upload() }
+        btnUp!!.setOnClickListener { view -> upload() }
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
@@ -200,9 +197,9 @@ class RegisterActivity : AppCompatActivity() {
                 }
 /*                if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
                     Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()*/
-                else if(textCongviec==true)
-                    Toast.makeText(this,"Chọn công việc",Toast.LENGTH_SHORT).show()
-                 else   createNewAccount()
+                else if (textCongviec == true)
+                    Toast.makeText(this, "Chọn công việc", Toast.LENGTH_SHORT).show()
+                else createNewAccount()
             }
         }
     }
@@ -211,13 +208,13 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==PICK_IMAGE_REQUEST&& resultCode==Activity.RESULT_OK&&
-                data!=null &&data.data!=null){
-            filePath=data.data
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK &&
+                data != null && data.data != null) {
+            filePath = data.data
             try {
-                val bitmap=MediaStore.Images.Media.getBitmap(contentResolver,filePath)
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
                 imageView!!.setImageBitmap(bitmap)
-            }catch (e:IOException){
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
@@ -225,12 +222,12 @@ class RegisterActivity : AppCompatActivity() {
 
     // hiển thị hình lên giao diện
     private fun showFileChooser() {
-        val intent= Intent()
-        intent.type="image/*"
-        intent.action= Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(Intent.createChooser(intent,"Chon hinh"), PICK_IMAGE_REQUEST)
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Chon hinh"), PICK_IMAGE_REQUEST)
     }
+
     //upload hinh len firebase
     private fun upload() {
 /*
@@ -251,6 +248,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 */
     }
+
     private fun createNewAccount() {
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
@@ -301,30 +299,28 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
-                                if(filePath!=null){
-                                    val progressDialog=ProgressDialog(this)
+                                if (filePath != null) {
+                                    val progressDialog = ProgressDialog(this)
                                     progressDialog.setTitle("Uploading...")
                                     progressDialog.show()
-                                    val imageRef= storageReference!!.child("infor")
+                                    val imageRef = storageReference!!.child("infor")
                                     imageRef.putFile(filePath!!).addOnSuccessListener {
                                         progressDialog.dismiss()
-                                        Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(applicationContext, "KHONG THANH CONG UP HINH", Toast.LENGTH_SHORT).show()
 
                                     }
                                             .addOnProgressListener { taskSnapshot ->
-                                                val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                                                progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                                                val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                                                progressDialog.setMessage("Uploaded" + progress.toInt() + "")
                                             }
                                 }
-                                if(intPermisstion==1){
-                                    mUser= User(userId, txtFullname.toString(), intPermisstion.toString()
+                                if (intPermisstion == 1) {
+                                    mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                            txtBirthday.toString(),textToCongTac.toString(),textChucVu.toString())
-                                }
-
-                               else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
-                                       , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                       txtBirthday.toString(), "", "")
+                                            txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(), "")
+                                } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                        , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                                        txtBirthday.toString(), "", "", "")
 
                                 // Khởi tạo Root
                                 db.collection(Parameter().root_User)
@@ -347,15 +343,15 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-  /*  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==PICK_IMAGE_REQUEST && resultCode== Activity.RESULT_OK && data!=null &&data.data!=null){
-            filePath=data.data
-            try{
-                val bitmap == Medi
-            }catch ()
-        }
-    }*/
+    /*  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+          super.onActivityResult(requestCode, resultCode, data)
+          if(requestCode==PICK_IMAGE_REQUEST && resultCode== Activity.RESULT_OK && data!=null &&data.data!=null){
+              filePath=data.data
+              try{
+                  val bitmap == Medi
+              }catch ()
+          }
+      }*/
     private fun updateUserInfoAndUI() {
         var intent: Intent = Intent(this@RegisterActivity, AdminActivity::class.java)
         Toast.makeText(this@RegisterActivity, R.string.created_success, Toast.LENGTH_LONG)

@@ -4,39 +4,125 @@
     android:layout_height="match_parent"
     tools:context="com.iuh.tranthang.myshool.ViewApdater.ProfileFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="30dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ngày tháng năm sinh" />
+                android:layout_height="match_parent"
 
-            <TextView
+                android:background="@color/color.Background.Opacity"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_gift" />
+
+                <TextView
+                    android:id="@+id/frm_txtBirthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="Ngày tháng năm sinh" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Địa chỉ" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:background="@color/color.Background.Opacity"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-            <TextView
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_place_localizer" />
+
+                <TextView
+                    android:id="@+id/frm_txtAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="Địa chỉ" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Địa chỉ email" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:background="@color/color.Background.Opacity"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-            <TextView
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_gift" />
+
+                <TextView
+                    android:id="@+id/frm_txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="Địa chỉ email" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Số điện thoại" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:background="@color/color.Background.Opacity"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_gift" />
+
+                <TextView
+                    android:id="@+id/frm_txtNumPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:text="Số điện thoại" />
 
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_changeInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp" />
 </FrameLayout>
