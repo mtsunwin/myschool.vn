@@ -11,8 +11,8 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/list_item_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="55dp" />
 
         <android.support.v7.widget.AppCompatTextView
