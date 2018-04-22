@@ -62,6 +62,7 @@ class RegisterActivity : AppCompatActivity() {
     private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
+
     private var textCongviec:Boolean?=true
     private var textToCongTac:String?=""
     private var textChucVu:String?="Nhan vien"
@@ -75,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         initialise()
-        Log.e("CongViecCreate:......",textCongviec.toString())
+        Log.e("CongViecCreate:......", textCongviec.toString())
     }
 
 
@@ -94,58 +95,56 @@ class RegisterActivity : AppCompatActivity() {
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
-        spinnerPermisstion!!.onItemSelectedListener= object:AdapterView.OnItemSelectedListener{
+        spinnerPermisstion!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedItem= p0!!.getItemAtPosition(p2).toString()
-                if(selectedItem.equals("Giáo viên")){
-                    spinnerPerTeacher!!.visibility=View.VISIBLE
-                    spinnerPerTeacherLead!!.visibility=View.VISIBLE
+                val selectedItem = p0!!.getItemAtPosition(p2).toString()
+                if (selectedItem.equals("Giáo viên")) {
+                    spinnerPerTeacher!!.visibility = View.VISIBLE
+                    spinnerPerTeacherLead!!.visibility = View.VISIBLE
+                } else {
+                    spinnerPerTeacher!!.visibility = View.GONE
+                    spinnerPerTeacherLead!!.visibility = View.GONE
                 }
-                else{
-                    spinnerPerTeacher!!.visibility=View.GONE
-                    spinnerPerTeacherLead!!.visibility=View.GONE
-                }
-                if (!selectedItem.equals("Công việc..")){
-                    textCongviec=false
-                    Log.e("CongViecOnFalse:..",textCongviec.toString())
-                }
-                else{
-                    textCongviec=true
-                    Log.e("CongViecOnTrue",textCongviec.toString())
+                if (!selectedItem.equals("Công việc..")) {
+                    textCongviec = false
+                    Log.e("CongViecOnFalse:..", textCongviec.toString())
+                } else {
+                    textCongviec = true
+                    Log.e("CongViecOnTrue", textCongviec.toString())
                 }
 
-        }
+            }
         }
         spinnerPerTeacher = findViewById<View>(R.id.selectPerTeacher) as Spinner?
         spinnerPerTeacher!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission_teacher))
         spinnerPerTeacher!!.visibility = View.GONE
-        spinnerPerTeacher!!.onItemSelectedListener= object:AdapterView.OnItemSelectedListener{
+        spinnerPerTeacher!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedItem= p0!!.getItemAtPosition(p2).toString()
-                if(selectedItem.equals("Tổ công tác.."))
-                    textToCongTac=""
+                val selectedItem = p0!!.getItemAtPosition(p2).toString()
+                if (selectedItem.equals("Tổ công tác.."))
+                    textToCongTac = ""
                 else
-                    textToCongTac=selectedItem
+                    textToCongTac = selectedItem
             }
         }
         spinnerPerTeacherLead = findViewById<View>(R.id.selectPerTeacherLead) as Spinner?
         spinnerPerTeacherLead!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission_teacher_leader))
         spinnerPerTeacherLead!!.visibility = View.GONE
-        spinnerPerTeacherLead!!.onItemSelectedListener= object:AdapterView.OnItemSelectedListener{
+        spinnerPerTeacherLead!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedItem= p0!!.getItemAtPosition(p2).toString()
-                textChucVu=selectedItem
+                val selectedItem = p0!!.getItemAtPosition(p2).toString()
+                textChucVu = selectedItem
 
             }
         }
@@ -192,7 +191,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         btnLogin!!.setOnClickListener { view ->
-            Log.e("CongViec:............",textCongviec.toString())
+            Log.e("CongViec:............", textCongviec.toString())
             if (awesomeValidation!!.validate()) {
                 if (password!!.text.length < 6)
                     txtErrorPassword!!.setText("Password characters must be more than 6")
@@ -283,7 +282,7 @@ class RegisterActivity : AppCompatActivity() {
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
-                            var mUser:User
+                            var mUser: User
                             if (task.isSuccessful) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("tmt", "createUserWithEmail:success")
@@ -301,9 +300,6 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("email").setValue(txtUsername)
                                 currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
-                                Log.e("User:",userId+"-"+txtFullname.toString()+"-"+ intPermisstion.toString()
-                                        +"-"+ txtNumberphone.toString()+"-"+ txtAddress.toString()+"-"+ txtUsername.toString()+"-"+
-                                        txtBirthday.toString()+"-"+textToCongTac.toString()+"-"+textChucVu.toString())
                                 val db = FirebaseFirestore.getInstance()
                                 if(filePath!=null){
                                     val progressDialog=ProgressDialog(this)
@@ -329,6 +325,7 @@ class RegisterActivity : AppCompatActivity() {
                                else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                        , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                        txtBirthday.toString(), "", "")
+
                                 // Khởi tạo Root
                                 db.collection(Parameter().root_User)
                                         .document(userId)
