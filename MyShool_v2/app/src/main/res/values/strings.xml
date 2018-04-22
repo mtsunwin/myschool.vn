@@ -51,6 +51,11 @@
     <string name="usernameLogInError">email không hợp lệ</string>
     <string name="PasswordLogInError">mật khẩu cần nhiều hơn 6 kí tự</string>
 
+    <!--NavBar-->
+    <string name="nav.infor">Thông tin cá nhân</string>
+    <string name="nav.working">Quản lý công việc</string>
+    <string name="nav.search">Tra cứu công văn</string>
+    <string name="nav.logout">Đăng xuất</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

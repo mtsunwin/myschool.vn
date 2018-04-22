@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import com.iuh.tranthang.myshool.R
 
 /**
@@ -67,6 +68,7 @@ abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleC
         // Draw the delete icon
         deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
         deleteIcon.draw(c)
+
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
