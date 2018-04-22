@@ -238,7 +238,7 @@ class RegisterActivity : AppCompatActivity() {
             val progressDialog=ProgressDialog(this)
             progressDialog.setTitle("Uploading...")
             progressDialog.show()
-            val imageRef= storageReference!!.child("infor")
+            val imageRef= storageReference!!.child("images/"+userId.toString())
             imageRef.putFile(filePath!!).addOnSuccessListener {
                 progressDialog.dismiss()
                 Toast.makeText(applicationContext,"KHONG THANH CONG",Toast.LENGTH_SHORT).show()

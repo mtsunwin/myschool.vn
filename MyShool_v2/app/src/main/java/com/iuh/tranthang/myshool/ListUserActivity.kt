@@ -101,7 +101,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
 //        val setAdap = CustomAdapter(applicationContext, listUser)
 //        list_user_recycleview.adapter = setAdap
 
-        recyclerView = findViewById(R.id.recycle) as RecyclerView
+        recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
         var adapter = DataAdapter(listUser)
