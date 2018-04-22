@@ -71,7 +71,9 @@ class RegisterActivity : AppCompatActivity() {
     private val PICK_IMAGE_REQUEST=1234
     private var filePath:Uri?=null
     private var btnUp:Button?=null
+    internal var storage:FirebaseStorage?=null
     private var storageReference:StorageReference?=null
+//    private val imageRef
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -92,6 +94,8 @@ class RegisterActivity : AppCompatActivity() {
 //      upload file
         btnUpload=findViewById<Button>(R.id.btnUploadFile)
         btnUp=findViewById(R.id.btnUp)
+        storage= FirebaseStorage.getInstance()
+        storageReference=storage!!.reference
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
@@ -233,24 +237,23 @@ class RegisterActivity : AppCompatActivity() {
     }
     //upload hinh len firebase
     private fun upload() {
-/*
-        if(filePath!=null){
-            val progressDialog=ProgressDialog(this)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            val imageRef= storageReference!!.child("images/"+userId.toString())
-            imageRef.putFile(filePath!!).addOnSuccessListener {
-                progressDialog.dismiss()
-                Toast.makeText(applicationContext,"KHONG THANH CONG",Toast.LENGTH_SHORT).show()
+     /*   if(filePath!=null){
+        val progressDialog=ProgressDialog(this)
+        progressDialog.setTitle("Uploading...")
+        progressDialog.show()
+        val imageRef= storageReference!!.child("images/"+UUID.randomUUID().toString())
+        Log.e("Image:",imageRef.path)
+        imageRef.putFile(filePath!!).addOnSuccessListener {
+            progressDialog.dismiss()
+            Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
 
-            }
-                    .addOnProgressListener { taskSnapshot ->
-                        val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                        progressDialog.setMessage("Uploaded"+progress.toInt()+"")
-                    }
         }
-*/
-    }
+                .addOnProgressListener { taskSnapshot ->
+                    val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
+                    progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                }
+    }*/
+}
     private fun createNewAccount() {
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
@@ -305,10 +308,11 @@ class RegisterActivity : AppCompatActivity() {
                                     val progressDialog=ProgressDialog(this)
                                     progressDialog.setTitle("Uploading...")
                                     progressDialog.show()
-                                    val imageRef= storageReference!!.child("infor")
+                                    val imageRef= storageReference!!.child("images/"+userId.toString())
+                                    Log.e("Image:",imageRef.path)
                                     imageRef.putFile(filePath!!).addOnSuccessListener {
                                         progressDialog.dismiss()
-                                        Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(applicationContext,"UP HINH THANH CONG",Toast.LENGTH_SHORT).show()
 
                                     }
                                             .addOnProgressListener { taskSnapshot ->
