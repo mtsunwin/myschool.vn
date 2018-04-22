@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
@@ -60,16 +61,16 @@ class RegisterActivity : AppCompatActivity() {
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
 
-    private var textCongviec:Boolean?=true
-    private var textToCongTac:String?=""
-    private var textChucVu:String?="Nhan vien"
-    private var mUser: User?=null
-    private var btnUpload:Button?=null
-    private val PICK_IMAGE_REQUEST=1234
-    private var filePath:Uri?=null
-    private var btnUp:Button?=null
-    internal var storage:FirebaseStorage?=null
-    private var storageReference:StorageReference?=null
+    private var textCongviec: Boolean? = true
+    private var textToCongTac: String? = ""
+    private var textChucVu: String? = "Nhan vien"
+    private var mUser: User? = null
+    private var btnUpload: Button? = null
+    private val PICK_IMAGE_REQUEST = 1234
+    private var filePath: Uri? = null
+    private var btnUp: Button? = null
+    internal var storage: FirebaseStorage? = null
+    private var storageReference: StorageReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,10 +90,10 @@ class RegisterActivity : AppCompatActivity() {
         birthday = findViewById<View>(R.id.birthday) as EditText?
         txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
 //      upload file
-        btnUpload=findViewById<Button>(R.id.btnUploadFile)
-        btnUp=findViewById(R.id.btnUp)
-        storage= FirebaseStorage.getInstance()
-        storageReference=storage!!.reference
+        btnUpload = findViewById<Button>(R.id.btnUploadFile)
+        btnUp = findViewById(R.id.btnUp)
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage!!.reference
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
         spinnerPermisstion!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.select_permission))
@@ -234,23 +235,24 @@ class RegisterActivity : AppCompatActivity() {
 
     //upload hinh len firebase
     private fun upload() {
-     /*   if(filePath!=null){
-        val progressDialog=ProgressDialog(this)
-        progressDialog.setTitle("Uploading...")
-        progressDialog.show()
-        val imageRef= storageReference!!.child("images/"+UUID.randomUUID().toString())
-        Log.e("Image:",imageRef.path)
-        imageRef.putFile(filePath!!).addOnSuccessListener {
-            progressDialog.dismiss()
-            Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
+        /*   if(filePath!=null){
+           val progressDialog=ProgressDialog(this)
+           progressDialog.setTitle("Uploading...")
+           progressDialog.show()
+           val imageRef= storageReference!!.child("images/"+UUID.randomUUID().toString())
+           Log.e("Image:",imageRef.path)
+           imageRef.putFile(filePath!!).addOnSuccessListener {
+               progressDialog.dismiss()
+               Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
 
-        }
-                .addOnProgressListener { taskSnapshot ->
-                    val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                    progressDialog.setMessage("Uploaded"+progress.toInt()+"")
-                }
-    }*/
-}
+           }
+                   .addOnProgressListener { taskSnapshot ->
+                       val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
+                       progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                   }
+       }*/
+    }
+
     private fun createNewAccount() {
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
@@ -306,11 +308,11 @@ class RegisterActivity : AppCompatActivity() {
                                     progressDialog.setTitle("Uploading...")
                                     progressDialog.show()
 
-                                    val imageRef= storageReference!!.child("images/"+userId.toString())
-                                    Log.e("Image:",imageRef.path)
+                                    val imageRef = storageReference!!.child("images/" + userId.toString())
+                                    Log.e("Image:", imageRef.path)
                                     imageRef.putFile(filePath!!).addOnSuccessListener {
                                         progressDialog.dismiss()
-                                        Toast.makeText(applicationContext,"UP HINH THANH CONG",Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(applicationContext, "UP HINH THANH CONG", Toast.LENGTH_SHORT).show()
 
 
                                     }

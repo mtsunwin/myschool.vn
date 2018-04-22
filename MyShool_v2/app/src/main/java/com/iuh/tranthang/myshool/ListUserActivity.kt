@@ -126,6 +126,4 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
             startActivity(intent)
         }
     }
-
-    fun show
 }
