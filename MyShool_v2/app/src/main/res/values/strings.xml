@@ -11,6 +11,7 @@
     <string name="frmAction">Hoạt động</string>
     <string name="btnRegister">Đăng ký</string>
     <string name="updateInfor">Vui lòng cập nhật thông tin</string>
+    <string name="do.delete">Bạn có muốn xóa </string>
     <!--Fillter END-->
     <string name="Open">NavBar</string>
     <string name="Close">NavBar</string>
@@ -56,6 +57,9 @@
     <string name="nav.working">Quản lý công việc</string>
     <string name="nav.search">Tra cứu công văn</string>
     <string name="nav.logout">Đăng xuất</string>
+    <!--Option-->
+    <string name="dialog.yes">Đồng ý</string>
+    <string name="dialog.no">Hủy bỏ</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

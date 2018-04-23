@@ -1,14 +1,20 @@
 package com.iuh.tranthang.myshool
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -58,8 +64,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                     .get()
                     .addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
-                            Log.e("tmt data", task.result.size().toString())
                             for (document in task.result) {
+                                Log.e("tmt data", document.data.toString())
                                 var mUser = User(document.data[Parameter().comp_UId] as String,
                                         document.data[Parameter().comp_fullname] as String,
                                         document.data[Parameter().comp_Permission] as String,
@@ -98,9 +104,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     * */
     private fun callAdapter(listUser: ArrayList<User>) {
 
-//        val setAdap = CustomAdapter(applicationContext, listUser)
-//        list_user_recycleview.adapter = setAdap
-
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
@@ -112,8 +115,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView!!.adapter as SimpleAdapter
-                Log.e("tmt", "deleted")
-                adapter.removeAt(viewHolder.adapterPosition)
+                showDialog(adapter, viewHolder)
             }
         }
 
@@ -121,9 +123,31 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         fab.setOnClickListener { view ->
-            //            simpleAdapter.addItem("New item")
             var intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
+        var builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        var inflater: LayoutInflater = layoutInflater
+        var view: View = inflater.inflate(R.layout.layout_dialog, null)
+        var content: TextView = view.findViewById<View>(R.id.content) as TextView
+        content.setText("Bạn có muốn xóa?")
+        builder.setView(view)
+        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                p0!!.dismiss()
+                adapter!!.notifyDataSetChanged()
+            }
+        })
+        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+
+        })
+        var dialog: Dialog = builder.create()
+        dialog.show()
     }
 }

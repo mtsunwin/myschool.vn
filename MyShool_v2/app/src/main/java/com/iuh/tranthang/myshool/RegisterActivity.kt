@@ -289,10 +289,7 @@ class RegisterActivity : AppCompatActivity() {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
-                                // Verify Email
-                                // verifyEmail();
                                 // update user profile information
-
                                 val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
                                 currentUserDb.child("fullname").setValue(txtFullname)
                                 currentUserDb.child("address").setValue(txtAddress)
@@ -313,8 +310,6 @@ class RegisterActivity : AppCompatActivity() {
                                     imageRef.putFile(filePath!!).addOnSuccessListener {
                                         progressDialog.dismiss()
                                         Toast.makeText(applicationContext, "UP HINH THANH CONG", Toast.LENGTH_SHORT).show()
-
-
                                     }
                                             .addOnProgressListener { taskSnapshot ->
                                                 val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
@@ -350,36 +345,10 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    /*  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-          super.onActivityResult(requestCode, resultCode, data)
-          if(requestCode==PICK_IMAGE_REQUEST && resultCode== Activity.RESULT_OK && data!=null &&data.data!=null){
-              filePath=data.data
-              try{
-                  val bitmap == Medi
-              }catch ()
-          }
-      }*/
     private fun updateUserInfoAndUI() {
         var intent: Intent = Intent(this@RegisterActivity, AdminActivity::class.java)
         Toast.makeText(this@RegisterActivity, R.string.created_success, Toast.LENGTH_LONG)
         startActivity(intent)
     }
-
-//    private fun verifyEmail() {
-//        val mUser = mAuth!!.currentUser;
-//        mUser!!.sendEmailVerification()
-//                .addOnCompleteListener(this) { task ->
-//                    if (task.isSuccessful) {
-//                        Toast.makeText(this@RegisterActivity,
-//                                "Verification email sent to " + mUser.getEmail(),
-//                                Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        Log.e("tmt", "sendEmailVerification", task.exception)
-//                        Toast.makeText(this@RegisterActivity,
-//                                "Failed to send verification email.",
-//                                Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//    }
 }
 

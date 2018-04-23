@@ -40,6 +40,13 @@ class dbConnect {
         return false
     }
 
+    public fun getUid(): String {
+        if (isAuthentication())
+            return mAuth!!.uid!!
+        else
+            return ""
+    }
+
     public fun query() {
 
     }
