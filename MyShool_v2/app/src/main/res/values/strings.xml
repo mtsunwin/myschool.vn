@@ -27,8 +27,8 @@
         <item>Công việc..</item>
         <item>Giáo viên</item>
         <item>Nhân viên</item>
-        <item>Kế toán</item>
         <item>Admin</item>
+        <item>Kế toán</item>
     </string-array>
     <string-array name="select.permission.teacher">
         <item>Tổ công tác..</item>
