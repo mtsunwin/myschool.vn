@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color.Background"
+    tools:context="com.iuh.tranthang.myshool.RegisterActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="78dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="30dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <EditText
+                android:id="@+id/update_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/fullname.vn"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+
+            <EditText
+                android:id="@+id/update_address"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/address.vn"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+            <EditText
+                android:id="@+id/update_numberphone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/phonenumber.vn"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+            <EditText
+                android:id="@+id/update_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/birthday.vn"
+                android:inputType="date"
+                android:textColor="@color/color.Text.in.Background"
+                android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/update_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/password.vn"
+                    android:inputType="textPassword"
+                    android:textColor="@color/color.Text.in.Background"
+                    android:textColorHint="@color/color.Text.in.Background.Dark" />
+
+                <Button
+                    android:id="@+id/update_btnUploadFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btnUpAvatar" />
+
+                <ImageView
+
+                    android:id="@+id/update_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_register"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp"
+                android:paddingTop="15dp"
+                android:text="@string/btnUpdate"
+                android:textColor="@color/color.Text.in.Background" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

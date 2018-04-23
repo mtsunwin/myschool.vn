@@ -1,5 +1,7 @@
 package com.iuh.tranthang.myshool.model
 
+import java.net.URL
+
 /**
  * Created by ThinkPad on 4/11/2018.
  */
@@ -13,8 +15,9 @@ class User {
     private var email: String = ""
     private var toCongTac:String =""
     private var chucVu:String=""
+    private var Url :String=""
     constructor(id: String, fullname: String, permission: String, numberphone: String,
-                address: String, email: String, birthday: String,toCongTac:String,chucVu:String) {
+                address: String, email: String, birthday: String,toCongTac:String,chucVu:String,url:String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -24,6 +27,7 @@ class User {
         this.birthday = birthday
         this.toCongTac= toCongTac
         this.chucVu=chucVu
+        this.Url=url
     }
 
     constructor()
@@ -88,7 +92,12 @@ class User {
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
     }
-
+    public fun setUrl(url:String){
+        this.Url=url
+    }
+    public fun getUrl(): String {
+        return Url
+    }
     fun toMap(): Map<String, Any> {
         val result = HashMap<String, Any>()
         result.put("fullname", fullname)

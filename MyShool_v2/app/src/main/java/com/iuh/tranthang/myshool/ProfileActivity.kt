@@ -148,7 +148,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         tabLayout!!.setupWithViewPager(viewPager)
 
         fab_changeInfo.setOnClickListener { view ->
-            var intent = Intent(this, RegisterActivity::class.java)
+            var intent = Intent(this, UpdateProfileActivity::class.java)
             startActivity(intent)
         }
     }

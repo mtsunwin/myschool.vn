@@ -293,15 +293,7 @@ class RegisterActivity : AppCompatActivity() {
                                 // verifyEmail();
                                 // update user profile information
 
-                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
-                                currentUserDb.child("fullname").setValue(txtFullname)
-                                currentUserDb.child("address").setValue(txtAddress)
-                                currentUserDb.child("birthday").setValue(txtBirthday)
-                                currentUserDb.child("numberphone").setValue(txtNumberphone)
-                                currentUserDb.child("permission").setValue(intPermisstion)
-                                currentUserDb.child("email").setValue(txtUsername)
-                                currentUserDb.child("toCongTac").setValue(textToCongTac)
-                                currentUserDb.child("ChucVu").setValue(textChucVu)
+
                                 val db = FirebaseFirestore.getInstance()
                                 if (filePath != null) {
                                     val progressDialog = ProgressDialog(this)
@@ -321,13 +313,23 @@ class RegisterActivity : AppCompatActivity() {
                                                 progressDialog.setMessage("Uploaded" + progress.toInt() + "")
                                             }
                                 }
+                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
+                                currentUserDb.child("fullname").setValue(txtFullname)
+                                currentUserDb.child("address").setValue(txtAddress)
+                                currentUserDb.child("birthday").setValue(txtBirthday)
+                                currentUserDb.child("numberphone").setValue(txtNumberphone)
+                                currentUserDb.child("permission").setValue(intPermisstion)
+                                currentUserDb.child("email").setValue(txtUsername)
+                                currentUserDb.child("toCongTac").setValue(textToCongTac)
+                                currentUserDb.child("ChucVu").setValue(textChucVu)
+                                currentUserDb.child("Url").setValue("")
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                            txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString())
+                                            txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(),"")
                                 } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                        txtBirthday.toString(), "", "")
+                                        txtBirthday.toString(), "", "","")
 
                                 // Khởi tạo Root
                                 db.collection(Parameter().root_User)

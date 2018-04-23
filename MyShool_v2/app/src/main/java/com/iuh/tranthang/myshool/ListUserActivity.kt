@@ -68,7 +68,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter().comp_email] as String,
                                         document.data[Parameter().comp_birthday] as String,
                                         document.data[Parameter().comp_toCongTac] as String,
-                                        document.data[Parameter().comp_chucVu] as String)
+                                        document.data[Parameter().comp_chucVu] as String,
+                                        document.data[Parameter().comp_url] as String)
                                 var temp: Boolean = false
                                 for (cUser in listUser) {
                                     if (cUser.getUid() == mUser.getUid()) {
@@ -76,6 +77,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         cUser.setBirthday(mUser.getBirthday())
                                         cUser.setEmail(mUser.getEmail())
                                         cUser.setFullname(mUser.getFullname())
+                                        cUser.setUrl(mUser.getUrl())
                                         temp = true
                                     }
                                 }
