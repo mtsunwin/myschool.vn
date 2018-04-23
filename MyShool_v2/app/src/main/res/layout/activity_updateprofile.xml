@@ -60,14 +60,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/update_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="@string/password.vn"
-                    android:inputType="textPassword"
-                    android:textColor="@color/color.Text.in.Background"
-                    android:textColorHint="@color/color.Text.in.Background.Dark" />
+
 
                 <Button
                     android:id="@+id/update_btnUploadFile"
@@ -78,6 +71,7 @@
                 <ImageView
 
                     android:id="@+id/update_imageView"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

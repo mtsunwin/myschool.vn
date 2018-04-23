@@ -34,7 +34,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     val frm_address: String = "address"
     val frm_email: String = "email"
     val frm_phone: String = "phone"
-
+    val frm_name: String="name"
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
     var pageAdapter: PageAdapter? = null
@@ -48,6 +48,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         setContentView(R.layout.activity_profile)
 
         mAuth = FirebaseAuth.getInstance()
+
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
 
@@ -134,7 +135,8 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         bundle.putString(frm_birthday, tUser.getBirthday())
         bundle.putString(frm_email, tUser.getEmail())
         bundle.putString(frm_phone, tUser.getNumberphone())
-        var fragment_profile = ProfileFragment()
+        bundle.putString(frm_name,tUser.getFullname())
+         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)
 

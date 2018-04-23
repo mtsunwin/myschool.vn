@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private var textCongviec: Boolean? = true
     private var textToCongTac: String? = ""
-    private var textChucVu: String? = "Nhan vien"
+    private var textChucVu: String? = ""
     private var mUser: User? = null
     private var btnUpload: Button? = null
     private val PICK_IMAGE_REQUEST = 1234
@@ -265,10 +265,10 @@ class RegisterActivity : AppCompatActivity() {
         val listStringPermission = resources.getStringArray(R.array.select_permission)
         Log.e("tmt list", listStringPermission[0])
         when (txtPermission!!.toLowerCase().trim()) {
-            listStringPermission[0].toLowerCase().trim() -> intPermisstion = 0 //Giao vien
-            listStringPermission[1].toLowerCase().trim() -> intPermisstion = 1 //Nhan vien
-            listStringPermission[2].toLowerCase().trim() -> intPermisstion = 2 //Ke toan
-            listStringPermission[3].toLowerCase().trim() -> intPermisstion = 3 //Admin
+            listStringPermission[1].toLowerCase().trim() -> intPermisstion = 0 //Giao vien
+            listStringPermission[2].toLowerCase().trim() -> intPermisstion = 1 //Nhan vien
+            listStringPermission[3].toLowerCase().trim() -> intPermisstion = 2 //Ke toan
+            listStringPermission[4].toLowerCase().trim() -> intPermisstion = 3 //Admin
         }
 
         if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtPassword)) {
@@ -314,7 +314,7 @@ class RegisterActivity : AppCompatActivity() {
                                             }
                                 }
                                 val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
-                                currentUserDb.child("fullname").setValue(txtFullname)
+                             /*   currentUserDb.child("fullname").setValue(txtFullname)
                                 currentUserDb.child("address").setValue(txtAddress)
                                 currentUserDb.child("birthday").setValue(txtBirthday)
                                 currentUserDb.child("numberphone").setValue(txtNumberphone)
@@ -322,8 +322,8 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("email").setValue(txtUsername)
                                 currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
-                                currentUserDb.child("Url").setValue("")
-                                if (intPermisstion == 1) {
+                                currentUserDb.child("Url").setValue("")*/
+                                if (intPermisstion == 0) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                             txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(),"")

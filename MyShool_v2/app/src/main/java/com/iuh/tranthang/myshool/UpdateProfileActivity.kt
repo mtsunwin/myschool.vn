@@ -4,6 +4,7 @@ package com.iuh.tranthang.myshool
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_register.*
@@ -35,7 +37,6 @@ class UpdateProfileActivity : AppCompatActivity() {
 
     private var fullname: EditText? = null
     private var username: EditText? = null
-    private var password: EditText? = null
     private var address: EditText? = null
     private var numberphone: EditText? = null
     private var birthday: EditText? = null
@@ -43,53 +44,50 @@ class UpdateProfileActivity : AppCompatActivity() {
     private var txt_phone: String = ""
     private var txt_email: String = ""
     private var txt_birthday: String = ""
-
     private var btnUpdate: Button? = null
     private var mProgressBar: ProgressDialog? = null
 
     private var mDatabaseReference: DatabaseReference? = null
     private var mDatabase: FirebaseDatabase? = null
-    private var mAuth: FirebaseAuth? = null
 
     private var txtFullname: String? = ""
     private var txtUsername: String? = ""
-    private var txtPassword: String? = ""
     private var txtAddress: String? = ""
     private var txtNumberphone: String? = ""
     private var txtBirthday: String? = ""
     private var txtPermission: String? = ""
     private var intPermisstion: Int? = 0
-    private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
-
+    private var imageView:ImageView?=null
     private var textCongviec: Boolean? = true
     private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
-    private var mUser: User? = null
     private var btnUpload: Button? = null
     private val PICK_IMAGE_REQUEST = 1234
     private var filePath: Uri? = null
+    private var mUser:User?=null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
-
+    private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_updateprofile)
         update_initialise()
         Log.e("CongViecCreate:......", textCongviec.toString())
+        val db = FirebaseFirestore.getInstance()
+        setText()
     }
 
 
     private fun update_initialise() {
         fullname = findViewById<View>(R.id.update_fullname) as EditText?
-        password = findViewById<View>(R.id.update_password) as EditText?
         btnUpdate = findViewById<View>(R.id.btnUpdate) as Button?
         address = findViewById<View>(R.id.update_address) as EditText?
         numberphone = findViewById<View>(R.id.update_numberphone) as EditText?
         birthday = findViewById<View>(R.id.update_birthday) as EditText?
 //      upload file
         btnUpload = findViewById<Button>(R.id.update_btnUploadFile)
-
+        imageView=findViewById(R.id.update_imageView)
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
 
@@ -98,7 +96,9 @@ class UpdateProfileActivity : AppCompatActivity() {
         btnUpload!!.setOnClickListener { view ->
             showFileChooser()
         }
-
+        btnUpdate!!.setOnClickListener { view ->
+            updateAccount()
+        }
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
@@ -127,11 +127,6 @@ class UpdateProfileActivity : AppCompatActivity() {
 
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference.child("Users")
-        mAuth = FirebaseAuth.getInstance()
-        password!!.setOnClickListener {
-            txtErrorPassword!!.setText("")
-        }
-
 
         }
 
@@ -158,7 +153,13 @@ class UpdateProfileActivity : AppCompatActivity() {
         startActivityForResult(Intent.createChooser(intent, "Chon hinh"), PICK_IMAGE_REQUEST)
     }
     private fun setText(){
-
+        var token=getSharedPreferences("username", Context.MODE_PRIVATE)
+        txt_address= ProfileActivity().frm_address.toString()
+        txt_birthday=ProfileActivity().frm_birthday.toString()
+        txt_phone=ProfileActivity().frm_phone.toString()
+        update_address.setText(txtAddress.toString())
+        update_birthday.setText(txtBirthday.toString())
+        update_numberphone.setText(txt_phone.toString())
     }
     //upload hinh len firebase
     private fun upload() {
@@ -194,4 +195,28 @@ class UpdateProfileActivity : AppCompatActivity() {
         Toast.makeText(this@RegisterActivity, R.string.created_success, Toast.LENGTH_LONG)
         startActivity(intent)*/
     }
+    private fun updateAccount() {
+        mAuth=FirebaseAuth.getInstance()
+        var token = getSharedPreferences("usename", Context.MODE_PRIVATE)
+        val token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
+        Log.e("permission user",token_ps.getString("permission",""))
+        txtFullname = fullname?.text.toString()
+        txtUsername = username?.text.toString()
+        txtAddress = address?.text.toString()
+        txtBirthday = birthday?.text.toString()
+        txtNumberphone = numberphone?.text.toString()
+        Log.e("UUID User:",dbConnect().getUid())
+
+        if (intPermisstion == 0) {
+            mUser = User(dbConnect().getUid(), txtFullname.toString(), token_ps.getString("permission","")
+                    , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                    txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(),"")
+        }
+        else mUser = User(dbConnect().getUid(), txtFullname.toString(), token_ps.getString("permission","")
+                        , txtNumberphone.toString(), txtAddress.toString(), token.getString("loginusername",""),txtBirthday.toString(),"","","")
+        }
+
+
+
+
 }

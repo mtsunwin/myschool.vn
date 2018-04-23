@@ -60,16 +60,20 @@ class InsideActivity : AppCompatActivity() {
         if (token!!.getString("loginusername", " ") != " ") {
             when (permissionForLogIn) {
                 "0" -> {
-                    intent = Intent(this, AcountantActivity::class.java)
+                    intent = Intent(this, ATeacherActivity::class.java)
+                    startActivity(intent)
                 }
                 "1" -> {
-                    intent = Intent(this, ATeacherActivity::class.java)
+                    intent = Intent(this, AStaffActivity::class.java)
+                    startActivity(intent)
                 }
                 "2" -> {
-                    intent = Intent(this, AStaffActivity::class.java)
+                    intent = Intent(this, AcountantActivity::class.java)
+                    startActivity(intent)
                 }
                 "3" -> {
                     intent = Intent(this, AdminActivity::class.java)
+                    startActivity(intent)
                 }
             }
             startActivity(intent)
@@ -140,6 +144,7 @@ class InsideActivity : AppCompatActivity() {
                             var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                             var editor = token.edit()
                             editor.putString("loginusername", email)
+                            editor.putString("password",password)
                             editor.commit()
                             // Check Permission
                             changeActivy(document.data[Parameter().comp_Permission] as String)
@@ -157,15 +162,15 @@ class InsideActivity : AppCompatActivity() {
         editor_ps.commit()
         when (permission) {
             "0" -> {
-                intent = Intent(this, AcountantActivity::class.java)
-                startActivity(intent)
-            }
-            "1" -> {
                 intent = Intent(this, ATeacherActivity::class.java)
                 startActivity(intent)
             }
-            "2" -> {
+            "1" -> {
                 intent = Intent(this, AStaffActivity::class.java)
+                startActivity(intent)
+            }
+            "2" -> {
+                intent = Intent(this, AcountantActivity::class.java)
                 startActivity(intent)
             }
             "3" -> {
