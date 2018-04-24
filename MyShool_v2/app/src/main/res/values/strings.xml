@@ -60,6 +60,6 @@
     <!--Option-->
     <string name="dialog.yes">Đồng ý</string>
     <string name="dialog.no">Hủy bỏ</string>
-
+    <string name="menu.search">Tìm kiếm...</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>
