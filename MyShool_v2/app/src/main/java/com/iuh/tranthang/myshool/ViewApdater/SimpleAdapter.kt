@@ -4,10 +4,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
+import com.google.firebase.auth.FirebaseUser
+
+
 
 
 /**
@@ -32,7 +34,7 @@ class SimpleAdapter(private val items: ArrayList<User>) : RecyclerView.Adapter<S
     }
 
     fun removeAt(position: Int) {
-//        FirebaseAuth.getInstance().removeIdTokenListener("ahihi")
+//        val user = FirebaseAuth.getInstance().re
         items.removeAt(position)
         notifyItemRemoved(position)
     }
