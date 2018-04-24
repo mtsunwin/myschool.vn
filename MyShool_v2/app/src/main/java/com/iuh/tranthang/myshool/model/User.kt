@@ -53,7 +53,9 @@ class User {
     public fun getPermission(): String {
         return permission
     }
-
+    public fun setPermission(permission: String){
+        this.permission=permission
+    }
     public fun getNumberphone(): String {
         return numberphone
     }
