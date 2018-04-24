@@ -59,11 +59,14 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
      */
     private fun firebaseListenerInit() {
         if (mAuth != null) {
+
+            Log.e("tmt data", "it will run this")
             val db = FirebaseFirestore.getInstance()
             db.collection(Parameter().root_User)
                     .get()
                     .addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
+                            Log.e("tmt data", "it will run this")
                             for (document in task.result) {
                                 Log.e("tmt data", document.data.toString())
                                 var mUser = User(document.data[Parameter().comp_UId] as String,
