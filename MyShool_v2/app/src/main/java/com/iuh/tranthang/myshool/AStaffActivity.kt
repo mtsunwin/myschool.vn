@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.ExpandableListView
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
@@ -17,10 +18,11 @@ class AStaffActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_astaff)
+        setContentView(R.layout.activity_admin)
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile=Intent(this,ProfileActivity::class.java)
         val listHeader: ArrayList<adm_display> = ArrayList()
@@ -39,7 +41,6 @@ class AStaffActivity : AppCompatActivity() {
 
         expandable_list_view.setAdapter(expandableListAdapter)
 
-        //listview.adapter = CustomAdapter(this, arrayInforMenu)
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
