@@ -34,6 +34,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     val frm_address: String = "address"
     val frm_email: String = "email"
     val frm_phone: String = "phone"
+    val frm_fullname:String="fullname"
     var permission:String=""
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
@@ -144,10 +145,12 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         }
 
         val bundle = Bundle()
-        bundle.putString(frm_address, tUser.getAddress())
-        bundle.putString(frm_birthday, tUser.getBirthday())
-        bundle.putString(frm_email, tUser.getEmail())
-        bundle.putString(frm_phone, tUser.getNumberphone())
+        Log.e("thong tin address",tUser.getAddress())
+        bundle.putString(frm_fullname,tUser.getFullname().toString())
+        bundle.putString(frm_address, tUser.getAddress().toString())
+        bundle.putString(frm_birthday, tUser.getBirthday().toString())
+        bundle.putString(frm_email, tUser.getEmail().toString())
+        bundle.putString(frm_phone, tUser.getNumberphone().toString())
         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)
@@ -162,7 +165,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         tabLayout!!.setupWithViewPager(viewPager)
 
         fab_changeInfo.setOnClickListener { view ->
-            var intent = Intent(this, RegisterActivity::class.java)
+            var intent = Intent(this, UpdateProfileActivity::class.java)
             startActivity(intent)
         }
     }

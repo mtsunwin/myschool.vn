@@ -29,7 +29,9 @@ class dbConnect {
     fun getUser(): String {
         return this.user!!.getAddress()
     }
-
+    fun getAllInfoUser():User{
+        return this.user!!
+    }
     /**
      *  Check Xem con login hay không
      */
@@ -39,7 +41,12 @@ class dbConnect {
             return true
         return false
     }
-
+    public fun getUid(): String {
+        if (isAuthentication())
+            return mAuth!!.uid!!
+        else
+            return ""
+    }
     public fun query() {
 
     }
