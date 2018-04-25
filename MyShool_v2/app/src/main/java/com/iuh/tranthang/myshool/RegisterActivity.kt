@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
     private var awesomeValidation: AwesomeValidation? = null
 
     private var textCongviec: Boolean? = true
-    private var textToCongTac: String? = " "
+    private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
     private var mUser: User? = null
     private val PICK_IMAGE_REQUEST = 1234
@@ -126,7 +126,7 @@ class RegisterActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedItem = p0!!.getItemAtPosition(p2).toString()
                 if (selectedItem.equals("Tổ công tác.."))
-                    textToCongTac = " "
+                    textToCongTac = ""
                 else
                     textToCongTac = selectedItem
             }
@@ -255,13 +255,14 @@ class RegisterActivity : AppCompatActivity() {
                                 val userId = mAuth!!.currentUser!!.uid
                                 // update user profile information
                                 val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
+                                currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("fullname").setValue(txtFullname)
                                 currentUserDb.child("address").setValue(txtAddress)
                                 currentUserDb.child("birthday").setValue(txtBirthday)
                                 currentUserDb.child("numberphone").setValue(txtNumberphone)
                                 currentUserDb.child("permission").setValue(intPermisstion)
                                 currentUserDb.child("email").setValue(txtUsername)
-                                currentUserDb.child("toCongTac").setValue(textToCongTac)
+                                Log.e("ToCongTac",textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
                                 if (intPermisstion == 1) {

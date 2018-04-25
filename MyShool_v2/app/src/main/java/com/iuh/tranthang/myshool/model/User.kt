@@ -66,10 +66,13 @@ class User {
         this.permission = permission
     }
 
-    public fun getNumberphone(): String {
-        return numberphone
-    }
 
+    public fun gettoCongtac():String{
+        return toCongTac
+    }
+    public fun settoCongTac(toCongTac: String) {
+        this.toCongTac = toCongTac
+    }
     public fun getUrl(): String {
         return url
     }
@@ -89,7 +92,9 @@ class User {
     public fun setNumberphone(numberphone: String) {
         this.numberphone = numberphone
     }
-
+    public fun getNumberphone(): String {
+        return numberphone
+    }
     public fun setEmail(email: String) {
         this.email = email
     }
@@ -98,9 +103,7 @@ class User {
         this.birthday = birthday
     }
 
-    public fun settoCongTac(toCongTac: String) {
-        this.toCongTac = toCongTac
-    }
+
 
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
