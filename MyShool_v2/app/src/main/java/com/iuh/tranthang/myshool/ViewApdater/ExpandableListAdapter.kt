@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import com.iuh.tranthang.myshool.CreateNotificationActivity
 import com.iuh.tranthang.myshool.ListUserActivity
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.RegisterActivity
@@ -80,6 +81,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
             when (childText.getId()) {
                 12 -> addAccount(converView)
                 11 -> listAccount(converView)
+                22 -> createNotification(converView)
             }
         })
 
@@ -95,6 +97,11 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
     // ID 12: Thêm tài khoản
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
+
+    private fun createNotification(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, CreateNotificationActivity::class.java)
         ContextCompat.startActivity(context, intent, null)
     }
 

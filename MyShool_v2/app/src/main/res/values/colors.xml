@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="color.Background">#c30c2aea</color>
+    <color name="color.Background">#7f03158b</color>
     <color name="color.Background.Opacity">#280c2aea</color>
     <!--Màu Text START-->
     <color name="color.Text.in.Background">#FFFFFF</color>

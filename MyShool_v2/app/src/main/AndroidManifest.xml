@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iuh.tranthang.myshool">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,20 +16,22 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_phone_call" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="Thang dep trai" />
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".InsideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,19 +39,19 @@
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".AdminActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AdminActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ATeacherActivity"
             android:label="@string/title_activity_teacher"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".AStaffActivity"></activity>
-        <activity android:name=".AcountantActivity"></activity>
-        <activity android:name=".ListUserActivity"></activity>
-        <activity android:name=".UpdateProfileActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AStaffActivity" />
+        <activity android:name=".AcountantActivity" />
+        <activity android:name=".ListUserActivity" />
+        <activity android:name=".UpdateProfileActivity" />
 
         <service android:name=".Firebase.MyFirebaseMessagingService">
             <intent-filter>
@@ -62,7 +64,8 @@
             </intent-filter>
         </service>
 
-
+        <activity android:name=".CreateNotificationActivity">
+        </activity>
     </application>
 
 </manifest>

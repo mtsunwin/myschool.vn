@@ -49,37 +49,6 @@
           "status": 2
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:854326266016:android:d337d0c5e3fc1e9b",
-        "android_client_info": {
-          "package_name": "vn.iuhthangnghia.lotus"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "854326266016-6g07bd494tr1d956882c5boerhemh3ri.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAoKyvTD0ADkaPAGwvo-ufkeytllw-II-s"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
     }
   ],
   "configuration_version": "1"
