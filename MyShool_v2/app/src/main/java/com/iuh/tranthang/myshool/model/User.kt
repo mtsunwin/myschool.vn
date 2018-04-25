@@ -110,7 +110,7 @@ class User {
         this.url = url
     }
 
-    public fun getAction(): Boolean {
+    public fun isAction(): Boolean {
         return action
     }
 

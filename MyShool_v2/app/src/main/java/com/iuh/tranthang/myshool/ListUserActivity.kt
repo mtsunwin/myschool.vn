@@ -89,16 +89,15 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                 var temp: Boolean = false
                                 for (cUser in listUser) {
                                     if (cUser.getUid() == mUser.getUid()) {
-                                        cUser.setAddress(mUser.getAddress())
-                                        cUser.setBirthday(mUser.getBirthday())
-                                        cUser.setEmail(mUser.getEmail())
-                                        cUser.setFullname(mUser.getFullname())
+//                                        cUser.setAddress(mUser.getAddress())
+//                                        cUser.setBirthday(mUser.getBirthday())
+//                                        cUser.setEmail(mUser.getEmail())
+//                                        cUser.setFullname(mUser.getFullname())
                                         temp = true
                                     }
                                 }
-                                if (!temp) {
+                                if (!temp && mUser.isAction()) {
                                     listUser.add(mUser)
-                                    Log.e("tmt add", "oke")
                                 }
                             }
                             callAdapter(listUser)
