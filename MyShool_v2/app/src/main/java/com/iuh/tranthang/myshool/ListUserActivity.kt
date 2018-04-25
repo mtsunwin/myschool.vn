@@ -72,9 +72,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                     .get()
                     .addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
-                            Log.e("tmt data", "it will run this")
+                            listUser.clear()
                             for (document in task.result) {
-                                Log.e("tmt data", document.data.toString())
                                 var mUser = User(document.data[Parameter().comp_UId] as String,
                                         document.data[Parameter().comp_fullname] as String,
                                         document.data[Parameter().comp_Permission] as String,
@@ -87,19 +86,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter().comp_url] as String,
                                         document.data[Parameter().comp_action] as Boolean
                                 )
-                                var temp: Boolean = false
-                                for (cUser in listUser) {
-                                    if (cUser.getUid() == mUser.getUid()) {
-//                                        cUser.setAddress(mUser.getAddress())
-//                                        cUser.setBirthday(mUser.getBirthday())
-//                                        cUser.setEmail(mUser.getEmail())
-//                                        cUser.setFullname(mUser.getFullname())
-                                        temp = true
-                                    }
-                                }
-                                if (!temp && mUser.isAction()) {
+                                if (document.data[Parameter().comp_action].toString() == "true")
                                     listUser.add(mUser)
-                                }
                             }
                             callAdapter(listUser)
                         } else {

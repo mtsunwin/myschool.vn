@@ -1,7 +1,6 @@
 package com.iuh.tranthang.myshool
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
@@ -264,6 +263,23 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
+
+                                if (filePath != null) {
+                                    val progressDialog = ProgressDialog(this)
+                                    progressDialog.setTitle("Uploading...")
+                                    progressDialog.show()
+                                    val imageRef = storageReference!!.child("images/" + userId.toString())
+                                    Log.e("Image:", imageRef.path)
+                                    imageRef.putFile(filePath!!).addOnSuccessListener {
+                                        progressDialog.dismiss()
+                                        Toast.makeText(applicationContext, "UP HINH THANH CONG", Toast.LENGTH_SHORT).show()
+                                    }
+                                            .addOnProgressListener { taskSnapshot ->
+                                                val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                                                progressDialog.setMessage("Uploaded" + progress.toInt() + "")
+                                            }
+                                }
+
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
@@ -272,7 +288,6 @@ class RegisterActivity : AppCompatActivity() {
                                 } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                         txtBirthday.toString(), "", "", "", true)
-
                                 // Khởi tạo Root
                                 db.collection(Parameter().root_User)
                                         .document(userId)
