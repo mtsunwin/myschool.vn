@@ -66,10 +66,7 @@ class RegisterActivity : AppCompatActivity() {
     private var textToCongTac: String? = " "
     private var textChucVu: String? = "Nhan vien"
     private var mUser: User? = null
-    private var btnUpload: Button? = null
     private val PICK_IMAGE_REQUEST = 1234
-    private var filePath: Uri? = null
-    private var btnUp: Button? = null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
 
@@ -90,8 +87,6 @@ class RegisterActivity : AppCompatActivity() {
         birthday = findViewById<View>(R.id.birthday) as EditText?
         txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
 //      upload file
-        btnUpload = findViewById<Button>(R.id.btnUploadFile)
-        btnUp = findViewById(R.id.btnUp)
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
         spinnerPermisstion = findViewById<View>(R.id.selectPermission) as Spinner?
@@ -151,16 +146,11 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         mProgressBar = ProgressDialog(this)
-        //btnUploadImage
-        btnUpload!!.setOnClickListener { view ->
-            showFileChooser()
-        }
-        btnUp!!.setOnClickListener { view -> upload() }
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
-        awesomeValidation!!.addValidation(this, R.id.fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.fullname, "([a-zA-Z' ]+){6,}", R.string.validation_fullname)
         awesomeValidation!!.addValidation(this, R.id.password, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
-        awesomeValidation!!.addValidation(this, R.id.address, "^[A-Za-z0-9]{6,}\$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.address, "^([a-zA-Z0-9' ]+){6,}", R.string.validation_address)
         awesomeValidation!!.addValidation(this, R.id.numberphone, "^[0-9]{9,}\$", R.string.validation_phone)
 //        awesomeValidation!!.addValidation(this, R.id.selectPermission, "!=", R.string.validation_phone)
         // POP DATE
@@ -207,30 +197,6 @@ class RegisterActivity : AppCompatActivity() {
                 else createNewAccount()
             }
         }
-    }
-    //hàm upload file
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK &&
-                data != null && data.data != null) {
-            filePath = data.data
-            try {
-                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                imageView!!.setImageBitmap(bitmap)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    // hiển thị hình lên giao diện
-    private fun showFileChooser() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Chon hinh"), PICK_IMAGE_REQUEST)
     }
 
     //upload hinh len firebase
@@ -298,22 +264,6 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("toCongTac").setValue(textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
-                                if (filePath != null) {
-                                    val progressDialog = ProgressDialog(this)
-                                    progressDialog.setTitle("Uploading...")
-                                    progressDialog.show()
-
-                                    val imageRef = storageReference!!.child("images/" + userId.toString())
-                                    Log.e("Image:", imageRef.path)
-                                    imageRef.putFile(filePath!!).addOnSuccessListener {
-                                        progressDialog.dismiss()
-                                        Toast.makeText(applicationContext, "UP HINH THANH CONG", Toast.LENGTH_SHORT).show()
-                                    }
-                                            .addOnProgressListener { taskSnapshot ->
-                                                val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
-                                                progressDialog.setMessage("Uploaded" + progress.toInt() + "")
-                                            }
-                                }
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),

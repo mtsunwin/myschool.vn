@@ -251,7 +251,7 @@ class UpdateProfileActivity : AppCompatActivity() {
                     else
                         items.put("url",result.data[Parameter().comp_url].toString())
                     items.put("toCongTac",result.data[Parameter().comp_toCongTac].toString())
-
+                    items.put("action",result.data[Parameter().comp_action].toString())
                     Log.e("Items",items.toString())
                     if (result.exists()) {
                         dbFireStore!!.collection(Parameter().root_User)
