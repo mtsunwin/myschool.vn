@@ -24,8 +24,9 @@
 
 
     <string name="title_activity_register">RegisterActivity</string>
-
     <string name="validation.null">Bạn không được để trống!</string>
+    <string name="validation.address">từ 6 kí tự trở lên!</string>
+    <string name="validation.fullname">tên từ 6-15 kí tự!</string>
     <string name="validation.email">Địa chỉ E-Mail không chính xác</string>
     <string name="validation.number">Bạn phải nhập trên 6 ký tự</string>
     <string name="validation.phone">Đây có phải là số điện thoại của bạn?</string>

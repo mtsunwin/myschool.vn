@@ -1,6 +1,7 @@
 package com.iuh.tranthang.myshool
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
@@ -78,7 +79,6 @@ class RegisterActivity : AppCompatActivity() {
         initialise()
         Log.e("CongViecCreate:......", textCongviec.toString())
     }
-
 
     private fun initialise() {
         fullname = findViewById<View>(R.id.fullname) as EditText?

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.Firebase.dbConnect
+import com.iuh.tranthang.myshool.ViewApdater.ProfileFragment
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -31,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_updateprofile.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.Delayed
 import kotlin.collections.HashMap
 
 
@@ -71,12 +74,13 @@ class UpdateProfileActivity : AppCompatActivity() {
     private var storageReference: StorageReference? = null
     private var mAuth: FirebaseAuth? = null
     private var dbFireStore:FirebaseFirestore?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_updateprofile)
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
-        awesomeValidation!!.addValidation(this, R.id.update_fullname, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
-        awesomeValidation!!.addValidation(this, R.id.update_address, "^[A-Za-z\\s\\u0080-\\u9fff]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.validation_number)
+        awesomeValidation!!.addValidation(this, R.id.update_fullname, "([a-zA-Z' ]+){6,}", R.string.validation_address)
+        awesomeValidation!!.addValidation(this, R.id.update_address, "([a-zA-Z' ]+){6,}", R.string.validation_address)
         awesomeValidation!!.addValidation(this, R.id.update_numberphone, "^[0-9]{9,}\$", R.string.validation_phone)
         update_initialise()
         btnUpload!!.setOnClickListener { view ->
@@ -227,7 +231,6 @@ class UpdateProfileActivity : AppCompatActivity() {
                         Log.e("Image:",imageRef.path)
                         imageRef.putFile(filePath!!).addOnSuccessListener {
                             progressDialog.dismiss()
-                            Toast.makeText(applicationContext,"KHONG THANH CONG UP HINH",Toast.LENGTH_SHORT).show()
                         }
                                 .addOnProgressListener { taskSnapshot ->
                                     val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
@@ -260,21 +263,12 @@ class UpdateProfileActivity : AppCompatActivity() {
                     } else {
                         Log.e("Update", "false")
                     }
+
             })
 
         }
-/*
-        if (intPermisstion == 0) {
-            mUser = User(dbConnect().getUid(), txtFullname.toString(), token_ps.getString("permission","")
-                    , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                    txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(),"")
-        }
-        else mUser = User(dbConnect().getUid(), txtFullname.toString(), token_ps.getString("permission","")
-                , txtNumberphone.toString(), txtAddress.toString(), token.getString("loginusername",""),txtBirthday.toString(),"","","")
-*/
+        ProfileActivity().finish()
+        this.finish()
+
     }
-
-
-
-
 }
