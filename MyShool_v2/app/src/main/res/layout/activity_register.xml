@@ -107,20 +107,6 @@
                     android:textColor="@color/color.Text.in.Background"
                     android:textColorHint="@color/color.Text.in.Background.Dark" />
 
-                <Button
-                    android:id="@+id/btnUploadFile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="up avatar"/>
-                <Button
-                    android:id="@+id/btnUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="up"/>
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <Button
