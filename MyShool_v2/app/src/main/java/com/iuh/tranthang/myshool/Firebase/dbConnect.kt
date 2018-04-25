@@ -29,7 +29,9 @@ class dbConnect {
     fun getUser(): String {
         return this.user!!.getAddress()
     }
-
+    fun getAllInfoUser():User{
+        return this.user!!
+    }
     /**
      *  Check Xem con login hay không
      */
