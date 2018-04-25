@@ -65,7 +65,6 @@ class RegisterActivity : AppCompatActivity() {
     private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
     private var mUser: User? = null
-    private val PICK_IMAGE_REQUEST = 1234
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
 
@@ -125,7 +124,7 @@ class RegisterActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedItem = p0!!.getItemAtPosition(p2).toString()
                 if (selectedItem.equals("Tổ công tác.."))
-                    textToCongTac = ""
+                    textToCongTac = " "
                 else
                     textToCongTac = selectedItem
             }
@@ -264,7 +263,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Log.e("ToCongTac",textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
-                              
+
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
@@ -274,9 +273,9 @@ class RegisterActivity : AppCompatActivity() {
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                         txtBirthday.toString(), "", "", "", true)
                                 // Khởi tạo Root
+                                Log.e("USER",mUser.getEmail()+"-"+mUser.getBirthday()+"-"+mUser.getToCongTac())
                                 db.collection(Parameter().root_User)
-                                        .document(userId)
-                                        .set(mUser)
+                                        .document(userId).set(mUser)
                                         .addOnSuccessListener { documentReference ->
                                             updateUserInfoAndUI()
                                         }

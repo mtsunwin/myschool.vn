@@ -31,7 +31,6 @@ class User {
         this.url = url
         this.action = action
     }
-
     constructor()
 
     public fun getChucVu(): String {
@@ -66,17 +65,12 @@ class User {
         this.permission = permission
     }
 
-
-    public fun gettoCongtac():String{
-        return toCongTac
-    }
-    public fun settoCongTac(toCongTac: String) {
-        this.toCongTac = toCongTac
-    }
     public fun getUrl(): String {
         return url
     }
-
+    public fun getToCongTac():String{
+        return toCongTac
+    }
     public fun setUid(id: String) {
         this.uid = id
     }
@@ -102,9 +96,6 @@ class User {
     public fun setBirthday(birthday: String) {
         this.birthday = birthday
     }
-
-
-
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
     }
@@ -119,6 +110,9 @@ class User {
 
     public fun setAction(ac: Boolean) {
         this.action = ac
+    }
+    public fun setToCongTac(toCongTac:String){
+        this.toCongTac=toCongTac
     }
 
     fun toMap(): HashMap<String, String> {
@@ -136,4 +130,6 @@ class User {
         result.put(Parameter().comp_UId, uid)
         return result
     }
+
+
 }
