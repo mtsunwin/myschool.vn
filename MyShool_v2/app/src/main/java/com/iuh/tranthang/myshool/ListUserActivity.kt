@@ -161,10 +161,12 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         dialog.show()
     }
 
+    /**
+     * Menu Search
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbar_menu, menu)
         val searchItem = menu!!.findItem(R.id.action_search)
-
         if (searchItem != null) {
             var searchView = MenuItemCompat.getActionView(searchItem) as SearchView
             searchView.setOnCloseListener(object : SearchView.OnCloseListener {
@@ -187,13 +189,20 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     Log.e("tmt", newText)
+                    var c = "abcde"
+                    for (mUser in listUser) {
+                        var ccheck = mUser.getFullname()
+                        if (ccheck.contains(c)) {
+                            Log.e("tmt check", "true")
+                        } else {
+                            Log.e("tmt check", "true")
+                        }
+                    }
                     return true
                 }
-
             })
             val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
             searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-
         }
         return super.onCreateOptionsMenu(menu)
     }

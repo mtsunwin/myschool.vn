@@ -11,10 +11,11 @@ class User {
     private var address: String = ""
     private var birthday: String = ""
     private var email: String = ""
-    private var toCongTac:String =""
-    private var chucVu:String=""
+    private var toCongTac: String = ""
+    private var chucVu: String = ""
+
     constructor(id: String, fullname: String, permission: String, numberphone: String,
-                address: String, email: String, birthday: String,toCongTac:String,chucVu:String) {
+                address: String, email: String, birthday: String, toCongTac: String, chucVu: String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -22,14 +23,16 @@ class User {
         this.permission = permission
         this.uid = id
         this.birthday = birthday
-        this.toCongTac= toCongTac
-        this.chucVu=chucVu
+        this.toCongTac = toCongTac
+        this.chucVu = chucVu
     }
 
     constructor()
-    public fun getChucVu():String{
+
+    public fun getChucVu(): String {
         return chucVu
     }
+
     public fun getUid(): String {
         return uid
     }
@@ -81,6 +84,7 @@ class User {
     public fun setBirthday(birthday: String) {
         this.birthday = birthday
     }
+
     public fun settoCongTac(toCongTac: String) {
         this.toCongTac = toCongTac
     }
@@ -97,8 +101,9 @@ class User {
         result.put("numberphone", numberphone)
         result.put("permission", permission)
         result.put("email", email)
-        result.put("toCongTac",toCongTac)
-        result.put("chucVu",chucVu)
+        result.put("toCongTac", toCongTac)
+        result.put("chucVu", chucVu)
         return result
     }
+
 }
