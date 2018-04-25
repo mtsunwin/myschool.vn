@@ -1,13 +1,10 @@
 package com.iuh.tranthang.myshool
 
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
@@ -24,8 +21,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
-import kotlinx.android.synthetic.main.activity_register.*
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -80,7 +75,7 @@ class RegisterActivity : AppCompatActivity() {
         fullname = findViewById<View>(R.id.fullname) as EditText?
         username = findViewById<View>(R.id.username) as EditText?
         password = findViewById<View>(R.id.password) as EditText?
-        btnLogin = findViewById<View>(R.id.btnRegister) as Button?
+        btnLogin = findViewById<View>(R.id.btn_rRegister) as Button?
         address = findViewById<View>(R.id.address) as EditText?
         numberphone = findViewById<View>(R.id.numberphone) as EditText?
         birthday = findViewById<View>(R.id.birthday) as EditText?
@@ -264,7 +259,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Log.e("ToCongTac",textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
-                              
+
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
