@@ -23,6 +23,7 @@ import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import java.util.concurrent.Delayed
 
 
 class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() {
