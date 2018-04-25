@@ -41,7 +41,6 @@ internal class DataAdapter(private val names: ArrayList<User>) : RecyclerView.Ad
         var tv_names: TextView
 
         init {
-
             tv_names = view.findViewById(R.id.txt_fullname) as TextView
         }
     }
