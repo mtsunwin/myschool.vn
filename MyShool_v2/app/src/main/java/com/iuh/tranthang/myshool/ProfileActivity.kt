@@ -34,7 +34,8 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     val frm_address: String = "address"
     val frm_email: String = "email"
     val frm_phone: String = "phone"
-
+    val frm_fullname:String="fullname"
+    var permission:String=""
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
     var pageAdapter: PageAdapter? = null
@@ -67,16 +68,12 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                                 var tUser = User()
                                 tUser.setAddress(result.data[Parameter().comp_address].toString())
                                 tUser.setFullname(result.data[Parameter().comp_fullname].toString())
-                                var tChv = ""
-                                val listStringPermission = applicationContext.resources.getStringArray(R.array.select_permission)
-                                when (result.data[Parameter().comp_Permission].toString()) {
-                                    "0" -> tChv = listStringPermission.get(1)
-                                    "1" -> tChv = listStringPermission.get(2)
-                                    "2" -> tChv = listStringPermission.get(3)
-                                    "3" -> tChv = listStringPermission.get(4)
-                                }
-                                tUser.setChucVu(tChv)
-                                Log.e("Tmt inside", "nnnnnnnnnnn")
+                                tUser.setPermission(result.data[Parameter().comp_Permission].toString())
+                                tUser.setBirthday(result.data[Parameter().comp_birthday].toString())
+                                tUser.setNumberphone(result.data[Parameter().comp_numberphone].toString())
+                                tUser.setEmail(result.data[Parameter().comp_email].toString())
+                                Log.e("Tmt inside abcd", tUser.getFullname()+"-"+tUser.getAddress()+"-"+tUser.getBirthday()+"-"+
+                                        tUser.getNumberphone())
                                 updateUI(tUser)
                             } else {
                                 Log.e("tmt false", "false")
@@ -127,13 +124,33 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     private fun updateUI(tUser: User) {
         Log.e("tmt UI", "oke")
         txt_nickname.setText(tUser.getFullname())
-        txt_chucvu.setText(tUser.getChucVu())
+        permission=tUser.getPermission().toString()
+        Log.e("Permission profile",permission.toString())
+        when (permission) {
+            "0" -> {
+                txt_chucvu.setText("Kế toán")
+            }
+            "1" -> {
+                txt_chucvu.setText("Giáo viên")
+            }
+            "2" -> {
+                txt_chucvu.setText("Nhân viên")
+            }
+            "3" -> {
+                txt_chucvu.setText("Admin")
+            }
+            else -> {
+                Log.e("tmt-123123", permission + " - Lỗi")
+            } // THONG BAO LOI !!!
+        }
 
         val bundle = Bundle()
-        bundle.putString(frm_address, tUser.getAddress())
-        bundle.putString(frm_birthday, tUser.getBirthday())
-        bundle.putString(frm_email, tUser.getEmail())
-        bundle.putString(frm_phone, tUser.getNumberphone())
+        Log.e("thong tin address",tUser.getAddress())
+        bundle.putString(frm_fullname,tUser.getFullname().toString())
+        bundle.putString(frm_address, tUser.getAddress().toString())
+        bundle.putString(frm_birthday, tUser.getBirthday().toString())
+        bundle.putString(frm_email, tUser.getEmail().toString())
+        bundle.putString(frm_phone, tUser.getNumberphone().toString())
         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)
@@ -148,7 +165,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         tabLayout!!.setupWithViewPager(viewPager)
 
         fab_changeInfo.setOnClickListener { view ->
-            var intent = Intent(this, RegisterActivity::class.java)
+            var intent = Intent(this, UpdateProfileActivity::class.java)
             startActivity(intent)
         }
     }

@@ -13,8 +13,9 @@ class User {
     private var email: String = ""
     private var toCongTac:String =""
     private var chucVu:String=""
+    private var url:String=""
     constructor(id: String, fullname: String, permission: String, numberphone: String,
-                address: String, email: String, birthday: String,toCongTac:String,chucVu:String) {
+                address: String, email: String, birthday: String,toCongTac:String,chucVu:String,url:String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -24,6 +25,7 @@ class User {
         this.birthday = birthday
         this.toCongTac= toCongTac
         this.chucVu=chucVu
+        this.url=url
     }
 
     constructor()
@@ -53,11 +55,15 @@ class User {
     public fun getPermission(): String {
         return permission
     }
-
+    public fun setPermission(permission: String){
+        this.permission=permission
+    }
     public fun getNumberphone(): String {
         return numberphone
     }
-
+    public fun getUrl() :String{
+        return url
+    }
     public fun setUid(id: String) {
         this.uid = id
     }
@@ -88,6 +94,9 @@ class User {
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
     }
+    public fun setUrl(url:String){
+        this.url=url
+    }
 
     fun toMap(): Map<String, Any> {
         val result = HashMap<String, Any>()
@@ -99,6 +108,7 @@ class User {
         result.put("email", email)
         result.put("toCongTac",toCongTac)
         result.put("chucVu",chucVu)
+        result.put("url",url)
         return result
     }
 }

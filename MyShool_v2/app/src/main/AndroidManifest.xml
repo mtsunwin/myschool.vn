@@ -49,6 +49,7 @@
         <activity android:name=".AStaffActivity"></activity>
         <activity android:name=".AcountantActivity"></activity>
         <activity android:name=".ListUserActivity"></activity>
+        <activity android:name=".UpdateProfileActivity"></activity>
 
         <service android:name=".Firebase.MyFirebaseMessagingService">
             <intent-filter>

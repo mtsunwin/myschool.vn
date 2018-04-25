@@ -14,4 +14,5 @@ class Parameter() {
     public val comp_fullname = "fullname"
     public val comp_toCongTac = "toCongTac"
     public val comp_chucVu = "chucVu"
+    public val comp_url="url"
 }
