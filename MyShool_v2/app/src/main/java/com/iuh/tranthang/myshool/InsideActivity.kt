@@ -102,7 +102,6 @@ class InsideActivity : AppCompatActivity() {
     private fun loginUser() {
         email = edit_username.text.toString()
         password = edit_password.text.toString()
-
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC)
         awesomeValidation!!.addValidation(this, R.id.edit_username, Patterns.EMAIL_ADDRESS, R.string.usernameLogInError)
         awesomeValidation!!.addValidation(this, R.id.edit_password, "[A-Za-z0-9]{6,}", R.string.PasswordLogInError)
@@ -111,6 +110,7 @@ class InsideActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         mProgressBar!!.hide()
                         if (task.isSuccessful) {
+
                             updateUI()
                         } else {
                             Log.e("tm", "signInWithEmail:failure", task.exception)
@@ -142,7 +142,8 @@ class InsideActivity : AppCompatActivity() {
                             editor.putString("loginusername", email)
                             editor.commit()
                             // Check Permission
-                            changeActivy(document.data[Parameter().comp_Permission] as String)
+                            if (document.data[Parameter().comp_action].toString() == "true")
+                                changeActivy(document.data[Parameter().comp_Permission] as String)
                         }
                     } else {
                         Log.d("tmt", "Error getting documents: ", task.exception)
