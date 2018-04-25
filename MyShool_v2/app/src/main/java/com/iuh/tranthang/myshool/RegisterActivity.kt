@@ -317,10 +317,11 @@ class RegisterActivity : AppCompatActivity() {
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                            txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(),"")
+                                            txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(), "",
+                                            true)
                                 } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                        txtBirthday.toString(), "", "","")
+                                        txtBirthday.toString(), "", "", "", true)
 
                                 // Khởi tạo Root
                                 db.collection(Parameter().root_User)

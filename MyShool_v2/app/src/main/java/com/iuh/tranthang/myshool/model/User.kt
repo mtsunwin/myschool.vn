@@ -11,12 +11,14 @@ class User {
     private var address: String = ""
     private var birthday: String = ""
     private var email: String = ""
+    private var toCongTac: String = ""
+    private var chucVu: String = ""
+    private var url: String = ""
+    private var action: Boolean = true
 
-    private var toCongTac:String =""
-    private var chucVu:String=""
-    private var url:String=""
     constructor(id: String, fullname: String, permission: String, numberphone: String,
-                address: String, email: String, birthday: String,toCongTac:String,chucVu:String,url:String) {
+                address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
+                action: Boolean) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -24,10 +26,10 @@ class User {
         this.permission = permission
         this.uid = id
         this.birthday = birthday
-
-        this.toCongTac= toCongTac
-        this.chucVu=chucVu
-        this.url=url
+        this.toCongTac = toCongTac
+        this.chucVu = chucVu
+        this.url = url
+        this.action = action
     }
 
     constructor()
@@ -59,15 +61,19 @@ class User {
     public fun getPermission(): String {
         return permission
     }
-    public fun setPermission(permission: String){
-        this.permission=permission
+
+    public fun setPermission(permission: String) {
+        this.permission = permission
     }
+
     public fun getNumberphone(): String {
         return numberphone
     }
-    public fun getUrl() :String{
+
+    public fun getUrl(): String {
         return url
     }
+
     public fun setUid(id: String) {
         this.uid = id
     }
@@ -99,22 +105,32 @@ class User {
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
     }
-    public fun setUrl(url:String){
-        this.url=url
+
+    public fun setUrl(url: String) {
+        this.url = url
     }
 
-    fun toMap(): Map<String, Any> {
-        val result = HashMap<String, Any>()
-        result.put("fullname", fullname)
-        result.put("address", address)
-        result.put("birthday", birthday)
-        result.put("numberphone", numberphone)
-        result.put("permission", permission)
-        result.put("email", email)
-        result.put("toCongTac",toCongTac)
-        result.put("chucVu",chucVu)
-        result.put("url",url)
+    public fun getAction(): Boolean {
+        return action
+    }
+
+    public fun setAction(ac: Boolean) {
+        this.action = ac
+    }
+
+    fun toMap(): HashMap<String, String> {
+        val result = HashMap<String, String>()
+        result.put(Parameter().comp_fullname, fullname)
+        result.put(Parameter().comp_address, address)
+        result.put(Parameter().comp_birthday, birthday)
+        result.put(Parameter().comp_numberphone, numberphone)
+        result.put(Parameter().comp_Permission, permission)
+        result.put(Parameter().comp_email, email)
+        result.put(Parameter().comp_toCongTac, toCongTac)
+        result.put(Parameter().comp_chucVu, chucVu)
+        result.put(Parameter().comp_url, url)
+        result.put(Parameter().comp_action, action.toString())
+        result.put(Parameter().comp_UId, uid)
         return result
     }
-
 }

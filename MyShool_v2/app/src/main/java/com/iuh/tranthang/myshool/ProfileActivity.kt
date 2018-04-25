@@ -35,6 +35,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     val frm_email: String = "email"
     val frm_phone: String = "phone"
     val frm_fullname:String="fullname"
+
     var permission:String=""
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null

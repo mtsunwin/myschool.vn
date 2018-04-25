@@ -32,7 +32,6 @@ import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_list_user.*
-import java.util.*
 
 
 class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
@@ -66,7 +65,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
      */
     private fun firebaseListenerInit() {
         if (mAuth != null) {
-
             Log.e("tmt data", "it will run this")
             val db = FirebaseFirestore.getInstance()
             db.collection(Parameter().root_User)
@@ -85,7 +83,9 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter().comp_birthday] as String,
                                         document.data[Parameter().comp_toCongTac] as String,
                                         document.data[Parameter().comp_chucVu] as String,
-                                        document.data[Parameter().comp_url] as String)
+                                        document.data[Parameter().comp_url] as String,
+                                        document.data[Parameter().comp_action] as Boolean
+                                )
                                 var temp: Boolean = false
                                 for (cUser in listUser) {
                                     if (cUser.getUid() == mUser.getUid()) {
@@ -114,22 +114,19 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     * Khơi tạo Adapter và danh sách
     * */
     private fun callAdapter(listUser: ArrayList<User>) {
-
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
-
         var adapter = DataAdapter(listUser)
         val simpleAdapter = SimpleAdapter(listUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
-
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView!!.adapter as SimpleAdapter
+                Log.e("tmt deleted", direction.toString())
                 showDialog(adapter, viewHolder)
             }
         }
-
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
@@ -154,6 +151,13 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         })
         builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
+                Log.e("tmt onClick", p1.toString())
+                var dUser: User = listUser.get(viewHolder.adapterPosition)
+                var dbFireStore = FirebaseFirestore.getInstance()
+                dbFireStore.collection(Parameter().root_User)
+
+
+                Log.e("tmt", "run")
                 adapter.removeAt(viewHolder.adapterPosition)
             }
 
@@ -189,14 +193,13 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    Log.e("tmt", newText)
-                    var c = "abcde"
+                    var tempList: ArrayList<User> = ArrayList<User>()
                     for (mUser in listUser) {
-                        var ccheck = mUser.getFullname()
-                        if (ccheck.contains(c)) {
-                            Log.e("tmt check", "true")
-                        } else {
-                            Log.e("tmt check", "false")
+                        var fCheck = mUser.getFullname().toLowerCase()
+                        var fCompare = newText!!.toLowerCase()
+                        if (fCheck.contains(fCompare)) {
+                            tempList.add(mUser)
+                            callAdapter(tempList)
                         }
                     }
                     return true
