@@ -196,7 +196,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                         if (ccheck.contains(c)) {
                             Log.e("tmt check", "true")
                         } else {
-                            Log.e("tmt check", "true")
+                            Log.e("tmt check", "false")
                         }
                     }
                     return true

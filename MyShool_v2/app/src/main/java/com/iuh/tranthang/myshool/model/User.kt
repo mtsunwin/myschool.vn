@@ -11,19 +11,12 @@ class User {
     private var address: String = ""
     private var birthday: String = ""
     private var email: String = ""
-<<<<<<< HEAD
-    private var toCongTac: String = ""
-    private var chucVu: String = ""
 
-    constructor(id: String, fullname: String, permission: String, numberphone: String,
-                address: String, email: String, birthday: String, toCongTac: String, chucVu: String) {
-=======
     private var toCongTac:String =""
     private var chucVu:String=""
     private var url:String=""
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String,toCongTac:String,chucVu:String,url:String) {
->>>>>>> 342f18956e707d30f01493e469a75ee811c7e1af
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -31,14 +24,10 @@ class User {
         this.permission = permission
         this.uid = id
         this.birthday = birthday
-<<<<<<< HEAD
-        this.toCongTac = toCongTac
-        this.chucVu = chucVu
-=======
+
         this.toCongTac= toCongTac
         this.chucVu=chucVu
         this.url=url
->>>>>>> 342f18956e707d30f01493e469a75ee811c7e1af
     }
 
     constructor()
@@ -122,14 +111,9 @@ class User {
         result.put("numberphone", numberphone)
         result.put("permission", permission)
         result.put("email", email)
-<<<<<<< HEAD
-        result.put("toCongTac", toCongTac)
-        result.put("chucVu", chucVu)
-=======
         result.put("toCongTac",toCongTac)
         result.put("chucVu",chucVu)
         result.put("url",url)
->>>>>>> 342f18956e707d30f01493e469a75ee811c7e1af
         return result
     }
 
