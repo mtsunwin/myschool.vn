@@ -25,6 +25,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
@@ -154,10 +155,15 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                 var dUser: User = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()
                 dbFireStore.collection(Parameter().root_User)
-
-
-                Log.e("tmt", "run")
-                adapter.removeAt(viewHolder.adapterPosition)
+                Log.e("tmt id", dUser.getUid())
+                var washingtonRef: DocumentReference =
+                        dbFireStore.collection(Parameter().root_User).document(dUser.getUid())
+                washingtonRef.update(Parameter().comp_action, false).addOnSuccessListener { void ->
+                    firebaseListenerInit()
+                }.addOnFailureListener { exception ->
+                    Log.e("tmt", "that bai")
+                }
+//                adapter.removeAt(viewHolder.adapterPosition)
             }
 
         })
