@@ -1,14 +1,27 @@
 package com.iuh.tranthang.myshool
 
+import android.app.Dialog
+import android.app.SearchManager
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -53,13 +66,16 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
      */
     private fun firebaseListenerInit() {
         if (mAuth != null) {
+
+            Log.e("tmt data", "it will run this")
             val db = FirebaseFirestore.getInstance()
             db.collection(Parameter().root_User)
                     .get()
                     .addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
-                            Log.e("tmt data", task.result.size().toString())
+                            Log.e("tmt data", "it will run this")
                             for (document in task.result) {
+                                Log.e("tmt data", document.data.toString())
                                 var mUser = User(document.data[Parameter().comp_UId] as String,
                                         document.data[Parameter().comp_fullname] as String,
                                         document.data[Parameter().comp_Permission] as String,
@@ -99,9 +115,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     * */
     private fun callAdapter(listUser: ArrayList<User>) {
 
-//        val setAdap = CustomAdapter(applicationContext, listUser)
-//        list_user_recycleview.adapter = setAdap
-
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
@@ -113,8 +126,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView!!.adapter as SimpleAdapter
-                Log.e("tmt", "deleted")
-                adapter.removeAt(viewHolder.adapterPosition)
+                showDialog(adapter, viewHolder)
             }
         }
 
@@ -122,9 +134,68 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         fab.setOnClickListener { view ->
-            //            simpleAdapter.addItem("New item")
             var intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
+        var builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        var inflater: LayoutInflater = layoutInflater
+        var view: View = inflater.inflate(R.layout.layout_dialog, null)
+        var content: TextView = view.findViewById<View>(R.id.content) as TextView
+        content.setText("Bạn có muốn xóa?")
+        builder.setView(view)
+        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                p0!!.dismiss()
+                adapter!!.notifyDataSetChanged()
+            }
+        })
+        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+
+        })
+        var dialog: Dialog = builder.create()
+        dialog.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbar_menu, menu)
+        val searchItem = menu!!.findItem(R.id.action_search)
+
+        if (searchItem != null) {
+            var searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+            searchView.setOnCloseListener(object : SearchView.OnCloseListener {
+                override fun onClose(): Boolean {
+                    return false
+                }
+            })
+            searchView.setOnSearchClickListener(View.OnClickListener {
+                //some operation
+            })
+            val searchPlate = searchView.findViewById<View>(android.support.v7.appcompat.R.id.search_src_text) as EditText
+            searchPlate.hint = resources.getString(R.string.menu_search)
+            val searchPlateView = searchView.findViewById<View>(android.support.v7.appcompat.R.id.search_plate)
+            searchPlateView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent))
+            // use this method for search process
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    Log.e("tmt", newText)
+                    return true
+                }
+
+            })
+            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 }
