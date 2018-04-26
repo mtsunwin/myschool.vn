@@ -1,19 +1,22 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
+import android.app.AlertDialog
+import android.app.Application
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AlertDialogLayout
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import com.iuh.tranthang.myshool.CreateNotificationActivity
-import com.iuh.tranthang.myshool.ListUserActivity
-import com.iuh.tranthang.myshool.R
-import com.iuh.tranthang.myshool.RegisterActivity
+import android.widget.EditText
+import com.iuh.tranthang.myshool.*
 import com.iuh.tranthang.myshool.model.adm_display
 
 /**
@@ -82,6 +85,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 12 -> addAccount(converView)
                 11 -> listAccount(converView)
                 22 -> createNotification(converView)
+                15 -> AcountantActivity().updateBaseSalary(context.applicationContext)
             }
         })
 
@@ -115,5 +119,6 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    // ID 15: Xem danh sách tài khoản
 
 }
