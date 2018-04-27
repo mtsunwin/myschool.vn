@@ -1,5 +1,6 @@
 package com.iuh.tranthang.myshool.Firebase
 
+import android.app.ActivityManager
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,6 +10,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.text.TextUtils
 import android.util.Log
@@ -74,5 +76,33 @@ class NotificationUtils {
             e.printStackTrace()
         }
         return 0
+    }
+
+    /**
+     * Method checks if the app is in background or not
+     */
+    fun isAppIsInBackground(context: Context): Boolean {
+        var isInBackground = true
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            val runningProcesses = am.runningAppProcesses
+            for (processInfo in runningProcesses) {
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    for (activeProcess in processInfo.pkgList) {
+                        if (activeProcess == context.packageName) {
+                            isInBackground = false
+                        }
+                    }
+                }
+            }
+        } else {
+            val taskInfo = am.getRunningTasks(1)
+            val componentInfo = taskInfo[0].topActivity
+            if (componentInfo.packageName == context.packageName) {
+                isInBackground = false
+            }
+        }
+
+        return isInBackground
     }
 }

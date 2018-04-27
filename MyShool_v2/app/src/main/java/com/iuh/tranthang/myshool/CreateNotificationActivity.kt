@@ -17,13 +17,11 @@ class CreateNotificationActivity : AppCompatActivity() {
         btnCreatedNotification.setOnClickListener { view ->
             Log.e("tmt", "Thang dep trai da click vao day")
             runn()
-
         }
     }
 
     private fun runn(): Boolean {
         val message = "Test Notification"
-
         val resultIntent = Intent(applicationContext, AdminActivity::class.java)
         resultIntent.putExtra("message", message)
         notification!!.showNotificationMessage("Thang dep trai", message, "", resultIntent)

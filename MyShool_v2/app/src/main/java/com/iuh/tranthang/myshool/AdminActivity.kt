@@ -1,5 +1,6 @@
 package com.iuh.tranthang.myshool
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +8,10 @@ import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
+import com.google.firebase.messaging.FirebaseMessaging
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
@@ -17,6 +21,8 @@ class AdminActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
+
+    private var mRegistrationBroadcastReceiver: BroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
@@ -81,6 +87,22 @@ class AdminActivity : AppCompatActivity() {
                     }
                 }
         )
+
+        mRegistrationBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                // checking for type intent filter
+                if (intent.action == "registrationComplete") {
+                    Log.e("tmt", "registrationComplete")
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic("global")
+                } else if (intent.action == "pushNotification") {
+                    // new push notification is received
+                    val message = intent.getStringExtra("message")
+                    Toast.makeText(applicationContext, "Push notification: $message", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
