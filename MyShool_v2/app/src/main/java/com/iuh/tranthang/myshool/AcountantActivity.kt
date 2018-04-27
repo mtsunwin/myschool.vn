@@ -22,8 +22,10 @@ import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_updateprofile.*
 import org.w3c.dom.Text
+import java.util.zip.Inflater
 
 class AcountantActivity: AppCompatActivity() {
+    private var dialogView:Inflater?=null
     private var txtHeSoLuongcoban:EditText?=null
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
@@ -104,8 +106,9 @@ class AcountantActivity: AppCompatActivity() {
     }
     public fun updateBaseSalary(context:Context) {
         val db = FirebaseFirestore.getInstance()
-        val dialog = AlertDialog.Builder(applicationContext)
-        val dialogView= layoutInflater.inflate(R.layout.fragment_dialogupdatebasesalary,null)
+        val dialog = AlertDialog.Builder(context)
+
+        dialogView= layoutInflater.inflate(R.layout.fragment_dialogupdatebasesalary,null)
         txtHeSoLuongcoban=findViewById(R.id.txtHeSoLuongCoBan)
         dialog.setView(dialogView)
         dialog.setCancelable(false)
