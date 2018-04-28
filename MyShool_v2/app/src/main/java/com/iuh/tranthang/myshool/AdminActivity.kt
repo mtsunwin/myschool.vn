@@ -143,7 +143,6 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 IntentFilter("registrationComplete"))
