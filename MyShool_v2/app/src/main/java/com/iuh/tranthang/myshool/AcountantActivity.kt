@@ -30,6 +30,7 @@ class AcountantActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
