@@ -3,8 +3,10 @@ package com.iuh.tranthang.myshool
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -12,9 +14,11 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
+import com.iuh.tranthang.myshool.Firebase.NotificationUtils
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
+
 
 class AdminActivity : AppCompatActivity() {
 
@@ -87,7 +91,7 @@ class AdminActivity : AppCompatActivity() {
                     }
                 }
         )
-
+        // BroadcastReceiver
         mRegistrationBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 // checking for type intent filter
@@ -96,6 +100,7 @@ class AdminActivity : AppCompatActivity() {
                     // gcm successfully registered
                     // now subscribe to `global` topic to receive app wide notifications
                     FirebaseMessaging.getInstance().subscribeToTopic("global")
+                    displayFirebaseRegId()
                 } else if (intent.action == "pushNotification") {
                     // new push notification is received
                     val message = intent.getStringExtra("message")
@@ -103,6 +108,7 @@ class AdminActivity : AppCompatActivity() {
                 }
             }
         }
+        displayFirebaseRegId()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -124,5 +130,35 @@ class AdminActivity : AppCompatActivity() {
             boolean = super.onOptionsItemSelected(item)
         }
         return boolean!!
+    }
+
+    private fun displayFirebaseRegId() {
+        val pref = applicationContext.getSharedPreferences("ah_firebase", 0)
+        val regId = pref.getString("regId", null)
+
+        Log.e("tmt", "Firebase reg id: " + regId!!)
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        // register GCM registration complete receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                IntentFilter("registrationComplete"))
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                IntentFilter("pushNotification"))
+
+        // clear the notification area when the app is opened
+        NotificationUtils(applicationContext).clearNotifications(applicationContext)
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver)
+        super.onPause()
     }
 }

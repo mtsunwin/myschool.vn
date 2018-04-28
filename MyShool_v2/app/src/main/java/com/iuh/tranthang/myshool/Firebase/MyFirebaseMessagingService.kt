@@ -15,6 +15,7 @@ import com.iuh.tranthang.myshool.R
 import org.json.JSONException
 import org.json.JSONObject
 
+
 /**
  * Created by ThinkPad on 4/21/2018.
  */
@@ -22,10 +23,46 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private var notificationUtils: NotificationUtils? = null
 
-    override fun onMessageReceived(p0: RemoteMessage?) {
-        super.onMessageReceived(p0)
-        showNotification(p0!!.getData().get("message"))
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        super.onMessageReceived(remoteMessage)
+//        showNotification(remoteMessage!!.getData().get("message"))
+
+        if (remoteMessage == null)
+            return
+
+        // Check if message contains a notification payload.
+        if (remoteMessage.notification != null) {
+            Log.e("tmt", "Notification Body: " + remoteMessage.notification!!.body!!)
+            handleNotification(remoteMessage.notification!!.body)
+        }
+
+// Check if message contains a data payload.
+        if (remoteMessage.data.size > 0) {
+            Log.e("tmt", "Data Payload: " + remoteMessage.data.toString())
+            try {
+                val json = JSONObject(remoteMessage.data.toString())
+                handleDataMessage(json)
+            } catch (e: Exception) {
+                Log.e("tmt", "Exception: " + e.message)
+            }
+
+        }
     }
+
+    private fun handleNotification(message: String?) {
+        if (!NotificationUtils(applicationContext).isAppIsInBackground(applicationContext)) {
+            // app is in foreground, broadcast the push message
+            val pushNotification = Intent("pushNotification")
+            pushNotification.putExtra("message", message)
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
+            // play notification sound
+            val notificationUtils = NotificationUtils(applicationContext)
+//            notificationUtils.playNotificationSound()
+        } else {
+            // If the app is in background, firebase itself handles the notification
+        }
+    }
+
 
     private fun showNotification(message: String?) {
         var i: Intent = Intent(this, AdminActivity::class.java)
@@ -44,6 +81,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun handleDataMessage(json: JSONObject) {
+        Log.e("tmt", "push json: " + json.toString());
         try {
             val data = json.getJSONObject("data")
 
@@ -54,15 +92,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val timestamp = data.getString("timestamp")
             val payload = data.getJSONObject("payload")
 
-            Log.e("tmt", "title: $title")
-            Log.e("tmt", "message: $message")
-            Log.e("tmt", "isBackground: $isBackground")
-            Log.e("tmt", "payload: " + payload.toString())
-            Log.e("tmt", "imageUrl: $imageUrl")
-            Log.e("tmt", "timestamp: $timestamp")
+            Log.e("tmt aaaaa", title)
+            Log.e("tmt ssss", message)
+            Log.e("tmt", isBackground.toString())
+            Log.e("tmt", payload.toString())
+            Log.e("tmt", imageUrl)
+            Log.e("tmt", timestamp)
+
             val resultIntent = Intent(applicationContext, AdminActivity::class.java)
             resultIntent.putExtra("message", message)
             showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
+
             if (!notificationUtils!!.isAppIsInBackground(applicationContext)) {
                 // app is in foreground, broadcast the push message
                 val pushNotification = Intent("pushNotification")
@@ -80,7 +120,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {
                     Log.e("tmt", "Show this")
-
                     showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
                 } else {
                     // image is present, show notification with image
@@ -92,7 +131,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         } catch (e: Exception) {
             Log.e("tmt", "Exception: " + e.message)
         }
-
     }
 
     private fun showNotificationMessage(context: Context, title: String, message: String, timeStamp: String, intent: Intent) {

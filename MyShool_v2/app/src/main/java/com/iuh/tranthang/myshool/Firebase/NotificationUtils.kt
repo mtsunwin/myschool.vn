@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -104,5 +103,11 @@ class NotificationUtils {
         }
 
         return isInBackground
+    }
+
+    // Clears notification tray messages
+    fun clearNotifications(context: Context) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
     }
 }

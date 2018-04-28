@@ -31,7 +31,7 @@ class MyFirebaseInstanceIDService : FirebaseInstanceIdService() {
         // Instance ID token to your app server.
         sendRegistrationToServer(refreshedToken)
 
-        val registrationComplete = Intent("registrationComplete")
+        val registrationComplete: Intent = Intent("registrationComplete")
         registrationComplete.putExtra("token", refreshedToken)
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete)
     }
