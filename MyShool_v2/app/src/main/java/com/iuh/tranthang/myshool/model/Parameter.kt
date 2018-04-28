@@ -3,7 +3,7 @@ package com.iuh.tranthang.myshool.model
 /**
  * Created by ThinkPad on 4/12/2018.
  */
-class Parameter() {
+object Parameter {
     public val root_User = "Users"
     public val comp_UId = "uid"
     public val comp_Permission = "permission"

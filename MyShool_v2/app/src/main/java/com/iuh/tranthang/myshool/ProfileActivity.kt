@@ -61,19 +61,19 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         if (db.isAuthentication()) {
             txt_nickname.setText("Thắng đẹp trai hihi")
             var dbFireStore = FirebaseFirestore.getInstance()
-            dbFireStore!!.collection(Parameter().root_User).document(mAuth!!.uid!!)
+            dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
                             Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                             var result: DocumentSnapshot = task.result
                             if (result.exists()) {
                                 var tUser = User()
-                                tUser.setAddress(result.data[Parameter().comp_address].toString())
-                                tUser.setFullname(result.data[Parameter().comp_fullname].toString())
-                                tUser.setPermission(result.data[Parameter().comp_Permission].toString())
-                                tUser.setBirthday(result.data[Parameter().comp_birthday].toString())
-                                tUser.setNumberphone(result.data[Parameter().comp_numberphone].toString())
-                                tUser.setEmail(result.data[Parameter().comp_email].toString())
+                                tUser.setAddress(result.data[Parameter.comp_address].toString())
+                                tUser.setFullname(result.data[Parameter.comp_fullname].toString())
+                                tUser.setPermission(result.data[Parameter.comp_Permission].toString())
+                                tUser.setBirthday(result.data[Parameter.comp_birthday].toString())
+                                tUser.setNumberphone(result.data[Parameter.comp_numberphone].toString())
+                                tUser.setEmail(result.data[Parameter.comp_email].toString())
                                 Log.e("Tmt inside abcd", tUser.getFullname()+"-"+tUser.getAddress()+"-"+tUser.getBirthday()+"-"+
                                         tUser.getNumberphone())
                                 updateUI(tUser)

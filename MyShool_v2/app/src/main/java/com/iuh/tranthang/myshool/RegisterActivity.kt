@@ -269,7 +269,7 @@ class RegisterActivity : AppCompatActivity() {
                                         txtBirthday.toString(), "", "", "", true)
                                 // Khởi tạo Root
                                 Log.e("USER",mUser.getEmail()+"-"+mUser.getBirthday()+"-"+mUser.getToCongTac())
-                                db.collection(Parameter().root_User)
+                                db.collection(Parameter.root_User)
                                         .document(userId).set(mUser)
                                         .addOnSuccessListener { documentReference ->
                                             updateUserInfoAndUI()

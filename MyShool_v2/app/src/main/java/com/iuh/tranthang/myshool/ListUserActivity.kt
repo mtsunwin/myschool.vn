@@ -68,25 +68,25 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         if (mAuth != null) {
             Log.e("tmt data", "it will run this")
             val db = FirebaseFirestore.getInstance()
-            db.collection(Parameter().root_User)
+            db.collection(Parameter.root_User)
                     .get()
                     .addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
-                                var mUser = User(document.data[Parameter().comp_UId] as String,
-                                        document.data[Parameter().comp_fullname] as String,
-                                        document.data[Parameter().comp_Permission] as String,
-                                        document.data[Parameter().comp_numberphone] as String,
-                                        document.data[Parameter().comp_address] as String,
-                                        document.data[Parameter().comp_email] as String,
-                                        document.data[Parameter().comp_birthday] as String,
-                                        document.data[Parameter().comp_toCongTac] as String,
-                                        document.data[Parameter().comp_chucVu] as String,
-                                        document.data[Parameter().comp_url] as String,
-                                        document.data[Parameter().comp_action] as Boolean
+                                var mUser = User(document.data[Parameter.comp_UId] as String,
+                                        document.data[Parameter.comp_fullname] as String,
+                                        document.data[Parameter.comp_Permission] as String,
+                                        document.data[Parameter.comp_numberphone] as String,
+                                        document.data[Parameter.comp_address] as String,
+                                        document.data[Parameter.comp_email] as String,
+                                        document.data[Parameter.comp_birthday] as String,
+                                        document.data[Parameter.comp_toCongTac] as String,
+                                        document.data[Parameter.comp_chucVu] as String,
+                                        document.data[Parameter.comp_url] as String,
+                                        document.data[Parameter.comp_action] as Boolean
                                 )
-                                if (document.data[Parameter().comp_action].toString() == "true")
+                                if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)
                             }
                             callAdapter(listUser)
@@ -142,11 +142,11 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                 Log.e("tmt onClick", p1.toString())
                 var dUser: User = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()
-                dbFireStore.collection(Parameter().root_User)
+                dbFireStore.collection(Parameter.root_User)
                 Log.e("tmt id", dUser.getUid())
                 var washingtonRef: DocumentReference =
-                        dbFireStore.collection(Parameter().root_User).document(dUser.getUid())
-                washingtonRef.update(Parameter().comp_action, false).addOnSuccessListener { void ->
+                        dbFireStore.collection(Parameter.root_User).document(dUser.getUid())
+                washingtonRef.update(Parameter.comp_action, false).addOnSuccessListener { void ->
                     firebaseListenerInit()
                 }.addOnFailureListener { exception ->
                     Log.e("tmt", "that bai")
