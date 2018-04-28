@@ -24,9 +24,9 @@ import kotlinx.android.synthetic.main.activity_updateprofile.*
 import org.w3c.dom.Text
 import java.util.zip.Inflater
 
-class AcountantActivity: AppCompatActivity() {
-    private var dialogView:Inflater?=null
-    private var txtHeSoLuongcoban:EditText?=null
+class AcountantActivity : AppCompatActivity() {
+    private var dialogView: Inflater? = null
+    private var txtHeSoLuongcoban: EditText? = null
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
@@ -36,14 +36,12 @@ class AcountantActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         val intent = Intent(this, InsideActivity::class.java)
-        val intent_profile=Intent(this,ProfileActivity::class.java)
+        val intent_profile = Intent(this, ProfileActivity::class.java)
         //edit_password.setText(token_pw.getString("loginpassword"," "))
         /* customer list view
         var arrayInforMenu: ArrayList<adm_display> = ArrayList()
         arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
         listview.adapter = CustomAdapter(this, arrayInforMenu)*/
-
-
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
         listHeader.add(adm_display("Quản lý thông báo", R.drawable.team_group, 2))
@@ -89,12 +87,10 @@ class AcountantActivity: AppCompatActivity() {
                             startActivity(intent)
                             finish()
                             boolean = true
-                        }
-                        else if (item!!.itemId == R.id.itemTrangCaNhan) {
+                        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
                             startActivity(intent_profile)
                             boolean = true
-                        }
-                        else {
+                        } else {
                             boolean = false
                         }
 
@@ -104,31 +100,33 @@ class AcountantActivity: AppCompatActivity() {
         )
 
     }
-    public fun updateBaseSalary(context:Context) {
-        val db = FirebaseFirestore.getInstance()
-        val dialog = AlertDialog.Builder(context)
 
-        dialogView= layoutInflater.inflate(R.layout.fragment_dialogupdatebasesalary,null)
-        txtHeSoLuongcoban=findViewById(R.id.txtHeSoLuongCoBan)
+    public fun updateBaseSalary(context: Context) {
+       /* val db = FirebaseFirestore.getInstance()
+        val dialog = AlertDialog.Builder(context)
+        var inflater = context.applicationContext
+        dialogView = layoutInflater.inflate(R.layout.fragment_dialogupdatebasesalary, null)
+        txtHeSoLuongcoban = findViewById(R.id.txtHeSoLuongCoBan)
         dialog.setView(dialogView)
         dialog.setCancelable(false)
         dialog.setTitle("Cập nhật lương cơ bản")
-        dialog.setPositiveButton("Xác nhận",{ dialogInterface: DialogInterface, i: Int -> })
-        val customDialog= dialog.create()
-        val luongID:String?=""
+        dialog.setPositiveButton("Xác nhận", { dialogInterface: DialogInterface, i: Int -> })
+        val customDialog = dialog.create()
+        val luongID: String? = ""
         customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener({
-            if(txtHeSoLuongcoban!!.length()>0){
-                val items= HashMap<String,Any>()
-                items.put("LuongCoBan",txtHeSoLuongcoban!!.text.toString())
+            if (txtHeSoLuongcoban!!.length() > 0) {
+                val items = HashMap<String, Any>()
+                items.put("LuongCoBan", txtHeSoLuongcoban!!.text.toString())
                 db.collection(Parameter().root_Luong)
                         .document("Salary").set(items)
                         .addOnSuccessListener { documentReference ->
-                            Toast.makeText(this,"Successful update", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Successful update", Toast.LENGTH_SHORT).show()
                         }
                 Log.e("Update", "Successful")
             }
         })
     }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         var boolean: Boolean?
         if (item!!.itemId == R.id.DangXuat) {
@@ -144,15 +142,13 @@ class AcountantActivity: AppCompatActivity() {
             startActivity(intent)
             finish()
             boolean = true
-        }
-        else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            val intent_profile=Intent(this, ProfileActivity::class.java)
+        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile = Intent(this, ProfileActivity::class.java)
             startActivity(intent_profile)
             boolean = true
-        }
-        else {
+        } else {
             boolean = super.onOptionsItemSelected(item)
         }
-        return boolean!!
+        return boolean!!*/
     }
 }
