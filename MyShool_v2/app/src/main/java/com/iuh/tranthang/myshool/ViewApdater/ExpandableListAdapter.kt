@@ -10,10 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import com.iuh.tranthang.myshool.CreateNotificationActivity
-import com.iuh.tranthang.myshool.ListUserActivity
-import com.iuh.tranthang.myshool.R
-import com.iuh.tranthang.myshool.RegisterActivity
+import com.iuh.tranthang.myshool.*
 import com.iuh.tranthang.myshool.model.adm_display
 
 /**
@@ -82,6 +79,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 12 -> addAccount(converView)
                 11 -> listAccount(converView)
                 22 -> createNotification(converView)
+                14 -> updateHeSoLuong(converView)
             }
         })
 
@@ -93,7 +91,6 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
         ContextCompat.startActivity(context, intent, null)
     }
-
     // ID 12: Thêm tài khoản
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
@@ -114,6 +111,12 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         return listOfHeaderData.size
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+    //ID 14: update he so luong (Accountant)
+    private fun updateHeSoLuong(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserForUpdateSalary::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
 
+    //ID14:Cap nhat he so luong
 
 }

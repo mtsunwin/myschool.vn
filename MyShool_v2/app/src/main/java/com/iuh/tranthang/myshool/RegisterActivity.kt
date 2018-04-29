@@ -257,16 +257,17 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("email").setValue(txtUsername)
                                 Log.e("ToCongTac",textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
+                                currentUserDb.child("heSoLuong").setValue("")
                                 val db = FirebaseFirestore.getInstance()
 
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                             txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(), "",
-                                            true)
+                                            true,"")
                                 } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                        txtBirthday.toString(), "", "", "", true)
+                                        txtBirthday.toString(), "", "", "", true,"")
                                 // Khởi tạo Root
                                 Log.e("USER",mUser.getEmail()+"-"+mUser.getBirthday()+"-"+mUser.getToCongTac())
                                 db.collection(Parameter().root_User)

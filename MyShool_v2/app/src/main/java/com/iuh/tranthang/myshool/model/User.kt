@@ -14,11 +14,12 @@ class User {
     private var toCongTac: String = ""
     private var chucVu: String = ""
     private var url: String = ""
+    private var coefficient: String=""
     private var action: Boolean = true
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean) {
+                action: Boolean,coefficient:String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -30,6 +31,7 @@ class User {
         this.chucVu = chucVu
         this.url = url
         this.action = action
+        this.coefficient=coefficient
     }
     constructor()
 
@@ -70,6 +72,9 @@ class User {
     }
     public fun getToCongTac():String{
         return toCongTac
+    }
+    public fun getCoefficient():String{
+        return coefficient
     }
     public fun setUid(id: String) {
         this.uid = id
@@ -114,7 +119,9 @@ class User {
     public fun setToCongTac(toCongTac:String){
         this.toCongTac=toCongTac
     }
-
+    public fun setCoefficient(coefficient:String){
+        this.coefficient=coefficient
+    }
     fun toMap(): HashMap<String, String> {
         val result = HashMap<String, String>()
         result.put(Parameter().comp_fullname, fullname)
