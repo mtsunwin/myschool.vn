@@ -11,11 +11,13 @@
     <string name="frmAction">Hoạt động</string>
     <string name="btnRegister">Đăng ký</string>
     <string name="updateInfor">Vui lòng cập nhật thông tin</string>
-
     <string name="btnUpdate">Cập nhật</string>
     <string name="btnUpAvatar">Cập nhật avatar</string>
     <string name="validation">Nhập đúng định dạng</string>
-
+    <string name="btnTempNotifi">Tạo tin mẫu</string>
+    <string name="btnSendNotifi">Gửi thông báo</string>
+    <string name="txtContenttNotifi">Nội dung thông báo</string>
+    <string name="txttitletNotifi">Tiêu đề thông báo</string>
     <string name="do.delete">Bạn có muốn xóa </string>
 
     <!--Fillter END-->

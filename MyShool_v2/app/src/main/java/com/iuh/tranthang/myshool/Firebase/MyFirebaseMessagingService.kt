@@ -35,8 +35,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("tmt", "Notification Body: " + remoteMessage.notification!!.body!!)
             handleNotification(remoteMessage.notification!!.body)
         }
-
-// Check if message contains a data payload.
+        Log.e("onMessageReceived tmt", "Data Payload: " + remoteMessage.data.toString())
         if (remoteMessage.data.size > 0) {
             Log.e("tmt", "Data Payload: " + remoteMessage.data.toString())
             try {
@@ -50,7 +49,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun handleNotification(message: String?) {
-        if (!NotificationUtils(applicationContext).isAppIsInBackground(applicationContext)) {
+        if (!NotificationUtils(applicationContext).isAppIsInBackground()) {
             // app is in foreground, broadcast the push message
             val pushNotification = Intent("pushNotification")
             pushNotification.putExtra("message", message)
@@ -75,16 +74,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_house)
                 .setContentIntent(pendingIntent)
-
         var manager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(0, builder.build())
     }
 
     private fun handleDataMessage(json: JSONObject) {
-        Log.e("tmt", "push json: " + json.toString());
         try {
             val data = json.getJSONObject("data")
-
             val title = data.getString("title")
             val message = data.getString("message")
             val isBackground = data.getBoolean("is_background")
@@ -92,18 +88,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val timestamp = data.getString("timestamp")
             val payload = data.getJSONObject("payload")
 
-            Log.e("tmt aaaaa", title)
-            Log.e("tmt ssss", message)
-            Log.e("tmt", isBackground.toString())
-            Log.e("tmt", payload.toString())
-            Log.e("tmt", imageUrl)
-            Log.e("tmt", timestamp)
-
             val resultIntent = Intent(applicationContext, AdminActivity::class.java)
             resultIntent.putExtra("message", message)
             showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
 
-            if (!notificationUtils!!.isAppIsInBackground(applicationContext)) {
+            if (!notificationUtils!!.isAppIsInBackground()) {
                 // app is in foreground, broadcast the push message
                 val pushNotification = Intent("pushNotification")
                 pushNotification.putExtra("message", message)
@@ -119,7 +108,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {
-                    Log.e("tmt", "Show this")
                     showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
                 } else {
                     // image is present, show notification with image

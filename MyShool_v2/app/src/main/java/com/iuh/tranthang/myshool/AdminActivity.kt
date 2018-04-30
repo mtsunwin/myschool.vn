@@ -153,7 +153,7 @@ class AdminActivity : AppCompatActivity() {
                 IntentFilter("pushNotification"))
 
         // clear the notification area when the app is opened
-        NotificationUtils(applicationContext).clearNotifications(applicationContext)
+        NotificationUtils(applicationContext).clearNotifications()
     }
 
     override fun onPause() {
