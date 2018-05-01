@@ -85,7 +85,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter.comp_toCongTac] as String,
                                         document.data[Parameter.comp_chucVu] as String,
                                         document.data[Parameter.comp_url] as String,
-                                        document.data[Parameter.comp_action] as Boolean
+                                        document.data[Parameter.comp_action] as Boolean,
+                                        document.data[Parameter.comp_uidDevice] as String
                                 )
                                 if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)

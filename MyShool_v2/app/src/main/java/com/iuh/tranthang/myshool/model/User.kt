@@ -4,21 +4,22 @@ package com.iuh.tranthang.myshool.model
  * Created by ThinkPad on 4/11/2018.
  */
 class User {
-    private var uid: String = ""
-    private var fullname: String = ""
-    private var permission: String = ""
-    private var numberphone: String = ""
-    private var address: String = ""
-    private var birthday: String = ""
-    private var email: String = ""
-    private var toCongTac: String = ""
-    private var chucVu: String = ""
-    private var url: String = ""
-    private var action: Boolean = true
+    private lateinit var uid: String
+    private lateinit var fullname: String
+    private lateinit var permission: String
+    private lateinit var numberphone: String
+    private lateinit var address: String
+    private lateinit var birthday: String
+    private lateinit var email: String
+    private lateinit var toCongTac: String
+    private lateinit var chucVu: String
+    private lateinit var url: String
+    private var action: Boolean = false
+    private lateinit var idDevice: String
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean) {
+                action: Boolean, iddevice: String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -30,7 +31,9 @@ class User {
         this.chucVu = chucVu
         this.url = url
         this.action = action
+        this.idDevice = iddevice
     }
+
     constructor()
 
     public fun getChucVu(): String {
@@ -68,9 +71,11 @@ class User {
     public fun getUrl(): String {
         return url
     }
-    public fun getToCongTac():String{
+
+    public fun getToCongTac(): String {
         return toCongTac
     }
+
     public fun setUid(id: String) {
         this.uid = id
     }
@@ -86,9 +91,11 @@ class User {
     public fun setNumberphone(numberphone: String) {
         this.numberphone = numberphone
     }
+
     public fun getNumberphone(): String {
         return numberphone
     }
+
     public fun setEmail(email: String) {
         this.email = email
     }
@@ -96,6 +103,7 @@ class User {
     public fun setBirthday(birthday: String) {
         this.birthday = birthday
     }
+
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
     }
@@ -111,8 +119,13 @@ class User {
     public fun setAction(ac: Boolean) {
         this.action = ac
     }
-    public fun setToCongTac(toCongTac:String){
-        this.toCongTac=toCongTac
+
+    public fun setToCongTac(toCongTac: String) {
+        this.toCongTac = toCongTac
+    }
+
+    public fun getIdDevice(): String {
+        return this.idDevice
     }
 
     fun toMap(): HashMap<String, String> {
