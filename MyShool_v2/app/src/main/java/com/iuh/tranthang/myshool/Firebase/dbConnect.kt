@@ -63,9 +63,9 @@ class dbConnect {
                     if (task.isSuccessful) {
                         var result: DocumentSnapshot = task.result
                         if (result.exists()) {
-                            Log.e("tmt in db", result.data[Parameter().comp_address].toString())
+                            Log.e("tmt in db", result.data[Parameter.comp_address].toString())
                             var tUser = User()
-                            tUser!!.setAddress(result.data[Parameter().comp_address].toString())
+                            tUser!!.setAddress(result.data[Parameter.comp_address].toString())
                             this.setUser(tUser)
                         }
                     }

@@ -134,17 +134,17 @@ class User {
 
     fun toMap(): HashMap<String, String> {
         val result = HashMap<String, String>()
-        result.put(Parameter().comp_fullname, fullname)
-        result.put(Parameter().comp_address, address)
-        result.put(Parameter().comp_birthday, birthday)
-        result.put(Parameter().comp_numberphone, numberphone)
-        result.put(Parameter().comp_Permission, permission)
-        result.put(Parameter().comp_email, email)
-        result.put(Parameter().comp_toCongTac, toCongTac)
-        result.put(Parameter().comp_chucVu, chucVu)
-        result.put(Parameter().comp_url, url)
-        result.put(Parameter().comp_action, action.toString())
-        result.put(Parameter().comp_UId, uid)
+        result.put(Parameter.comp_fullname, fullname)
+        result.put(Parameter.comp_address, address)
+        result.put(Parameter.comp_birthday, birthday)
+        result.put(Parameter.comp_numberphone, numberphone)
+        result.put(Parameter.comp_Permission, permission)
+        result.put(Parameter.comp_email, email)
+        result.put(Parameter.comp_toCongTac, toCongTac)
+        result.put(Parameter.comp_chucVu, chucVu)
+        result.put(Parameter.comp_url, url)
+        result.put(Parameter.comp_action, action.toString())
+        result.put(Parameter.comp_UId, uid)
         return result
     }
 

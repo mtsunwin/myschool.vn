@@ -129,8 +129,8 @@ class InsideActivity : AppCompatActivity() {
 
     private fun updateUI() {
         val db = FirebaseFirestore.getInstance()
-        db.collection(Parameter().root_User)
-                .whereEqualTo(Parameter().comp_UId, mAuth!!.uid)
+        db.collection(Parameter.root_User)
+                .whereEqualTo(Parameter.comp_UId, mAuth!!.uid)
                 .get()
                 .addOnCompleteListener({ task ->
                     Log.e("tmt addd event", "oke")
@@ -142,8 +142,8 @@ class InsideActivity : AppCompatActivity() {
                             editor.putString("loginusername", email)
                             editor.commit()
                             // Check Permission
-                            if (document.data[Parameter().comp_action].toString() == "true")
-                                changeActivy(document.data[Parameter().comp_Permission] as String)
+                            if (document.data[Parameter.comp_action].toString() == "true")
+                                changeActivy(document.data[Parameter.comp_Permission] as String)
                         }
                     } else {
                         Log.d("tmt", "Error getting documents: ", task.exception)
