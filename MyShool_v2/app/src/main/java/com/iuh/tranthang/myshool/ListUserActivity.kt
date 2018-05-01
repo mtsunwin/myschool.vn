@@ -63,6 +63,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
 
     /**
      * Lấy danh sách User từ Firebase
+     * Thực hiện cập nhật lại listview
      */
     private fun firebaseListenerInit() {
         if (mAuth != null) {
@@ -111,7 +112,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView!!.adapter as SimpleAdapter
-                Log.e("tmt deleted", direction.toString())
+//                Log.e("tmt deleted", direction.toString())
                 showDialog(adapter, viewHolder)
             }
         }
@@ -124,6 +125,9 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         }
     }
 
+    /**
+     * Hiển thị Dialog hỏi người dùng có muốn xóa hay không
+     */
     private fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
         var builder: AlertDialog.Builder = AlertDialog.Builder(this)
         var inflater: LayoutInflater = layoutInflater
@@ -131,19 +135,19 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         var content: TextView = view.findViewById<View>(R.id.content) as TextView
         content.setText("Bạn có muốn xóa?")
         builder.setView(view)
-        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener {
+        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
                 adapter!!.notifyDataSetChanged()
             }
         })
-        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener {
+        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
             override fun onClick(p0: DialogInterface?, p1: Int) {
-                Log.e("tmt onClick", p1.toString())
                 var dUser: User = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()
                 dbFireStore.collection(Parameter.root_User)
                 Log.e("tmt id", dUser.getUid())
+                // Thực hiện hiện update
                 var washingtonRef: DocumentReference =
                         dbFireStore.collection(Parameter.root_User).document(dUser.getUid())
                 washingtonRef.update(Parameter.comp_action, false).addOnSuccessListener { void ->

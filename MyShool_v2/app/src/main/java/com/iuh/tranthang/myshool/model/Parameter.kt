@@ -16,4 +16,5 @@ object Parameter {
     public val comp_chucVu = "chucVu"
     public val comp_url = "url"
     public val comp_action = "action"
+    public val comp_uidDevice = "iddevice"
 }
