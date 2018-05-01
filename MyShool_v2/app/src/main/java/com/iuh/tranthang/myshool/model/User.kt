@@ -4,22 +4,23 @@ package com.iuh.tranthang.myshool.model
  * Created by ThinkPad on 4/11/2018.
  */
 class User {
-    private var uid: String = ""
-    private var fullname: String = ""
-    private var permission: String = ""
-    private var numberphone: String = ""
-    private var address: String = ""
-    private var birthday: String = ""
-    private var email: String = ""
-    private var toCongTac: String = ""
-    private var chucVu: String = ""
-    private var url: String = ""
-    private var coefficient: String = ""
-    private var action: Boolean = true
+    private lateinit var uid: String
+    private lateinit var fullname: String
+    private lateinit var permission: String
+    private lateinit var numberphone: String
+    private lateinit var address: String
+    private lateinit var birthday: String
+    private lateinit var email: String
+    private lateinit var toCongTac: String
+    private lateinit var chucVu: String
+    private lateinit var url: String
+    private var action: Boolean = false
+    private lateinit var idDevice: String
+    private lateinit var coefficient: String
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean, coefficient: String) {
+                action: Boolean, coefficient: String, iddevice: String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -31,6 +32,7 @@ class User {
         this.chucVu = chucVu
         this.url = url
         this.action = action
+        this.idDevice = iddevice
         this.coefficient = coefficient
     }
 
@@ -126,6 +128,10 @@ class User {
 
     public fun setToCongTac(toCongTac: String) {
         this.toCongTac = toCongTac
+    }
+
+    public fun getIdDevice(): String {
+        return this.idDevice
     }
 
     public fun setCoefficient(coefficient: String) {
