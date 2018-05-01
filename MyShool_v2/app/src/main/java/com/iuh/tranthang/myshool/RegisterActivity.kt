@@ -255,7 +255,7 @@ class RegisterActivity : AppCompatActivity() {
                                 currentUserDb.child("numberphone").setValue(txtNumberphone)
                                 currentUserDb.child("permission").setValue(intPermisstion)
                                 currentUserDb.child("email").setValue(txtUsername)
-                                Log.e("ToCongTac",textToCongTac)
+                                Log.e("ToCongTac", textToCongTac)
                                 currentUserDb.child("ChucVu").setValue(textChucVu)
                                 val db = FirebaseFirestore.getInstance()
 
@@ -268,7 +268,7 @@ class RegisterActivity : AppCompatActivity() {
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                         txtBirthday.toString(), "", "", "", true)
                                 // Khởi tạo Root
-                                Log.e("USER",mUser.getEmail()+"-"+mUser.getBirthday()+"-"+mUser.getToCongTac())
+                                Log.e("USER", mUser.getEmail() + "-" + mUser.getBirthday() + "-" + mUser.getToCongTac())
                                 db.collection(Parameter.root_User)
                                         .document(userId).set(mUser)
                                         .addOnSuccessListener { documentReference ->
