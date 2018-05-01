@@ -14,11 +14,12 @@ class User {
     private var toCongTac: String = ""
     private var chucVu: String = ""
     private var url: String = ""
+    private var coefficient: String = ""
     private var action: Boolean = true
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean) {
+                action: Boolean, coefficient: String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -30,7 +31,9 @@ class User {
         this.chucVu = chucVu
         this.url = url
         this.action = action
+        this.coefficient = coefficient
     }
+
     constructor()
 
     public fun getChucVu(): String {
@@ -68,9 +71,15 @@ class User {
     public fun getUrl(): String {
         return url
     }
-    public fun getToCongTac():String{
+
+    public fun getToCongTac(): String {
         return toCongTac
     }
+
+    public fun getCoefficient(): String {
+        return coefficient
+    }
+
     public fun setUid(id: String) {
         this.uid = id
     }
@@ -86,9 +95,11 @@ class User {
     public fun setNumberphone(numberphone: String) {
         this.numberphone = numberphone
     }
+
     public fun getNumberphone(): String {
         return numberphone
     }
+
     public fun setEmail(email: String) {
         this.email = email
     }
@@ -96,6 +107,7 @@ class User {
     public fun setBirthday(birthday: String) {
         this.birthday = birthday
     }
+
     public fun setChucVu(chucVu: String) {
         this.chucVu = chucVu
     }
@@ -111,8 +123,13 @@ class User {
     public fun setAction(ac: Boolean) {
         this.action = ac
     }
-    public fun setToCongTac(toCongTac:String){
-        this.toCongTac=toCongTac
+
+    public fun setToCongTac(toCongTac: String) {
+        this.toCongTac = toCongTac
+    }
+
+    public fun setCoefficient(coefficient: String) {
+        this.coefficient = coefficient
     }
 
     fun toMap(): HashMap<String, String> {

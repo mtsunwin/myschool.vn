@@ -246,6 +246,7 @@ class UpdateProfileActivity : AppCompatActivity() {
                     items.put("uid",result.data[Parameter().comp_UId].toString())
                     items.put("permission",result.data[Parameter().comp_Permission].toString())
                     items.put("email",result.data[Parameter().comp_email].toString())
+                    items.put("heSoLuong",result.data[Parameter().comp_salary].toString())
                     if(filePath!=null)
                         items.put("url",result.data[Parameter().comp_UId].toString())
                     else
