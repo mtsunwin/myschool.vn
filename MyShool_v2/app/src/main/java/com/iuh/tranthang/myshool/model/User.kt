@@ -4,7 +4,6 @@ package com.iuh.tranthang.myshool.model
  * Created by ThinkPad on 4/11/2018.
  */
 class User {
-<<<<<<< HEAD
     private lateinit var uid: String
     private lateinit var fullname: String
     private lateinit var permission: String
@@ -17,28 +16,11 @@ class User {
     private lateinit var url: String
     private var action: Boolean = false
     private lateinit var idDevice: String
+    private lateinit var coefficient: String
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean, iddevice: String) {
-=======
-    private var uid: String = ""
-    private var fullname: String = ""
-    private var permission: String = ""
-    private var numberphone: String = ""
-    private var address: String = ""
-    private var birthday: String = ""
-    private var email: String = ""
-    private var toCongTac: String = ""
-    private var chucVu: String = ""
-    private var url: String = ""
-    private var coefficient: String = ""
-    private var action: Boolean = true
-
-    constructor(id: String, fullname: String, permission: String, numberphone: String,
-                address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean, coefficient: String) {
->>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
+                action: Boolean, coefficient: String, iddevice: String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -50,11 +32,8 @@ class User {
         this.chucVu = chucVu
         this.url = url
         this.action = action
-<<<<<<< HEAD
         this.idDevice = iddevice
-=======
         this.coefficient = coefficient
->>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
     }
 
     constructor()
@@ -99,13 +78,10 @@ class User {
         return toCongTac
     }
 
-<<<<<<< HEAD
-=======
     public fun getCoefficient(): String {
         return coefficient
     }
 
->>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
     public fun setUid(id: String) {
         this.uid = id
     }
@@ -154,13 +130,12 @@ class User {
         this.toCongTac = toCongTac
     }
 
-<<<<<<< HEAD
     public fun getIdDevice(): String {
         return this.idDevice
-=======
+    }
+
     public fun setCoefficient(coefficient: String) {
         this.coefficient = coefficient
->>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
     }
 
     fun toMap(): HashMap<String, String> {

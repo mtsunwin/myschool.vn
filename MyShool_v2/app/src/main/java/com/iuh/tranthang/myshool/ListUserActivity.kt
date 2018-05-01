@@ -75,7 +75,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
-<<<<<<< HEAD
                                 var mUser = User(document.data[Parameter.comp_UId] as String,
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
@@ -87,22 +86,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter.comp_chucVu] as String,
                                         document.data[Parameter.comp_url] as String,
                                         document.data[Parameter.comp_action] as Boolean,
+                                        document.data[Parameter.comp_salary] as String,
                                         document.data[Parameter.comp_uidDevice] as String
-=======
-
-                                var mUser = User(document.data[Parameter().comp_UId] as String,
-                                        document.data[Parameter().comp_fullname] as String,
-                                        document.data[Parameter().comp_Permission] as String,
-                                        document.data[Parameter().comp_numberphone] as String,
-                                        document.data[Parameter().comp_address] as String,
-                                        document.data[Parameter().comp_email] as String,
-                                        document.data[Parameter().comp_birthday] as String,
-                                        document.data[Parameter().comp_toCongTac] as String,
-                                        document.data[Parameter().comp_chucVu] as String,
-                                        document.data[Parameter().comp_url] as String,
-                                        document.data[Parameter().comp_action] as Boolean,
-                                        document.data[Parameter().comp_salary] as String
->>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
                                 )
                                 if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)
