@@ -30,16 +30,16 @@ class AdminActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
-    private var mAuth: FirebaseUser? = null
     private var mRegistrationBroadcastReceiver: BroadcastReceiver? = null
     private lateinit var dbFireStore: FirebaseFirestore
+    private lateinit var mAuth: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         // Khởi tạo các đối tượng giao tiếp với firebase
-        mAuth = FirebaseAuth.getInstance().currentUser
+        mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
 
         val intent = Intent(this, InsideActivity::class.java)

@@ -17,6 +17,7 @@
     <string name="btnTempNotifi">Tạo tin mẫu</string>
     <string name="btnSendNotifi">Gửi thông báo</string>
     <string name="txtContenttNotifi">Nội dung thông báo</string>
+    <string name="txtGroupNotifi">Nhóm nhận thông báo</string>
     <string name="txttitletNotifi">Tiêu đề thông báo</string>
     <string name="do.delete">Bạn có muốn xóa </string>
 
@@ -37,6 +38,13 @@
 
     <string-array name="select.permission">
         <item>Công việc..</item>
+        <item>Giáo viên</item>
+        <item>Nhân viên</item>
+        <item>Admin</item>
+        <item>Kế toán</item>
+    </string-array>
+    <string-array name="select.notification.to.send">
+        <item>Tất cả</item>
         <item>Giáo viên</item>
         <item>Nhân viên</item>
         <item>Admin</item>

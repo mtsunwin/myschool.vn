@@ -135,7 +135,6 @@ class RegisterActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedItem = p0!!.getItemAtPosition(p2).toString()
                 textChucVu = selectedItem
-
             }
         }
         mProgressBar = ProgressDialog(this)
