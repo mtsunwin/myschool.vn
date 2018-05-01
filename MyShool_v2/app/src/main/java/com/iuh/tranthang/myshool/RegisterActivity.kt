@@ -247,6 +247,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
                                 // update user profile information
+<<<<<<< HEAD
 //                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
 //                                currentUserDb.child(Parameter.comp_toCongTac).setValue(textToCongTac)
 //                                currentUserDb.child(Parameter.comp_fullname).setValue(txtFullname)
@@ -257,15 +258,35 @@ class RegisterActivity : AppCompatActivity() {
 //                                currentUserDb.child(Parameter.comp_email).setValue(txtUsername)
 //                                currentUserDb.child(Parameter.comp_chucVu).setValue(textChucVu)
 //                                currentUserDb.child(Parameter.comp_uidDevice).setValue("")
+=======
+                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
+                                currentUserDb.child("toCongTac").setValue(textToCongTac)
+                                currentUserDb.child("fullname").setValue(txtFullname)
+                                currentUserDb.child("address").setValue(txtAddress)
+                                currentUserDb.child("birthday").setValue(txtBirthday)
+                                currentUserDb.child("numberphone").setValue(txtNumberphone)
+                                currentUserDb.child("permission").setValue(intPermisstion)
+                                currentUserDb.child("email").setValue(txtUsername)
+                                Log.e("ToCongTac", textToCongTac)
+                                currentUserDb.child("ChucVu").setValue(textChucVu)
+                                currentUserDb.child("heSoLuong").setValue("")
+>>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
                                 val db = FirebaseFirestore.getInstance()
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                             txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(), "",
+<<<<<<< HEAD
                                             true, "")
                                 } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                         txtBirthday.toString(), "", "", "", true, "")
+=======
+                                            true,"")
+                                } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                        , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
+                                        txtBirthday.toString(), "", "", "", true,"")
+>>>>>>> 0bcb961e02074da7ee55699e833cd6a474840463
                                 // Khởi tạo Root
                                 Log.e("USER", mUser.getEmail() + "-" + mUser.getBirthday() + "-" + mUser.getToCongTac())
                                 db.collection(Parameter.root_User)
