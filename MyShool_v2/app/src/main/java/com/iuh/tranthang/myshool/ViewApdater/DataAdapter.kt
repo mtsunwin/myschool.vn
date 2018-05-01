@@ -17,11 +17,9 @@ internal class DataAdapter(private val names: ArrayList<User>) : RecyclerView.Ad
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.layout_item_list_user, viewGroup, false)
         return ViewHolder(view)
     }
-
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.tv_names.text = names[i].getFullname()
     }
-
     override fun getItemCount(): Int {
         return names.size
     }
@@ -41,7 +39,8 @@ internal class DataAdapter(private val names: ArrayList<User>) : RecyclerView.Ad
         var tv_names: TextView
 
         init {
-            tv_names = view.findViewById(R.id.txt_fullname) as TextView
+            tv_names = view.findViewById<TextView>(R.id.txt_fullname) as TextView
+
         }
     }
 }
