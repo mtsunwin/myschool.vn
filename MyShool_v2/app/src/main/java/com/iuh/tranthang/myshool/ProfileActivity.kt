@@ -15,6 +15,8 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.ActivityFragment
 import com.iuh.tranthang.myshool.ViewApdater.PageAdapter
@@ -23,6 +25,12 @@ import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import android.widget.ImageView
+import com.google.firebase.storage.FileDownloadTask
+import com.google.android.gms.tasks.OnSuccessListener
+import java.io.File
 
 
 class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() {
@@ -44,7 +52,11 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
     private var mAuth: FirebaseAuth? = null
-
+    internal var storage: FirebaseStorage? = null
+    private var storageReference: StorageReference? = null
+    private var txtURLImage:String? =""
+    private var txtBirthDay:String?=""
+    private var imgAvatar:ImageView?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -52,13 +64,15 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         mAuth = FirebaseAuth.getInstance()
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
-
+        imgAvatar=findViewById(R.id.imgAvatar)
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage!!.reference
         var token = getSharedPreferences("usename", Context.MODE_PRIVATE)
 //        Log.e("tmt check", mAuth!!.uid)
 
         var db = dbConnect()
         if (db.isAuthentication()) {
-            txt_nickname.setText("Thắng đẹp trai hihi")
+            txt_nickname.setText("LOADING....")
             var dbFireStore = FirebaseFirestore.getInstance()
             dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
@@ -70,9 +84,30 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                                 tUser.setAddress(result.data[Parameter.comp_address].toString())
                                 tUser.setFullname(result.data[Parameter.comp_fullname].toString())
                                 tUser.setPermission(result.data[Parameter.comp_Permission].toString())
+                                txtBirthDay=result.data[Parameter.comp_birthday].toString()
+                                if(txtBirthDay!!.length>0)
                                 tUser.setBirthday(result.data[Parameter.comp_birthday].toString())
+                                else tUser.setBirthday("Chưa cập nhật")
                                 tUser.setNumberphone(result.data[Parameter.comp_numberphone].toString())
                                 tUser.setEmail(result.data[Parameter.comp_email].toString())
+                                txtURLImage=result.data[Parameter.comp_url].toString()
+                                Log.e("URL:",txtURLImage.toString())
+                                if(txtURLImage!!.length>0){
+                                    try {
+                                        val tmpFile = File.createTempFile("img","png")
+                                        val reference = FirebaseStorage.getInstance().getReference("images/")
+
+                                        //  "id" is name of the image file....
+
+                                        reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
+                                            val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
+                                            imgAvatar!!.setImageBitmap(image)
+                                        })
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
+                                }
                                 Log.e("Tmt inside abcd", tUser.getFullname() + "-" + tUser.getAddress() + "-" + tUser.getBirthday() + "-" +
                                         tUser.getNumberphone())
                                 updateUI(tUser)
@@ -169,25 +204,6 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        var boolean: Boolean?
-        if (item!!.itemId == R.id.DangXuat) {
-            var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-            var editor = token.edit()
-            editor.putString("loginusername", " ")
-            editor.commit()
-            var intent = Intent(this, InsideActivity::class.java)
-            startActivity(intent)
-            finish()
-            boolean = true
-        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            var intent_profile = Intent(this, ProfileActivity::class.java)
-            startActivity(intent_profile)
-            boolean = true
-        } else {
-            boolean = super.onOptionsItemSelected(item)
-        }
-        return boolean!!
-    }
+
 
 }
