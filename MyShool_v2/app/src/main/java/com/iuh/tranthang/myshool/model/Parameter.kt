@@ -5,6 +5,7 @@ package com.iuh.tranthang.myshool.model
  */
 object Parameter {
     public val root_User = "Users"
+    public val root_Luong="HeSoLuongCoBan"
     public val comp_UId = "uid"
     public val comp_Permission = "permission"
     public val comp_address = "address"
@@ -17,5 +18,6 @@ object Parameter {
     public val comp_url = "url"
     public val comp_action = "action"
     public val comp_uidDevice = "iddevice"
+    public val comp_baseSalary="heSoLuong"
 
 }

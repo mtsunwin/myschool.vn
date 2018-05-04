@@ -1,25 +1,32 @@
 package com.iuh.tranthang.myshool
 
+import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.*
+import android.view.View.OnLongClickListener
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
+import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter_UpdateSalary
 import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
@@ -29,12 +36,15 @@ import kotlinx.android.synthetic.main.activity_profile.*
 class ListUserForUpdateSalary : AppCompatActivity() {
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
+    private var viewHolder:RecyclerView.ViewHolder?=null
     private var info: AdapterView.AdapterContextMenuInfo?=null
     val listUser = ArrayList<User>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user_updatesalary)
         mAuth = FirebaseAuth.getInstance().currentUser
+        recyclerView = findViewById<RecyclerView>(R.id.recycle_listUserUpdateSalary)
+
         firebaseListenerInit()
         registerForContextMenu(recyclerView)
     }
@@ -59,10 +69,10 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                                         document.data[Parameter.comp_birthday] as String,
                                         if ((document.data[Parameter.comp_toCongTac] as String).length > 0) document.data[Parameter.comp_toCongTac] as String else "",
                                         document.data[Parameter.comp_chucVu] as String,
-                                        document.data[Parameter.comp_url] as String,
+                                        if ((document.data[Parameter.comp_url] as String).length > 0) document.data[Parameter.comp_url] as String else "abc",
                                         document.data[Parameter.comp_action] as Boolean,
-                                        if ((document.data[Parameter.comp_salary] as String).length > 0) document.data[Parameter.comp_salary] as String else "",
-                                        document.data[Parameter.comp_uidDevice] as String
+                                        if ((document.data[Parameter.comp_baseSalary] as String).length > 0) document.data[Parameter.comp_baseSalary] as String else "abc",
+                                        if ((document.data[Parameter.comp_uidDevice] as String).length > 0) document.data[Parameter.comp_uidDevice] as String else "abc"
                                 )
                                 if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)
@@ -93,12 +103,49 @@ class ListUserForUpdateSalary : AppCompatActivity() {
     }
 
     private fun callAdapter(listUser: ArrayList<User>) {
-        recyclerView = findViewById<RecyclerView>(R.id.recycle)
+
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         var adapter = DataAdapter(listUser)
-        val simpleAdapter = SimpleAdapter(listUser)
+        val simpleAdapter = SimpleAdapter_UpdateSalary(listUser)
         recyclerView!!.adapter = simpleAdapter
+        adapter!!.notifyDataSetChanged()
+
     }
+    private fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
+        var builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        var inflater: LayoutInflater = layoutInflater
+        var view: View = inflater.inflate(R.layout.layout_dialog, null)
+        var content: TextView = view.findViewById<View>(R.id.content) as TextView
+        content.setText("Bạn có muốn xóa?")
+        builder.setView(view)
+        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                p0!!.dismiss()
+                adapter!!.notifyDataSetChanged()
+            }
+        })
+        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                var dUser: User = listUser.get(viewHolder.adapterPosition)
+                var dbFireStore = FirebaseFirestore.getInstance()
+                dbFireStore.collection(Parameter.root_User)
+                Log.e("tmt id", dUser.getUid())
+                // Thực hiện hiện update
+                var washingtonRef: DocumentReference =
+                        dbFireStore.collection(Parameter.root_User).document(dUser.getUid())
+                washingtonRef.update(Parameter.comp_action, false).addOnSuccessListener { void ->
+                    firebaseListenerInit()
+                }.addOnFailureListener { exception ->
+                    Log.e("tmt", "that bai")
+                }
+//                adapter.removeAt(viewHolder.adapterPosition)
+            }
+
+        })
+        var dialog: Dialog = builder.create()
+        dialog.show()
+    }
+
     private fun updateHeSoLuong(){
 
     }

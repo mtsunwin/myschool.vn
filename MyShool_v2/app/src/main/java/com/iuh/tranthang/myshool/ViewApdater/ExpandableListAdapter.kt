@@ -79,6 +79,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 12 -> addAccount(converView)
                 11 -> listAccount(converView)
                 22 -> createNotification(converView)
+                14 -> updateHeSoLuong(converView)
                 15 -> updateBaseSalary(converView)
             }
         })
