@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.iuh.tranthang.myshool.ProfileActivity
 import com.iuh.tranthang.myshool.R
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 /**
@@ -23,7 +23,7 @@ class ProfileFragment : Fragment() {
     private var txt_birthday: String = ""
 
     interface OnSelectedListener {
-        fun onSelected(dUser: User)
+        fun onSelected(dMUser: mUser)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

@@ -31,7 +31,7 @@ import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_list_user.*
 
 
@@ -41,7 +41,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
 
-    val listUser = ArrayList<User>()
+    val listUser = ArrayList<mUser>()
 
     /**
      * Swipe Refresh
@@ -62,7 +62,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     /**
-     * Lấy danh sách User từ Firebase
+     * Lấy danh sách mUser từ Firebase
      * Thực hiện cập nhật lại listview
      */
     private fun firebaseListenerInit() {
@@ -75,7 +75,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
-                                var mUser = User(document.data[Parameter.comp_UId] as String,
+                                var mUser = mUser(document.data[Parameter.comp_UId] as String,
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
                                         document.data[Parameter.comp_numberphone] as String,
@@ -104,11 +104,11 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     /*
     * Khơi tạo Adapter và danh sách
     * */
-    private fun callAdapter(listUser: ArrayList<User>) {
+    private fun callAdapter(listMUser: ArrayList<mUser>) {
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
-        recyclerView!!.layoutManager = LinearLayoutManager(this)
-        var adapter = DataAdapter(listUser)
-        val simpleAdapter = SimpleAdapter(listUser)
+            recyclerView!!.layoutManager = LinearLayoutManager(this)
+        var adapter = DataAdapter(listMUser)
+        val simpleAdapter = SimpleAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
         val swipeHandler = object : SwipeToDeleteCallback(this) {
@@ -145,13 +145,13 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         })
         builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
             override fun onClick(p0: DialogInterface?, p1: Int) {
-                var dUser: User = listUser.get(viewHolder.adapterPosition)
+                var dMUser: mUser = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()
                 dbFireStore.collection(Parameter.root_User)
-                Log.e("tmt id", dUser.getUid())
+                Log.e("tmt id", dMUser.getUid())
                 // Thực hiện hiện update
                 var washingtonRef: DocumentReference =
-                        dbFireStore.collection(Parameter.root_User).document(dUser.getUid())
+                        dbFireStore.collection(Parameter.root_User).document(dMUser.getUid())
                 washingtonRef.update(Parameter.comp_action, false).addOnSuccessListener { void ->
                     firebaseListenerInit()
                 }.addOnFailureListener { exception ->
@@ -192,7 +192,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    var tempList: ArrayList<User> = ArrayList<User>()
+                    var tempList: ArrayList<mUser> = ArrayList<mUser>()
                     for (mUser in listUser) {
                         var fCheck = mUser.getFullname().toLowerCase()
                         var fCompare = newText!!.toLowerCase()

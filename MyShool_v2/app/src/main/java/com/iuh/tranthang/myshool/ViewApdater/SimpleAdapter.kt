@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.iuh.tranthang.myshool.R
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
 
 
@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_item_list_user.view.*
  * Created by ThinkPad on 4/19/2018.
  */
 
-class SimpleAdapter(private val items: ArrayList<User>) : RecyclerView.Adapter<SimpleAdapter.VH>() {
+class SimpleAdapter(private val items: ArrayList<mUser>) : RecyclerView.Adapter<SimpleAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(parent)

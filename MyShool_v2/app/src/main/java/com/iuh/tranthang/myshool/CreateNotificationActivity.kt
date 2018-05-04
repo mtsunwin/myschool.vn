@@ -14,12 +14,18 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.NotificationUtils
 import com.iuh.tranthang.myshool.model.Parameter
+import com.iuh.tranthang.myshool.model.Parameter_Notification
+import com.iuh.tranthang.myshool.model.mNotification
+import com.iuh.tranthang.myshool.model.mNotificationUser
 import kotlinx.android.synthetic.main.activity_create_notification.*
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateNotificationActivity : AppCompatActivity() {
 
@@ -48,11 +54,44 @@ class CreateNotificationActivity : AppCompatActivity() {
                 resources.getStringArray(R.array.select_notification_to_send))
         val actionBar = supportActionBar
         actionBar!!.hide()
-        btn_createTemplate.setOnClickListener { view ->
 
+        // NÚT Tạo tin nhắn mẫu
+        btn_createTemplate.setOnClickListener { view ->
+            if (awesomeValidation!!.validate()) {
+                val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
+                var number: Int = 0
+                when (spinner_list.selectedItem) {
+                    listStringPermission[1] -> {
+                        number = 1
+                    }
+                    listStringPermission[2] -> {
+                        number = 2
+                    }
+                    listStringPermission[3] -> {
+                        number = 3
+                    }
+                    listStringPermission[4] -> {
+                        number = 4
+                    }
+                }
+                var cal = Calendar.getInstance()
+                var date = cal.time
+
+                var idDocument = dbFireStore.collection(Parameter_Notification.collection).document()
+
+                var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(), txt_contentNotification.text.toString()
+                        , number)
+                mNo.count = 0
+                mNo.listView = ArrayList<mNotificationUser>()
+                mNo.dateTime = SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa").format(date)
+                idDocument.set(mNo).addOnCompleteListener { task ->
+
+                }
+
+            }
         }
 
-        // Gửi thông báo
+        // NÚT Gửi thông báo
         btn_sentNotification.setOnClickListener {
             if (awesomeValidation!!.validate()) {
                 var strTitle = txt_titleNotification.text
@@ -68,9 +107,89 @@ class CreateNotificationActivity : AppCompatActivity() {
                                     if (task.isSuccessful) {
                                         for (document in task.result) {
                                             var idDevice = document.data[Parameter.comp_uidDevice] as String
-                                            if (document.data[Parameter.comp_action].toString() == "true" && idDevice.length > 0) {
+                                            if (document.data[Parameter.comp_action].toString() == "true"
+                                                    && idDevice.length > 0) {
                                                 url += "&regid=" + idDevice
-                                                Log.e("tmt url", url)
+                                                pushNotification().execute(url)
+                                            }
+                                        }
+                                    } else {
+                                        Log.d("tmt", "Error getting documents: ", task.exception)
+                                        // Lỗi trả về
+                                    }
+                                })
+                    }
+                    listStringPermission[1] -> {
+                        dbFireStore.collection(Parameter.root_User)
+                                .get()
+                                .addOnCompleteListener({ task ->
+                                    if (task.isSuccessful) {
+                                        for (document in task.result) {
+                                            var idDevice = document.data[Parameter.comp_uidDevice] as String
+                                            if (document.data[Parameter.comp_action].toString() == "true"
+                                                    && idDevice.length > 0
+                                                    && document.data[Parameter.comp_Permission] == 1) {
+                                                url += "&regid=" + idDevice
+                                                pushNotification().execute(url)
+                                            }
+                                        }
+                                    } else {
+                                        Log.d("tmt", "Error getting documents: ", task.exception)
+                                        // Lỗi trả về
+                                    }
+                                })
+                    }
+                    listStringPermission[2] -> {
+                        dbFireStore.collection(Parameter.root_User)
+                                .get()
+                                .addOnCompleteListener({ task ->
+                                    if (task.isSuccessful) {
+                                        for (document in task.result) {
+                                            var idDevice = document.data[Parameter.comp_uidDevice] as String
+                                            if (document.data[Parameter.comp_action].toString() == "true"
+                                                    && idDevice.length > 0
+                                                    && document.data[Parameter.comp_Permission] == 2) {
+                                                url += "&regid=" + idDevice
+                                                pushNotification().execute(url)
+                                            }
+                                        }
+                                    } else {
+                                        Log.d("tmt", "Error getting documents: ", task.exception)
+                                        // Lỗi trả về
+                                    }
+                                })
+                    }
+                    listStringPermission[3] -> {
+                        dbFireStore.collection(Parameter.root_User)
+                                .get()
+                                .addOnCompleteListener({ task ->
+                                    if (task.isSuccessful) {
+                                        for (document in task.result) {
+                                            var idDevice = document.data[Parameter.comp_uidDevice] as String
+                                            if (document.data[Parameter.comp_action].toString() == "true"
+                                                    && idDevice.length > 0
+                                                    && document.data[Parameter.comp_Permission] == 3) {
+                                                url += "&regid=" + idDevice
+                                                pushNotification().execute(url)
+                                            }
+                                        }
+                                    } else {
+                                        Log.d("tmt", "Error getting documents: ", task.exception)
+                                        // Lỗi trả về
+                                    }
+                                })
+                    }
+                    listStringPermission[4] -> {
+                        dbFireStore.collection(Parameter.root_User)
+                                .get()
+                                .addOnCompleteListener({ task ->
+                                    if (task.isSuccessful) {
+                                        for (document in task.result) {
+                                            var idDevice = document.data[Parameter.comp_uidDevice] as String
+                                            if (document.data[Parameter.comp_action].toString() == "true"
+                                                    && idDevice.length > 0
+                                                    && document.data[Parameter.comp_Permission] == 4) {
+                                                url += "&regid=" + idDevice
                                                 pushNotification().execute(url)
                                             }
                                         }
@@ -149,4 +268,6 @@ class CreateNotificationActivity : AppCompatActivity() {
         }
         return result
     }
+
+    
 }

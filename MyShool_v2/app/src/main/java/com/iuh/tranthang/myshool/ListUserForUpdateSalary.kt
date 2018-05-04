@@ -2,7 +2,6 @@ package com.iuh.tranthang.myshool
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -10,7 +9,6 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -20,17 +18,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
-import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
-import kotlinx.android.synthetic.main.activity_list_user.*
-import kotlinx.android.synthetic.main.activity_profile.*
+import com.iuh.tranthang.myshool.model.mUser
 
 class ListUserForUpdateSalary : AppCompatActivity() {
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
     private var info: AdapterView.AdapterContextMenuInfo?=null
-    val listUser = ArrayList<User>()
+    val listUser = ArrayList<mUser>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user_updatesalary)
@@ -50,7 +45,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                             listUser.clear()
                             for (document in task.result) {
                                 Log.e("tmt", document.toString())
-                                var mUser = User(document.data[Parameter.comp_UId] as String,
+                                var mUser = mUser(document.data[Parameter.comp_UId] as String,
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
                                         document.data[Parameter.comp_numberphone] as String,
@@ -92,11 +87,11 @@ class ListUserForUpdateSalary : AppCompatActivity() {
 
     }
 
-    private fun callAdapter(listUser: ArrayList<User>) {
+    private fun callAdapter(listMUser: ArrayList<mUser>) {
         recyclerView = findViewById<RecyclerView>(R.id.recycle)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
-        var adapter = DataAdapter(listUser)
-        val simpleAdapter = SimpleAdapter(listUser)
+        var adapter = DataAdapter(listMUser)
+        val simpleAdapter = SimpleAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
     }
     private fun updateHeSoLuong(){
@@ -126,7 +121,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    var tempList: ArrayList<User> = ArrayList<User>()
+                    var tempList: ArrayList<mUser> = ArrayList<mUser>()
                     for (mUser in listUser) {
                         var fCheck = mUser.getFullname().toLowerCase()
                         var fCompare = newText!!.toLowerCase()

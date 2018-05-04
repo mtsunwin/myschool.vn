@@ -2,16 +2,12 @@ package com.iuh.tranthang.myshool
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.widget.*
 import com.basgeekball.awesomevalidation.AwesomeValidation
@@ -24,16 +20,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.Firebase.dbConnect
-import com.iuh.tranthang.myshool.ViewApdater.ProfileFragment
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_register.*
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_updateprofile.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.Delayed
 import kotlin.collections.HashMap
 
 
@@ -69,7 +61,7 @@ class UpdateProfileActivity : AppCompatActivity() {
     private var btnUpload: Button? = null
     private val PICK_IMAGE_REQUEST = 1234
     private var filePath: Uri? = null
-    private var mUser:User?=null
+    private var mMUser:mUser?=null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
     private var mAuth: FirebaseAuth? = null
@@ -208,12 +200,12 @@ class UpdateProfileActivity : AppCompatActivity() {
              startActivity(intent)*/
     }
     private fun updateAccount() {
-        Log.e("UUID User:",dbConnect().getUid())
+        Log.e("UUID mUser:",dbConnect().getUid())
 
         var db2 = dbConnect()
         mAuth = FirebaseAuth.getInstance()
         val userId = mAuth!!.currentUser!!.uid
-        mUser=User()
+        mMUser=mUser()
         if (db2.isAuthentication()) {
             dbFireStore = FirebaseFirestore.getInstance()
             dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)

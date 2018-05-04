@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -59,7 +59,7 @@ class RegisterActivity : AppCompatActivity() {
     private var textCongviec: Boolean? = true
     private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
-    private var mUser: User? = null
+    private var mMUser: mUser? = null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
 
@@ -240,37 +240,25 @@ class RegisterActivity : AppCompatActivity() {
                 mAuth!!.createUserWithEmailAndPassword(txtUsername!!, txtPassword!!)
                         .addOnCompleteListener(this) { task ->
                             mProgressBar!!.hide()
-                            var mUser: User
+                            var mMUser: mUser
                             if (task.isSuccessful) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
                                 // update user profile information
-
-//                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
-//                                currentUserDb.child(Parameter.comp_toCongTac).setValue(textToCongTac)
-//                                currentUserDb.child(Parameter.comp_fullname).setValue(txtFullname)
-//                                currentUserDb.child(Parameter.comp_address).setValue(txtAddress)
-//                                currentUserDb.child(Parameter.comp_birthday).setValue(txtBirthday)
-//                                currentUserDb.child(Parameter.comp_numberphone).setValue(txtNumberphone)
-//                                currentUserDb.child(Parameter.comp_Permission).setValue(intPermisstion)
-//                                currentUserDb.child(Parameter.comp_email).setValue(txtUsername)
-//                                currentUserDb.child(Parameter.comp_chucVu).setValue(textChucVu)
-//                                currentUserDb.child(Parameter.comp_uidDevice).setValue("")
-
                                 val db = FirebaseFirestore.getInstance()
                                 if (intPermisstion == 1) {
-                                    mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                    mMUser = mUser(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                             txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(), "",
                                             true, "", "")
-                                } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
+                                } else mMUser = mUser(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                         txtBirthday.toString(), "", "", "", true, "", "")
 
                                 // Khởi tạo Root
                                 db.collection(Parameter.root_User)
-                                        .document(userId).set(mUser)
+                                        .document(userId).set(mMUser)
                                         .addOnSuccessListener { documentReference ->
                                             updateUserInfoAndUI()
                                         }
