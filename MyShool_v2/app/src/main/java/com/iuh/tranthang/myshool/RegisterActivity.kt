@@ -135,7 +135,6 @@ class RegisterActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedItem = p0!!.getItemAtPosition(p2).toString()
                 textChucVu = selectedItem
-
             }
         }
         mProgressBar = ProgressDialog(this)
@@ -247,29 +246,30 @@ class RegisterActivity : AppCompatActivity() {
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
                                 // update user profile information
-                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
-                                currentUserDb.child("toCongTac").setValue(textToCongTac)
-                                currentUserDb.child("fullname").setValue(txtFullname)
-                                currentUserDb.child("address").setValue(txtAddress)
-                                currentUserDb.child("birthday").setValue(txtBirthday)
-                                currentUserDb.child("numberphone").setValue(txtNumberphone)
-                                currentUserDb.child("permission").setValue(intPermisstion)
-                                currentUserDb.child("email").setValue(txtUsername)
-                                Log.e("ToCongTac",textToCongTac)
-                                currentUserDb.child("ChucVu").setValue(textChucVu)
-                                val db = FirebaseFirestore.getInstance()
 
+//                                val currentUserDb = mDatabaseReference!!.child(userId).child("Infor")
+//                                currentUserDb.child(Parameter.comp_toCongTac).setValue(textToCongTac)
+//                                currentUserDb.child(Parameter.comp_fullname).setValue(txtFullname)
+//                                currentUserDb.child(Parameter.comp_address).setValue(txtAddress)
+//                                currentUserDb.child(Parameter.comp_birthday).setValue(txtBirthday)
+//                                currentUserDb.child(Parameter.comp_numberphone).setValue(txtNumberphone)
+//                                currentUserDb.child(Parameter.comp_Permission).setValue(intPermisstion)
+//                                currentUserDb.child(Parameter.comp_email).setValue(txtUsername)
+//                                currentUserDb.child(Parameter.comp_chucVu).setValue(textChucVu)
+//                                currentUserDb.child(Parameter.comp_uidDevice).setValue("")
+
+                                val db = FirebaseFirestore.getInstance()
                                 if (intPermisstion == 1) {
                                     mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
                                             txtBirthday.toString(), textToCongTac.toString(), textChucVu.toString(), "",
-                                            true)
+                                            true, "", "")
                                 } else mUser = User(userId, txtFullname.toString(), intPermisstion.toString()
                                         , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
-                                        txtBirthday.toString(), "", "", "", true)
+                                        txtBirthday.toString(), "", "", "", true, "", "")
+
                                 // Khởi tạo Root
-                                Log.e("USER",mUser.getEmail()+"-"+mUser.getBirthday()+"-"+mUser.getToCongTac())
-                                db.collection(Parameter().root_User)
+                                db.collection(Parameter.root_User)
                                         .document(userId).set(mUser)
                                         .addOnSuccessListener { documentReference ->
                                             updateUserInfoAndUI()

@@ -166,16 +166,16 @@ class UpdateProfileActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         if (db.isAuthentication()) {
             dbFireStore = FirebaseFirestore.getInstance()
-            dbFireStore!!.collection(Parameter().root_User).document(mAuth!!.uid!!)
+            dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
                 if (task.isSuccessful) {
                     Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                     var result: DocumentSnapshot = task.result
                     if (result.exists()) {
-                        update_address.setText(result.data[Parameter().comp_address].toString())
-                        update_birthday.setText(result.data[Parameter().comp_birthday].toString())
-                        update_numberphone.setText(result.data[Parameter().comp_numberphone].toString())
-                        update_fullname.setText(result.data[Parameter().comp_fullname].toString())
+                        update_address.setText(result.data[Parameter.comp_address].toString())
+                        update_birthday.setText(result.data[Parameter.comp_birthday].toString())
+                        update_numberphone.setText(result.data[Parameter.comp_numberphone].toString())
+                        update_fullname.setText(result.data[Parameter.comp_fullname].toString())
                     } else {
                         Log.e("tmt false", "false")
                     }
@@ -216,18 +216,18 @@ class UpdateProfileActivity : AppCompatActivity() {
         mUser=User()
         if (db2.isAuthentication()) {
             dbFireStore = FirebaseFirestore.getInstance()
-            dbFireStore!!.collection(Parameter().root_User).document(mAuth!!.uid!!)
+            dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
                 if (task.isSuccessful) {
 
                     Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                     var result: DocumentSnapshot = task.result
-                    result.data[Parameter().comp_address]
+                    result.data[Parameter.comp_address]
                     if(filePath!=null){
                         val progressDialog=ProgressDialog(this)
                         progressDialog.setTitle("Uploading...")
                         progressDialog.show()
-                        var imageRef = storageReference!!.child("images/" + result.data[Parameter().comp_UId].toString())
+                        var imageRef = storageReference!!.child("images/" + result.data[Parameter.comp_UId].toString())
                         Log.e("Image:",imageRef.path)
                         imageRef.putFile(filePath!!).addOnSuccessListener {
                             progressDialog.dismiss()
@@ -242,19 +242,22 @@ class UpdateProfileActivity : AppCompatActivity() {
                     items.put("birthday",update_birthday.text.toString())
                     items.put("numberphone",update_numberphone.text.toString())
                     items.put("fullname",update_fullname.text.toString())
-                    items.put("chucVu",result.data[Parameter().comp_chucVu].toString())
-                    items.put("uid",result.data[Parameter().comp_UId].toString())
-                    items.put("permission",result.data[Parameter().comp_Permission].toString())
-                    items.put("email",result.data[Parameter().comp_email].toString())
+
+                    items.put("chucVu",result.data[Parameter.comp_chucVu].toString())
+                    items.put("uid",result.data[Parameter.comp_UId].toString())
+                    items.put("permission",result.data[Parameter.comp_Permission].toString())
+                    items.put("email",result.data[Parameter.comp_email].toString())
+                    items.put("heSoLuong",result.data[Parameter.comp_salary].toString())
+
                     if(filePath!=null)
-                        items.put("url",result.data[Parameter().comp_UId].toString())
+                        items.put("url",result.data[Parameter.comp_UId].toString())
                     else
-                        items.put("url",result.data[Parameter().comp_url].toString())
-                    items.put("toCongTac",result.data[Parameter().comp_toCongTac].toString())
-                    items.put("action",result.data[Parameter().comp_action].toString())
+                        items.put("url",result.data[Parameter.comp_url].toString())
+                    items.put("toCongTac",result.data[Parameter.comp_toCongTac].toString())
+                    items.put("action",result.data[Parameter.comp_action].toString())
                     Log.e("Items",items.toString())
                     if (result.exists()) {
-                        dbFireStore!!.collection(Parameter().root_User)
+                        dbFireStore!!.collection(Parameter.root_User)
                                 .document(userId).set(items).addOnSuccessListener {
                             Toast.makeText(this,"Successful update",Toast.LENGTH_SHORT).show()
                         }

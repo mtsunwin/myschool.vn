@@ -23,7 +23,6 @@ import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
-import java.util.concurrent.Delayed
 
 
 class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() {
@@ -35,9 +34,9 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     val frm_address: String = "address"
     val frm_email: String = "email"
     val frm_phone: String = "phone"
-    val frm_fullname:String="fullname"
+    val frm_fullname: String = "fullname"
 
-    var permission:String=""
+    var permission: String = ""
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
     var pageAdapter: PageAdapter? = null
@@ -61,20 +60,20 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         if (db.isAuthentication()) {
             txt_nickname.setText("Thắng đẹp trai hihi")
             var dbFireStore = FirebaseFirestore.getInstance()
-            dbFireStore!!.collection(Parameter().root_User).document(mAuth!!.uid!!)
+            dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
                             Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                             var result: DocumentSnapshot = task.result
                             if (result.exists()) {
                                 var tUser = User()
-                                tUser.setAddress(result.data[Parameter().comp_address].toString())
-                                tUser.setFullname(result.data[Parameter().comp_fullname].toString())
-                                tUser.setPermission(result.data[Parameter().comp_Permission].toString())
-                                tUser.setBirthday(result.data[Parameter().comp_birthday].toString())
-                                tUser.setNumberphone(result.data[Parameter().comp_numberphone].toString())
-                                tUser.setEmail(result.data[Parameter().comp_email].toString())
-                                Log.e("Tmt inside abcd", tUser.getFullname()+"-"+tUser.getAddress()+"-"+tUser.getBirthday()+"-"+
+                                tUser.setAddress(result.data[Parameter.comp_address].toString())
+                                tUser.setFullname(result.data[Parameter.comp_fullname].toString())
+                                tUser.setPermission(result.data[Parameter.comp_Permission].toString())
+                                tUser.setBirthday(result.data[Parameter.comp_birthday].toString())
+                                tUser.setNumberphone(result.data[Parameter.comp_numberphone].toString())
+                                tUser.setEmail(result.data[Parameter.comp_email].toString())
+                                Log.e("Tmt inside abcd", tUser.getFullname() + "-" + tUser.getAddress() + "-" + tUser.getBirthday() + "-" +
                                         tUser.getNumberphone())
                                 updateUI(tUser)
                             } else {
@@ -82,8 +81,6 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                             }
                         }
                     })
-//            MyTask().execute();
-            Log.e("tmtgetfata:", db.getUser());
         } else {
             // Xử lý quay trở về đăng nhập
             Log.e("tmt", "false")
@@ -126,8 +123,8 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     private fun updateUI(tUser: User) {
         Log.e("tmt UI", "oke")
         txt_nickname.setText(tUser.getFullname())
-        permission=tUser.getPermission().toString()
-        Log.e("Permission profile",permission.toString())
+        permission = tUser.getPermission().toString()
+        Log.e("Permission profile", permission.toString())
         when (permission) {
             "0" -> {
                 txt_chucvu.setText("Kế toán")
@@ -147,8 +144,8 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         }
 
         val bundle = Bundle()
-        Log.e("thong tin address",tUser.getAddress())
-        bundle.putString(frm_fullname,tUser.getFullname().toString())
+        Log.e("thong tin address", tUser.getAddress())
+        bundle.putString(frm_fullname, tUser.getFullname().toString())
         bundle.putString(frm_address, tUser.getAddress().toString())
         bundle.putString(frm_birthday, tUser.getBirthday().toString())
         bundle.putString(frm_email, tUser.getEmail().toString())

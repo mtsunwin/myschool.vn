@@ -11,11 +11,14 @@
     <string name="frmAction">Hoạt động</string>
     <string name="btnRegister">Đăng ký</string>
     <string name="updateInfor">Vui lòng cập nhật thông tin</string>
-
     <string name="btnUpdate">Cập nhật</string>
     <string name="btnUpAvatar">Cập nhật avatar</string>
     <string name="validation">Nhập đúng định dạng</string>
-
+    <string name="btnTempNotifi">Tạo tin mẫu</string>
+    <string name="btnSendNotifi">Gửi thông báo</string>
+    <string name="txtContenttNotifi">Nội dung thông báo</string>
+    <string name="txtGroupNotifi">Nhóm nhận thông báo</string>
+    <string name="txttitletNotifi">Tiêu đề thông báo</string>
     <string name="do.delete">Bạn có muốn xóa </string>
 
     <!--Fillter END-->
@@ -25,14 +28,23 @@
 
     <string name="title_activity_register">RegisterActivity</string>
     <string name="validation.null">Bạn không được để trống!</string>
-    <string name="validation.address">từ 6 kí tự trở lên không có kí tự đặc biệt!</string>
-    <string name="validation.fullname">tên từ 6-15 kí tự không có số!</string>
-    <string name="validation.email">Địa chỉ E-Mail không chính xác</string>
-    <string name="validation.number">Bạn phải nhập trên 6 ký tự</string>
+    <string name="validation.address">Từ 6 kí tự trở lên không có kí tự đặc biệt!</string>
+    <string name="validation.fullname">Tên từ 6-15 kí tự không có số!</string>
+    <string name="validation.email">Địa chỉ E-Mail không chính xác!</string>
+    <string name="validation.number">Bạn phải nhập trên 6 ký tự!</string>
     <string name="validation.phone">Đây có phải là số điện thoại của bạn?</string>
+    <string name="validation.titleNotification">Nội dung tiêu đề của bạn phải trên 6 ký tự!</string>
+    <string name="validation.contentNotification">Nội dung của bạn phải trên 6 ký tự!</string>
 
     <string-array name="select.permission">
         <item>Công việc..</item>
+        <item>Giáo viên</item>
+        <item>Nhân viên</item>
+        <item>Admin</item>
+        <item>Kế toán</item>
+    </string-array>
+    <string-array name="select.notification.to.send">
+        <item>Tất cả</item>
         <item>Giáo viên</item>
         <item>Nhân viên</item>
         <item>Admin</item>

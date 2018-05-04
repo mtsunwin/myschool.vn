@@ -91,7 +91,6 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
         ContextCompat.startActivity(context, intent, null)
     }
-
     // ID 12: Thêm tài khoản
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
@@ -112,7 +111,13 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         return listOfHeaderData.size
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+    //ID 14: update he so luong (Accountant)
+    private fun updateHeSoLuong(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserForUpdateSalary::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
 
+    //ID14:Cap nhat he so luong
 
     // ID 15: Xem danh sách tài khoản
     private fun updateBaseSalary(converView: View?) {
