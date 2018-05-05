@@ -17,7 +17,9 @@ import com.iuh.tranthang.myshool.R
 class DialogAdapter : DialogFragment() {
 
     private lateinit var btnApply: Button
+    private lateinit var btnCancel: Button
     private lateinit var txtContent: TextView
+
     //Được dùng khi khởi tạo dialog mục đích nhận giá trị
     fun newInstance(data: String): DialogAdapter {
         var dialog: DialogAdapter = DialogAdapter()
@@ -33,18 +35,24 @@ class DialogAdapter : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getDialog().getWindow().requestFeature(STYLE_NO_TITLE);// Tắt title của dialog
         // lấy giá trị tự bundle
         val data = arguments.getString("data", "")
         txtContent = view.findViewById(R.id.txtDialog_content)
         btnApply = view.findViewById(R.id.btnDialog_apply)
+        btnCancel = view.findViewById(R.id.btnDialog_cancel)
         txtContent.text = data
         btnApply.setOnClickListener { view ->
             var send: sendReponse = activity as sendReponse
             send.completed(true)
             this.dismiss()
         }
-
-
+        btnCancel.setOnClickListener { view ->
+            super.onDismiss(dialog)
+            var send: sendReponse = activity as sendReponse
+            send.completed(false)
+            this.dismiss()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface?) {

@@ -6,6 +6,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.model.Parameter
+import com.iuh.tranthang.myshool.model.Parameter_Notification
 import com.iuh.tranthang.myshool.model.mUser
 
 /**
@@ -13,7 +14,7 @@ import com.iuh.tranthang.myshool.model.mUser
  */
 class dbConnect {
     private var mAuth: FirebaseAuth? = null
-    private var dbFireStore: FirebaseFirestore? = null
+    private lateinit var dbFireStore: FirebaseFirestore
     private var mUser: mUser? = null
 
     constructor() {
@@ -72,4 +73,29 @@ class dbConnect {
                 })
     }
 
+    fun getListNotificationTemplate() {
+        dbFireStore.collection(Parameter_Notification.collection)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (obj in querySnapshot.documents) {
+                        var listRead = obj.get(Parameter_Notification.field_listView) as ArrayList<*>
+                        if (listRead.size > 0) {
+//                            var mNU: mNotificationUser = mNotificationUser(listRead.get(0)["name"])
+                            for (ud in listRead) {
+                               
+                            }
+                        }
+
+                    }
+
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("tmt2", exception.toString())
+                }
+
+    }
+
+    public interface sendReponse {
+        fun getListNotification_Template()
+    }
 }
