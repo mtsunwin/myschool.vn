@@ -106,7 +106,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     * */
     private fun callAdapter(listMUser: ArrayList<mUser>) {
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
-            recyclerView!!.layoutManager = LinearLayoutManager(this)
+        recyclerView!!.layoutManager = LinearLayoutManager(this)
         var adapter = DataAdapter(listMUser)
         val simpleAdapter = SimpleAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
@@ -134,7 +134,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         var builder: AlertDialog.Builder = AlertDialog.Builder(this)
         var inflater: LayoutInflater = layoutInflater
         var view: View = inflater.inflate(R.layout.layout_dialog, null)
-        var content: TextView = view.findViewById<View>(R.id.content) as TextView
+        var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
         content.setText("Bạn có muốn xóa?")
         builder.setView(view)
         builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel

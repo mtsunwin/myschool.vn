@@ -87,7 +87,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         }
 
         drawerLayout = findViewById(R.id.drawerLayout)
-        navigationView = findViewById(R.id.menuNavigation)
+        navigationView = this.findViewById(R.id.menuNavigation)
 
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
 

@@ -3,6 +3,7 @@ package com.iuh.tranthang.myshool
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.NotificationUtils
+import com.iuh.tranthang.myshool.ViewApdater.DialogAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.Parameter_Notification
 import com.iuh.tranthang.myshool.model.mNotification
@@ -27,7 +29,42 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CreateNotificationActivity : AppCompatActivity() {
+class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendReponse {
+    override fun completed(input: Boolean) {
+        if (input) {
+            val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
+            var number: Int = 0
+            when (spinner_list.selectedItem) {
+                listStringPermission[1] -> {
+                    number = 1
+                }
+                listStringPermission[2] -> {
+                    number = 2
+                }
+                listStringPermission[3] -> {
+                    number = 3
+                }
+                listStringPermission[4] -> {
+                    number = 4
+                }
+            }
+            var cal = Calendar.getInstance()
+            var date = cal.time
+
+            var idDocument = dbFireStore.collection(Parameter_Notification.collection).document()
+
+            var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(), txt_contentNotification.text.toString()
+                    , number)
+            mNo.count = 0
+            mNo.listView = ArrayList<mNotificationUser>()
+            mNo.dateTime = SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa").format(date)
+            idDocument.set(mNo).addOnCompleteListener { task ->
+
+            }
+        } else {
+
+        }
+    }
 
 
     val CONNECTON_TIMEOUT_MILLISECONDS = 60000
@@ -58,36 +95,10 @@ class CreateNotificationActivity : AppCompatActivity() {
         // NÚT Tạo tin nhắn mẫu
         btn_createTemplate.setOnClickListener { view ->
             if (awesomeValidation!!.validate()) {
-                val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
-                var number: Int = 0
-                when (spinner_list.selectedItem) {
-                    listStringPermission[1] -> {
-                        number = 1
-                    }
-                    listStringPermission[2] -> {
-                        number = 2
-                    }
-                    listStringPermission[3] -> {
-                        number = 3
-                    }
-                    listStringPermission[4] -> {
-                        number = 4
-                    }
-                }
-                var cal = Calendar.getInstance()
-                var date = cal.time
-
-                var idDocument = dbFireStore.collection(Parameter_Notification.collection).document()
-
-                var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(), txt_contentNotification.text.toString()
-                        , number)
-                mNo.count = 0
-                mNo.listView = ArrayList<mNotificationUser>()
-                mNo.dateTime = SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa").format(date)
-                idDocument.set(mNo).addOnCompleteListener { task ->
-
-                }
-
+                val fm: FragmentManager? = supportFragmentManager
+                val userInfoDialog: DialogAdapter = DialogAdapter().newInstance("Bạn Có muốn thêm" +
+                        txt_titleNotification.text + " vào tin nhắn mẫu?")
+                userInfoDialog.show(fm, null)
             }
         }
 
@@ -269,5 +280,4 @@ class CreateNotificationActivity : AppCompatActivity() {
         return result
     }
 
-    
 }
