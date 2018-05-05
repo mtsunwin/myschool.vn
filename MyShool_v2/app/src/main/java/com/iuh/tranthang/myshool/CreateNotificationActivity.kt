@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.NotificationUtils
+import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.DialogAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.Parameter_Notification
@@ -30,7 +31,17 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendReponse {
+    val CONNECTON_TIMEOUT_MILLISECONDS = 60000
+    private lateinit var notification: NotificationUtils
+    private lateinit var awesomeValidation: AwesomeValidation
+    private lateinit var dbFireStore: FirebaseFirestore
+    private lateinit var mAuth: FirebaseUser
+
+    /**
+     * Nhận dữ liệu trả vè từ Dialog Adapter
+     */
     override fun completed(input: Boolean) {
+        Log.e("tmt", input.toString())
         if (input) {
             val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
             var number: Int = 0
@@ -59,19 +70,12 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
             mNo.listView = ArrayList<mNotificationUser>()
             mNo.dateTime = SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa").format(date)
             idDocument.set(mNo).addOnCompleteListener { task ->
-
+                clearText();
             }
         } else {
 
         }
     }
-
-
-    val CONNECTON_TIMEOUT_MILLISECONDS = 60000
-    private lateinit var notification: NotificationUtils
-    private lateinit var awesomeValidation: AwesomeValidation
-    private lateinit var dbFireStore: FirebaseFirestore
-    private lateinit var mAuth: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +95,13 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
                 resources.getStringArray(R.array.select_notification_to_send))
         val actionBar = supportActionBar
         actionBar!!.hide()
+
+        dbConnect().getListNotificationTemplate()
+
+        // Lấy danh sách Thông Báo mẫu
+
+        // Khởi tạo Adapter cho list
+
 
         // NÚT Tạo tin nhắn mẫu
         btn_createTemplate.setOnClickListener { view ->
@@ -215,6 +226,15 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
         }
     }
 
+    /**
+     * Clear các file text trên giao diện
+     */
+    private fun clearText() {
+        txt_contentNotification.setText("")
+        txt_titleNotification.setText("")
+        spinner_list.setSelection(0)
+    }
+
     private fun runn(): Boolean {
         val message = "Test Notification"
         val resultIntent = Intent(applicationContext, AdminActivity::class.java)
@@ -227,6 +247,7 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
         menuInflater.inflate(R.menu.actionbar_back, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
 
     inner class pushNotification : AsyncTask<String, String, String>() {
         override fun doInBackground(vararg urls: String?): String {

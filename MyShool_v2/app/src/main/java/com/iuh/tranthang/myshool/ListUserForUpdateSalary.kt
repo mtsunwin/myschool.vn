@@ -3,20 +3,17 @@ package com.iuh.tranthang.myshool
 import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
-
 import android.content.DialogInterface
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.*
-import android.view.View.OnLongClickListener
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
@@ -26,18 +23,15 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
-
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter_UpdateSalary
-import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
-
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
 
 class ListUserForUpdateSalary : AppCompatActivity() {
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
-    private var viewHolder:RecyclerView.ViewHolder?=null
-    private var info: AdapterView.AdapterContextMenuInfo?=null
+    private var viewHolder: RecyclerView.ViewHolder? = null
+    private var info: AdapterView.AdapterContextMenuInfo? = null
     val listUser = ArrayList<mUser>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +87,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem?): Boolean {
-        info= item!!.menuInfo as AdapterView.AdapterContextMenuInfo?
+        info = item!!.menuInfo as AdapterView.AdapterContextMenuInfo?
         when (item!!.itemId) {
             R.id.updateHeSoluong -> updateHeSoLuong()
         }
@@ -102,7 +96,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
     }
 
 
-    private fun callAdapter(listUser: ArrayList<User>) {
+    private fun callAdapter(listUser: ArrayList<mUser>) {
 
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         var adapter = DataAdapter(listUser)
@@ -111,11 +105,12 @@ class ListUserForUpdateSalary : AppCompatActivity() {
         adapter!!.notifyDataSetChanged()
 
     }
+
     private fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
         var builder: AlertDialog.Builder = AlertDialog.Builder(this)
         var inflater: LayoutInflater = layoutInflater
         var view: View = inflater.inflate(R.layout.layout_dialog, null)
-        var content: TextView = view.findViewById<View>(R.id.content) as TextView
+        var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
         content.setText("Bạn có muốn xóa?")
         builder.setView(view)
         builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
@@ -126,7 +121,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
         })
         builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
             override fun onClick(p0: DialogInterface?, p1: Int) {
-                var dUser: User = listUser.get(viewHolder.adapterPosition)
+                var dUser: mUser = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()
                 dbFireStore.collection(Parameter.root_User)
                 Log.e("tmt id", dUser.getUid())
@@ -146,9 +141,10 @@ class ListUserForUpdateSalary : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun updateHeSoLuong(){
+    private fun updateHeSoLuong() {
 
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbar_menu, menu)
         val searchItem = menu!!.findItem(R.id.action_search)
