@@ -47,6 +47,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AStaffActivity" />
         <activity android:name=".AcountantActivity" />
+        <activity android:name=".UpdateBaseSalary"></activity>
         <activity android:name=".ListUserActivity" />
         <activity android:name=".UpdateProfileActivity" />
         <service android:name=".Firebase.MyFirebaseMessagingService">

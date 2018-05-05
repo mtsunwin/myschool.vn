@@ -10,13 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface
 import com.iuh.tranthang.myshool.R
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 
 /**
  * Created by ThinkPad on 4/7/2018.
  */
 
-class CustomAdapter(var context: Context, var listTitle: ArrayList<User>) : BaseAdapter(), SwipeAdapterInterface {
+class CustomAdapter(var context: Context, var listTitle: ArrayList<mUser>) : BaseAdapter(), SwipeAdapterInterface {
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
         return R.id.swipe_layout
