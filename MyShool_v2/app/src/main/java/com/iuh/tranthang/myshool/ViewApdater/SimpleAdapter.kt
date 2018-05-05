@@ -21,7 +21,7 @@ class SimpleAdapter(private val items: ArrayList<mUser>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(items[position].getFullname(), items[position].getPermission(), items[position].getNumberphone())
+        holder.bind(items[position].getUid(), items[position].getFullname(), items[position].getPermission(), items[position].getNumberphone(),items[position].getUrl())
     }
 
     override fun getItemCount(): Int = items.size
@@ -40,7 +40,7 @@ class SimpleAdapter(private val items: ArrayList<mUser>) : RecyclerView.Adapter<
     class VH(parent: ViewGroup) : RecyclerView.ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user, parent, false)) {
 
-        fun bind(name: String, chucvu: String, phone: String) = with(itemView) {
+        fun bind(uuid:String, name: String, chucvu: String, phone: String,url:String) = with(itemView) {
             val listStringPermission = context.resources.getStringArray(R.array.select_permission)
             txt_fullname.text = name
             txt_chucvu.text = chucvu
