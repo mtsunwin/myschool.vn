@@ -3,6 +3,7 @@ package com.iuh.tranthang.myshool
 import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
+
 import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -13,7 +14,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.*
 import android.view.View.OnLongClickListener
@@ -26,19 +26,19 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
+
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter_UpdateSalary
 import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
+
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
-import kotlinx.android.synthetic.main.activity_list_user.*
-import kotlinx.android.synthetic.main.activity_profile.*
+import com.iuh.tranthang.myshool.model.mUser
 
 class ListUserForUpdateSalary : AppCompatActivity() {
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
     private var viewHolder:RecyclerView.ViewHolder?=null
     private var info: AdapterView.AdapterContextMenuInfo?=null
-    val listUser = ArrayList<User>()
+    val listUser = ArrayList<mUser>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user_updatesalary)
@@ -58,8 +58,9 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
-                                Log.e("tmt",document.data.toString())
-                                var mUser = User(document.data[Parameter.comp_UId] as String,
+                                Log.e("tmt", document.toString())
+                                var mUser = mUser(document.data[Parameter.comp_UId] as String,
+
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
                                         document.data[Parameter.comp_numberphone] as String,
@@ -99,6 +100,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
         return super.onContextItemSelected(item)
 
     }
+
 
     private fun callAdapter(listUser: ArrayList<User>) {
 
@@ -171,7 +173,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    var tempList: ArrayList<User> = ArrayList<User>()
+                    var tempList: ArrayList<mUser> = ArrayList<mUser>()
                     for (mUser in listUser) {
                         var fCheck = mUser.getFullname().toLowerCase()
                         var fCompare = newText!!.toLowerCase()

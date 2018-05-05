@@ -3,7 +3,7 @@ package com.iuh.tranthang.myshool.model
 /**
  * Created by ThinkPad on 4/11/2018.
  */
-class User {
+class mUser {
     private lateinit var uid: String
     private lateinit var fullname: String
     private lateinit var permission: String

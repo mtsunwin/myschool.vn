@@ -20,13 +20,13 @@ import com.iuh.tranthang.myshool.ViewApdater.ActivityFragment
 import com.iuh.tranthang.myshool.ViewApdater.PageAdapter
 import com.iuh.tranthang.myshool.ViewApdater.ProfileFragment
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() {
-    override fun onSelected(dUser: User) {
+    override fun onSelected(dMUser: mUser) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -66,7 +66,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                             Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                             var result: DocumentSnapshot = task.result
                             if (result.exists()) {
-                                var tUser = User()
+                                var tUser = mUser()
                                 tUser.setAddress(result.data[Parameter.comp_address].toString())
                                 tUser.setFullname(result.data[Parameter.comp_fullname].toString())
                                 tUser.setPermission(result.data[Parameter.comp_Permission].toString())
@@ -87,7 +87,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         }
 
         drawerLayout = findViewById(R.id.drawerLayout)
-        navigationView = findViewById(R.id.menuNavigation)
+        navigationView = this.findViewById(R.id.menuNavigation)
 
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
 
@@ -120,10 +120,10 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     /**
      * Cập nhật UI chính
      */
-    private fun updateUI(tUser: User) {
+    private fun updateUI(tMUser: mUser) {
         Log.e("tmt UI", "oke")
-        txt_nickname.setText(tUser.getFullname())
-        permission = tUser.getPermission().toString()
+        txt_nickname.setText(tMUser.getFullname())
+        permission = tMUser.getPermission().toString()
         Log.e("Permission profile", permission.toString())
         when (permission) {
             "0" -> {
@@ -144,12 +144,12 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         }
 
         val bundle = Bundle()
-        Log.e("thong tin address", tUser.getAddress())
-        bundle.putString(frm_fullname, tUser.getFullname().toString())
-        bundle.putString(frm_address, tUser.getAddress().toString())
-        bundle.putString(frm_birthday, tUser.getBirthday().toString())
-        bundle.putString(frm_email, tUser.getEmail().toString())
-        bundle.putString(frm_phone, tUser.getNumberphone().toString())
+        Log.e("thong tin address", tMUser.getAddress())
+        bundle.putString(frm_fullname, tMUser.getFullname().toString())
+        bundle.putString(frm_address, tMUser.getAddress().toString())
+        bundle.putString(frm_birthday, tMUser.getBirthday().toString())
+        bundle.putString(frm_email, tMUser.getEmail().toString())
+        bundle.putString(frm_phone, tMUser.getNumberphone().toString())
         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.model.Parameter
-import com.iuh.tranthang.myshool.model.User
+import com.iuh.tranthang.myshool.model.mUser
 
 /**
  * Created by ThinkPad on 4/20/2018.
@@ -14,20 +14,20 @@ import com.iuh.tranthang.myshool.model.User
 class dbConnect {
     private var mAuth: FirebaseAuth? = null
     private var dbFireStore: FirebaseFirestore? = null
-    private var user: User? = null
+    private var mUser: mUser? = null
 
     constructor() {
         mAuth = FirebaseAuth.getInstance()
         dbFireStore = FirebaseFirestore.getInstance()
-        user = User()
+        mUser = mUser()
     }
 
-    private fun setUser(mUser: User) {
-        this.user!!.setAddress(mUser.getAddress())
+    private fun setUser(mMUser: mUser) {
+        this.mUser!!.setAddress(mMUser.getAddress())
     }
 
     fun getUser(): String {
-        return this.user!!.getAddress()
+        return this.mUser!!.getAddress()
     }
 
     /**
@@ -64,7 +64,7 @@ class dbConnect {
                         var result: DocumentSnapshot = task.result
                         if (result.exists()) {
                             Log.e("tmt in db", result.data[Parameter.comp_address].toString())
-                            var tUser = User()
+                            var tUser = mUser()
                             tUser!!.setAddress(result.data[Parameter.comp_address].toString())
                             this.setUser(tUser)
                         }
