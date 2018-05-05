@@ -79,8 +79,10 @@ class UpdateProfileActivity : AppCompatActivity() {
             showFileChooser()
         }
         btnUpdate!!.setOnClickListener { view ->
-            if(awesomeValidation!!.validate())
-            updateAccount()
+            if(awesomeValidation!!.validate()) {
+                updateAccount()
+
+            }
             else
                 Toast.makeText(this,"nhập đúng định dạng để cập nhật",Toast.LENGTH_SHORT).show()
         }
@@ -227,6 +229,7 @@ class UpdateProfileActivity : AppCompatActivity() {
                                 .addOnProgressListener { taskSnapshot ->
                                     val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
                                     progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                                    progressDialog.setMessage("Uploaded"+progress.toInt()+"")
                                 }
                     }
                     val items= HashMap<String,Any>()
@@ -234,13 +237,12 @@ class UpdateProfileActivity : AppCompatActivity() {
                     items.put("birthday",update_birthday.text.toString())
                     items.put("numberphone",update_numberphone.text.toString())
                     items.put("fullname",update_fullname.text.toString())
-
                     items.put("chucVu",result.data[Parameter.comp_chucVu].toString())
                     items.put("uid",result.data[Parameter.comp_UId].toString())
                     items.put("permission",result.data[Parameter.comp_Permission].toString())
                     items.put("email",result.data[Parameter.comp_email].toString())
-                    items.put("heSoLuong",result.data[Parameter.comp_baseSalary].toString())
 
+                    items.put("heSoLuong",result.data[Parameter.comp_salary].toString())
                     if(filePath!=null)
                         items.put("url",result.data[Parameter.comp_UId].toString())
                     else
@@ -262,8 +264,6 @@ class UpdateProfileActivity : AppCompatActivity() {
             })
 
         }
-        ProfileActivity().finish()
-        this.finish()
 
     }
 }
