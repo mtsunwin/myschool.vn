@@ -1,4 +1,5 @@
 package com.iuh.tranthang.myshool
+
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
@@ -9,7 +10,10 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
 import com.google.firebase.auth.FirebaseAuth
@@ -54,18 +58,18 @@ class UpdateProfileActivity : AppCompatActivity() {
     private var txtPermission: String? = ""
     private var intPermisstion: Int? = 0
     private var awesomeValidation: AwesomeValidation? = null
-    private var imageView:ImageView?=null
+    private var imageView: ImageView? = null
     private var textCongviec: Boolean? = true
     private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
     private var btnUpload: Button? = null
     private val PICK_IMAGE_REQUEST = 1234
     private var filePath: Uri? = null
-    private var mMUser:mUser?=null
+    private var mMUser: mUser? = null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
     private var mAuth: FirebaseAuth? = null
-    private var dbFireStore:FirebaseFirestore?=null
+    private var dbFireStore: FirebaseFirestore? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,10 +83,10 @@ class UpdateProfileActivity : AppCompatActivity() {
             showFileChooser()
         }
         btnUpdate!!.setOnClickListener { view ->
-            if(awesomeValidation!!.validate())
-            updateAccount()
+            if (awesomeValidation!!.validate())
+                updateAccount()
             else
-                Toast.makeText(this,"nhập đúng định dạng để cập nhật",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "nhập đúng định dạng để cập nhật", Toast.LENGTH_SHORT).show()
         }
         setText()
     }
@@ -97,7 +101,7 @@ class UpdateProfileActivity : AppCompatActivity() {
 
 //      upload file
         btnUpload = findViewById<Button>(R.id.update_btnUploadFile)
-        imageView=findViewById(R.id.update_imageView)
+        imageView = findViewById(R.id.update_imageView)
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
 
@@ -153,28 +157,30 @@ class UpdateProfileActivity : AppCompatActivity() {
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Chon hinh"), PICK_IMAGE_REQUEST)
     }
+
     private fun setText() {
-        var db = dbConnect()
+        var db = dbConnect(this)
         mAuth = FirebaseAuth.getInstance()
         if (db.isAuthentication()) {
             dbFireStore = FirebaseFirestore.getInstance()
             dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
-                if (task.isSuccessful) {
-                    Log.e("Tmt inside", "mmmmmmmmmmmmmm")
-                    var result: DocumentSnapshot = task.result
-                    if (result.exists()) {
-                        update_address.setText(result.data[Parameter.comp_address].toString())
-                        update_birthday.setText(result.data[Parameter.comp_birthday].toString())
-                        update_numberphone.setText(result.data[Parameter.comp_numberphone].toString())
-                        update_fullname.setText(result.data[Parameter.comp_fullname].toString())
-                    } else {
-                        Log.e("tmt false", "false")
-                    }
-                }
-            })
+                        if (task.isSuccessful) {
+                            Log.e("Tmt inside", "mmmmmmmmmmmmmm")
+                            var result: DocumentSnapshot = task.result
+                            if (result.exists()) {
+                                update_address.setText(result.data[Parameter.comp_address].toString())
+                                update_birthday.setText(result.data[Parameter.comp_birthday].toString())
+                                update_numberphone.setText(result.data[Parameter.comp_numberphone].toString())
+                                update_fullname.setText(result.data[Parameter.comp_fullname].toString())
+                            } else {
+                                Log.e("tmt false", "false")
+                            }
+                        }
+                    })
         }
     }
+
     //upload hinh len firebase
     private fun upload() {
         /*   if(filePath!=null){
@@ -199,67 +205,68 @@ class UpdateProfileActivity : AppCompatActivity() {
              Toast.makeText(this@RegisterActivity, R.string.created_success, Toast.LENGTH_LONG)
              startActivity(intent)*/
     }
+
     private fun updateAccount() {
-        Log.e("UUID mUser:",dbConnect().getUid())
+        Log.e("UUID mUser:", dbConnect().getUid())
 
         var db2 = dbConnect()
         mAuth = FirebaseAuth.getInstance()
         val userId = mAuth!!.currentUser!!.uid
-        mMUser=mUser()
+        mMUser = mUser()
         if (db2.isAuthentication()) {
             dbFireStore = FirebaseFirestore.getInstance()
             dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
-                if (task.isSuccessful) {
+                        if (task.isSuccessful) {
 
-                    Log.e("Tmt inside", "mmmmmmmmmmmmmm")
-                    var result: DocumentSnapshot = task.result
-                    result.data[Parameter.comp_address]
-                    if(filePath!=null){
-                        val progressDialog=ProgressDialog(this)
-                        progressDialog.setTitle("Uploading...")
-                        progressDialog.show()
-                        var imageRef = storageReference!!.child("images/" + result.data[Parameter.comp_UId].toString())
-                        Log.e("Image:",imageRef.path)
-                        imageRef.putFile(filePath!!).addOnSuccessListener {
-                            progressDialog.dismiss()
-                        }
-                                .addOnProgressListener { taskSnapshot ->
-                                    val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                                    progressDialog.setMessage("Uploaded"+progress.toInt()+"")
+                            Log.e("Tmt inside", "mmmmmmmmmmmmmm")
+                            var result: DocumentSnapshot = task.result
+                            result.data[Parameter.comp_address]
+                            if (filePath != null) {
+                                val progressDialog = ProgressDialog(this)
+                                progressDialog.setTitle("Uploading...")
+                                progressDialog.show()
+                                var imageRef = storageReference!!.child("images/" + result.data[Parameter.comp_UId].toString())
+                                Log.e("Image:", imageRef.path)
+                                imageRef.putFile(filePath!!).addOnSuccessListener {
+                                    progressDialog.dismiss()
                                 }
-                    }
-                    val items= HashMap<String,Any>()
-                    items.put("address",update_address.text.toString())
-                    items.put("birthday",update_birthday.text.toString())
-                    items.put("numberphone",update_numberphone.text.toString())
-                    items.put("fullname",update_fullname.text.toString())
+                                        .addOnProgressListener { taskSnapshot ->
+                                            val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                                            progressDialog.setMessage("Uploaded" + progress.toInt() + "")
+                                        }
+                            }
+                            val items = HashMap<String, Any>()
+                            items.put("address", update_address.text.toString())
+                            items.put("birthday", update_birthday.text.toString())
+                            items.put("numberphone", update_numberphone.text.toString())
+                            items.put("fullname", update_fullname.text.toString())
 
-                    items.put("chucVu",result.data[Parameter.comp_chucVu].toString())
-                    items.put("uid",result.data[Parameter.comp_UId].toString())
-                    items.put("permission",result.data[Parameter.comp_Permission].toString())
-                    items.put("email",result.data[Parameter.comp_email].toString())
-                    items.put("heSoLuong",result.data[Parameter.comp_baseSalary].toString())
+                            items.put("chucVu", result.data[Parameter.comp_chucVu].toString())
+                            items.put("uid", result.data[Parameter.comp_UId].toString())
+                            items.put("permission", result.data[Parameter.comp_Permission].toString())
+                            items.put("email", result.data[Parameter.comp_email].toString())
+                            items.put("heSoLuong", result.data[Parameter.comp_baseSalary].toString())
 
-                    if(filePath!=null)
-                        items.put("url",result.data[Parameter.comp_UId].toString())
-                    else
-                        items.put("url",result.data[Parameter.comp_url].toString())
-                    items.put("toCongTac",result.data[Parameter.comp_toCongTac].toString())
-                    items.put("action",result.data[Parameter.comp_action].toString())
-                    Log.e("Items",items.toString())
-                    if (result.exists()) {
-                        dbFireStore!!.collection(Parameter.root_User)
-                                .document(userId).set(items).addOnSuccessListener {
-                            Toast.makeText(this,"Successful update",Toast.LENGTH_SHORT).show()
+                            if (filePath != null)
+                                items.put("url", result.data[Parameter.comp_UId].toString())
+                            else
+                                items.put("url", result.data[Parameter.comp_url].toString())
+                            items.put("toCongTac", result.data[Parameter.comp_toCongTac].toString())
+                            items.put("action", result.data[Parameter.comp_action].toString())
+                            Log.e("Items", items.toString())
+                            if (result.exists()) {
+                                dbFireStore!!.collection(Parameter.root_User)
+                                        .document(userId).set(items).addOnSuccessListener {
+                                            Toast.makeText(this, "Successful update", Toast.LENGTH_SHORT).show()
+                                        }
+                                Log.e("Update", "Successful")
+                            }
+                        } else {
+                            Log.e("Update", "false")
                         }
-                        Log.e("Update", "Successful")
-                    }
-                    } else {
-                        Log.e("Update", "false")
-                    }
 
-            })
+                    })
 
         }
         ProfileActivity().finish()

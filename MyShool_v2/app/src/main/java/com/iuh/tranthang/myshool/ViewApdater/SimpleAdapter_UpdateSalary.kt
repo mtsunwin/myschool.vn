@@ -1,6 +1,7 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.app.Dialog
+import android.app.FragmentManager
 import android.content.Context
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
@@ -53,8 +54,8 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
     }
 
     class VH_updatesalary(parent: ViewGroup) : RecyclerView.ViewHolder(
-
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user_updatesalary, parent, false)) {
+            LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user_updatesalary,
+                    parent, false)) {
         private var mAuth: FirebaseAuth? = null
         private var dbFireStore: FirebaseFirestore? = null
         private var mUser: mUser? = null
@@ -144,7 +145,11 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
             }
         }
 
-        private fun updateSalary(uid: String, name: String, permission: String, phone: String, address: String, email: String, birhday: String, toCongtac: String, chucVu: String, url: String, action: Boolean, luongCoBan: String, iddevice: String) {
+        private fun updateSalary(uid: String, name: String,
+                                 permission: String, phone: String,
+                                 address: String, email: String, birhday: String,
+                                 toCongtac: String, chucVu: String, url: String,
+                                 action: Boolean, luongCoBan: String, iddevice: String) {
             var db2 = dbConnect()
             mAuth = FirebaseAuth.getInstance()
             val userId = mAuth!!.currentUser!!.uid

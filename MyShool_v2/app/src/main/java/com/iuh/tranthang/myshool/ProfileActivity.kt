@@ -56,7 +56,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         var token = getSharedPreferences("usename", Context.MODE_PRIVATE)
 //        Log.e("tmt check", mAuth!!.uid)
 
-        var db = dbConnect()
+        var db = dbConnect(this)
         if (db.isAuthentication()) {
             txt_nickname.setText("Thắng đẹp trai hihi")
             var dbFireStore = FirebaseFirestore.getInstance()

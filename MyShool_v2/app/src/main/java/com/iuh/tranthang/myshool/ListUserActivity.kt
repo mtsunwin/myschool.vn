@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
-import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
+import com.iuh.tranthang.myshool.ViewApdater.RecycleViewUserAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
@@ -108,12 +108,12 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         var adapter = DataAdapter(listMUser)
-        val simpleAdapter = SimpleAdapter(listMUser)
+        val simpleAdapter = RecycleViewUserAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = recyclerView!!.adapter as SimpleAdapter
+                val adapter = recyclerView!!.adapter as RecycleViewUserAdapter
 //                Log.e("tmt deleted", direction.toString())
                 showDialog(adapter, viewHolder)
             }
@@ -130,7 +130,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     /**
      * Hiển thị Dialog hỏi người dùng có muốn xóa hay không
      */
-    private fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
+    private fun showDialog(adapter: RecycleViewUserAdapter, viewHolder: RecyclerView.ViewHolder) {
         var builder: AlertDialog.Builder = AlertDialog.Builder(this)
         var inflater: LayoutInflater = layoutInflater
         var view: View = inflater.inflate(R.layout.layout_dialog, null)
