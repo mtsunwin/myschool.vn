@@ -1,7 +1,6 @@
 package com.iuh.tranthang.myshool
 
 import android.app.Dialog
-import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
@@ -79,13 +78,13 @@ class AcountantActivity : AppCompatActivity() {
         navigationView!!.setNavigationItemSelectedListener(
                 object : NavigationView.OnNavigationItemSelectedListener {
                     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                        var boolean: Boolean?=false
+                        var boolean: Boolean? = false
                         if (item!!.itemId == R.id.DangXuat) {
-                            Log.e("Dang xuat ne","abc")
-                            var builder: AlertDialog.Builder = AlertDialog.Builder(this@AcountantActivity)
+                            Log.e("Dang xuat ne", "abc")
+                            var builder: android.support.v7.app.AlertDialog.Builder = android.support.v7.app.AlertDialog.Builder(this@AcountantActivity)
                             var inflater: LayoutInflater = layoutInflater
                             var view: View = inflater.inflate(R.layout.layout_dialog, null)
-                            var content: TextView = view.findViewById<View>(R.id.content) as TextView
+                            var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
                             content.setText("Bạn có muốn đăng xuất")
                             builder.setView(view)
                             builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
@@ -125,32 +124,6 @@ class AcountantActivity : AppCompatActivity() {
         )
     }
 
-    public fun updateBaseSalary(context: Context) {
-       /* val db = FirebaseFirestore.getInstance()
-        val dialog = AlertDialog.Builder(context)
-        var inflater = context.applicationContext
-        dialogView = layoutInflater.inflate(R.layout.fragment_dialogupdatebasesalary, null)
-        txtHeSoLuongcoban = findViewById(R.id.txtHeSoLuongCoBan)
-        dialog.setView(dialogView)
-        dialog.setCancelable(false)
-        dialog.setTitle("Cập nhật lương cơ bản")
-        dialog.setPositiveButton("Xác nhận", { dialogInterface: DialogInterface, i: Int -> })
-        val customDialog = dialog.create()
-        val luongID: String? = ""
-        customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener({
-            if (txtHeSoLuongcoban!!.length() > 0) {
-                val items = HashMap<String, Any>()
-                items.put("LuongCoBan", txtHeSoLuongcoban!!.text.toString())
-                db.collection(Parameter().root_Luong)
-                        .document("Salary").set(items)
-                        .addOnSuccessListener { documentReference ->
-                            Toast.makeText(this, "Successful update", Toast.LENGTH_SHORT).show()
-                        }
-                Log.e("Update", "Successful")
-            }
-        })
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         var boolean: Boolean?=false
         if (item!!.itemId == R.id.DangXuat) {
@@ -158,7 +131,7 @@ class AcountantActivity : AppCompatActivity() {
             var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             var inflater: LayoutInflater = layoutInflater
             var view: View = inflater.inflate(R.layout.layout_dialog, null)
-            var content: TextView = view.findViewById<View>(R.id.content) as TextView
+            var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
             content.setText("Bạn có muốn đăng xuất")
             builder.setView(view)
             builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
@@ -194,7 +167,33 @@ class AcountantActivity : AppCompatActivity() {
         else
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
-
     }
-
 }
+
+/*    public fun updateBaseSalary(context: Context) {
+        val db = FirebaseFirestore.getInstance()
+        val dialog = AlertDialog.Builder(context)
+        var inflater = context.applicationContext
+        dialogView = layoutInflater.inflate(R.layout.fragment_dialogupdatebasesalary, null)
+        txtHeSoLuongcoban = findViewById(R.id.txtHeSoLuongCoBan)
+        dialog.setView(dialogView)
+        dialog.setCancelable(false)
+        dialog.setTitle("Cập nhật lương cơ bản")
+        dialog.setPositiveButton("Xác nhận", { dialogInterface: DialogInterface, i: Int -> })
+        val customDialog = dialog.create()
+        val luongID: String? = ""
+        customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener({
+            if (txtHeSoLuongcoban!!.length() > 0) {
+                val items = HashMap<String, Any>()
+                items.put("LuongCoBan", txtHeSoLuongcoban!!.text.toString())
+                db.collection(Parameter().root_Luong)
+                        .document("Salary").set(items)
+                        .addOnSuccessListener { documentReference ->
+                            Toast.makeText(this, "Successful update", Toast.LENGTH_SHORT).show()
+                        }
+                Log.e("Update", "Successful")
+            }
+        })
+    }*/
+
+

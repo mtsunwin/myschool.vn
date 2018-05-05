@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_list_user.*
 
 class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-
+    private var permissionForLogIn: String? = null
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
 
@@ -53,8 +53,11 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user)
+        permissionForLogIn = token_ps!!.getString("permission", " ")
+        Log.e("permission abcxyz:", permissionForLogIn)
         mAuth = FirebaseAuth.getInstance().currentUser
         swipe_container.setOnRefreshListener { onRefresh() }
         swipe_container.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
@@ -75,6 +78,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
+
                                 var mUser = mUser(document.data[Parameter.comp_UId] as String,
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
@@ -89,6 +93,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter.comp_baseSalary] as String,
                                         document.data[Parameter.comp_uidDevice] as String
                                 )
+                                Log.e("USER",mUser.getUid().toString())
                                 if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)
                             }
@@ -111,20 +116,24 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         val simpleAdapter = SimpleAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
-        val swipeHandler = object : SwipeToDeleteCallback(this) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = recyclerView!!.adapter as SimpleAdapter
+        if (permissionForLogIn.equals("3")){
+            val swipeHandler = object : SwipeToDeleteCallback(this) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val adapter = recyclerView!!.adapter as SimpleAdapter
 //                Log.e("tmt deleted", direction.toString())
-                showDialog(adapter, viewHolder)
+                    showDialog(adapter, viewHolder)
+                }
+            }
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(recyclerView)
+
+            fab.setOnClickListener { view ->
+                var intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
             }
         }
-        val itemTouchHelper = ItemTouchHelper(swipeHandler)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        else fab.hide()
 
-        fab.setOnClickListener { view ->
-            var intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     /**

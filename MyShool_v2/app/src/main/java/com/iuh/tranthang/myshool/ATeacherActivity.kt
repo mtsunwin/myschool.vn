@@ -79,7 +79,7 @@ class ATeacherActivity: AppCompatActivity() {
                             var builder: AlertDialog.Builder = AlertDialog.Builder(this@ATeacherActivity)
                             var inflater: LayoutInflater = layoutInflater
                             var view: View = inflater.inflate(R.layout.layout_dialog, null)
-                            var content: TextView = view.findViewById<View>(R.id.content) as TextView
+                            var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
                             content.setText("Bạn có muốn đăng xuất")
                             builder.setView(view)
                             builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
@@ -127,7 +127,7 @@ class ATeacherActivity: AppCompatActivity() {
             var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             var inflater: LayoutInflater = layoutInflater
             var view: View = inflater.inflate(R.layout.layout_dialog, null)
-            var content: TextView = view.findViewById<View>(R.id.content) as TextView
+            var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
             content.setText("Bạn có muốn đăng xuất")
             builder.setView(view)
             builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel

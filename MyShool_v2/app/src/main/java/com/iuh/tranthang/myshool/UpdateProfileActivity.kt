@@ -2,6 +2,7 @@ package com.iuh.tranthang.myshool
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -71,8 +72,8 @@ class UpdateProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_updateprofile)
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
-        awesomeValidation!!.addValidation(this, R.id.update_fullname, "([a-zA-Z' ]+){6,}", R.string.validation_address)
-        awesomeValidation!!.addValidation(this, R.id.update_address, "([a-zA-Z' ]+){6,}", R.string.validation_address)
+        awesomeValidation!!.addValidation(this, R.id.update_fullname, "([a-zA-Z' ]+){6,}", R.string.validation_fullname)
+        awesomeValidation!!.addValidation(this, R.id.update_address, "^([a-zA-Z0-9' ]+){6,}", R.string.validation_address)
         awesomeValidation!!.addValidation(this, R.id.update_numberphone, "^[0-9]{9,}\$", R.string.validation_phone)
         update_initialise()
         btnUpload!!.setOnClickListener { view ->
@@ -242,13 +243,14 @@ class UpdateProfileActivity : AppCompatActivity() {
                     items.put("permission",result.data[Parameter.comp_Permission].toString())
                     items.put("email",result.data[Parameter.comp_email].toString())
 
-                    items.put("heSoLuong",result.data[Parameter.comp_salary].toString())
+                    items.put("heSoLuong",result.data[Parameter.comp_baseSalary].toString())
                     if(filePath!=null)
                         items.put("url",result.data[Parameter.comp_UId].toString())
                     else
                         items.put("url",result.data[Parameter.comp_url].toString())
                     items.put("toCongTac",result.data[Parameter.comp_toCongTac].toString())
-                    items.put("action",result.data[Parameter.comp_action].toString())
+                    items.put("action",result.data[Parameter.comp_action] as Boolean)
+                    items.put("iddevice",result.data[Parameter.comp_uidDevice].toString())
                     Log.e("Items",items.toString())
                     if (result.exists()) {
                         dbFireStore!!.collection(Parameter.root_User)
