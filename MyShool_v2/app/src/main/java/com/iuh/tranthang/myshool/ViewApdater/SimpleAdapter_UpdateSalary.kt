@@ -3,6 +3,7 @@ package com.iuh.tranthang.myshool.ViewApdater
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.BitmapFactory
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -12,15 +13,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
+import kotlinx.android.synthetic.main.layout_item_list_user.view.*
 import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
+import java.io.File
 
 
 /**
@@ -55,6 +62,8 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
     class VH_updatesalary(parent: ViewGroup) : RecyclerView.ViewHolder(
 
             LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user_updatesalary, parent, false)) {
+        internal var storage: FirebaseStorage? = null
+        private var storageReference: StorageReference? = null
         private var mAuth: FirebaseAuth? = null
         private var dbFireStore: FirebaseFirestore? = null
         private var mUser: mUser? = null
@@ -77,6 +86,8 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
         fun bind(uid: String, name: String, permission: String, phone: String, address: String, email: String, birhday: String, toCongTac: String, chucVu: String, url: String, action: Boolean, luongCoBan: String, iddevice: String) = with(itemView) {
             txt_fullname_updateSalary.text = name
             txt_chucvu_updateSalary.text = permission
+            storage = FirebaseStorage.getInstance()
+            storageReference = storage!!.reference
             txt_uuid = uid.toString()
             txt_name = name.toString()
             txt_phone = phone.toString()
@@ -96,6 +107,21 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
                 "2" -> txt_chucvu_updateSalary.text = "Nhân viên"
                 "3" -> txt_chucvu_updateSalary.text = "Admin"
                 else -> txt_chucvu_updateSalary.text = ""
+            }
+            if(txt_url!!.length>0){
+                try {
+                    val tmpFile = File.createTempFile("img","png")
+                    val reference = FirebaseStorage.getInstance().getReference("images/")
+
+                    //  "id" is name of the image file....
+
+                    reference.child(txt_url.toString()).getFile(tmpFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
+                        val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
+                        img_avatar_updateSalary!!.setImageBitmap(image)
+                    })
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
             btn_updateSalary.setOnClickListener { v ->
                 var builder: AlertDialog.Builder = AlertDialog.Builder(context)

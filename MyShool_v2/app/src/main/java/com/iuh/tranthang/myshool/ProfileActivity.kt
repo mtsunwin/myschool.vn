@@ -37,13 +37,14 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     override fun onSelected(dMUser: mUser) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
+    private var dbFireStore:FirebaseFirestore?=null
     val frm_birthday: String = "birthday"
     val frm_address: String = "address"
     val frm_email: String = "email"
     val frm_phone: String = "phone"
     val frm_fullname: String = "fullname"
-
+    val frm_luong:String="luong"
+    var frm_baseSalary:String="Luong co ban"
     var permission: String = ""
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
@@ -90,6 +91,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                                 else tUser.setBirthday("Chưa cập nhật")
                                 tUser.setNumberphone(result.data[Parameter.comp_numberphone].toString())
                                 tUser.setEmail(result.data[Parameter.comp_email].toString())
+                                tUser.setCoefficient(result.data[Parameter.comp_baseSalary].toString())
                                 txtURLImage=result.data[Parameter.comp_url].toString()
                                 Log.e("URL:",txtURLImage.toString())
                                 if(txtURLImage!!.length>0){
@@ -109,13 +111,25 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
 
                                 }
                                 Log.e("Tmt inside abcd", tUser.getFullname() + "-" + tUser.getAddress() + "-" + tUser.getBirthday() + "-" +
-                                        tUser.getNumberphone())
+                                        tUser.getNumberphone()+"-"+tUser.getCoefficient())
                                 updateUI(tUser)
                             } else {
                                 Log.e("tmt false", "false")
                             }
                         }
                     })
+            dbFireStore!!.collection(Parameter.root_Luong).document("Salary")
+                    .get().addOnCompleteListener({ task ->
+                if (task.isSuccessful) {
+                    var result: DocumentSnapshot = task.result
+                    if (result.exists()) {
+                        Log.e("basesalary lay ve",result.data["LuongCoBan"].toString())
+                        frm_baseSalary=result.data["LuongCoBan"].toString()
+                    } else {
+                        Log.e("tmt false", "false")
+                    }
+                }
+            })
         } else {
             // Xử lý quay trở về đăng nhập
             Log.e("tmt", "false")
@@ -185,6 +199,9 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         bundle.putString(frm_birthday, tMUser.getBirthday().toString())
         bundle.putString(frm_email, tMUser.getEmail().toString())
         bundle.putString(frm_phone, tMUser.getNumberphone().toString())
+        bundle.putString(frm_luong,tMUser.getCoefficient().toString())
+        Log.e("bundle frm_baseSalary",frm_baseSalary.toString())
+        bundle.putString("baseSalary", frm_baseSalary.toString())
         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)
