@@ -80,6 +80,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 11 -> listAccount(converView)
                 22 -> createNotification(converView)
                 14 -> updateHeSoLuong(converView)
+                15 -> updateBaseSalary(converView)
             }
         })
 
@@ -118,5 +119,11 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
     }
 
     //ID14:Cap nhat he so luong
+
+    // ID 15: Xem danh sách tài khoản
+    private fun updateBaseSalary(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, UpdateBaseSalary::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
 
 }

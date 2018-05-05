@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
+import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 
 
 /**
@@ -44,11 +45,11 @@ class SimpleAdapter(private val items: ArrayList<mUser>) : RecyclerView.Adapter<
             txt_fullname.text = name
             txt_chucvu.text = chucvu
             when (chucvu) {
-                "0" -> txt_chucvu.text = ""
-                "1" -> txt_chucvu.text = listStringPermission!!.get(1)
-                "2" -> txt_chucvu.text = listStringPermission!!.get(2)
-                "3" -> txt_chucvu.text = listStringPermission!!.get(3)
-                else -> txt_chucvu.text = listStringPermission!!.get(4)
+                "0" -> txt_chucvu.text = "Kế toán"
+                "1" -> txt_chucvu.text = "Giáo viên"
+                "2" -> txt_chucvu.text = "Nhân viên"
+                "3" -> txt_chucvu.text = "Admin"
+                else -> txt_chucvu.text = ""
             }
             if (phone.length > 0) {
                 btn_Call.visibility = visibility
