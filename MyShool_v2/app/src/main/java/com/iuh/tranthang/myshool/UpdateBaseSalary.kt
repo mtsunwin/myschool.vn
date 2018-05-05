@@ -33,7 +33,7 @@ class UpdateBaseSalary : AppCompatActivity() {
         btnXacNhan = findViewById(R.id.btnXacNhanUpdateBaseSalary)
         txtHeSoLuongCoBanOld= findViewById(R.id.txtHeSoLuongCoBanOld)
         dbFireStore = FirebaseFirestore.getInstance()
-        dbFireStore!!.collection(Parameter().root_Luong).document("Salary")
+        dbFireStore!!.collection(Parameter.root_Luong).document("Salary")
                     .get().addOnCompleteListener({ task ->
                 if (task.isSuccessful) {
                     Log.e("Tmt inside", "mmmmmmmmmmmmmm")
@@ -52,7 +52,7 @@ class UpdateBaseSalary : AppCompatActivity() {
             if (txtHeSoLuongcoban!!.length > 0) {
                 val items = HashMap<String, Any>()
                 items.put("LuongCoBan", txtHeSoLuongcoban.toString())
-                db.collection(Parameter().root_Luong)
+                db.collection(Parameter.root_Luong)
                         .document("Salary").set(items)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(this, "Cập nhật lương cơ bản thành công", Toast.LENGTH_SHORT).show()
