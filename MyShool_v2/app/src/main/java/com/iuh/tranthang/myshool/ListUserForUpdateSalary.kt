@@ -51,7 +51,6 @@ class ListUserForUpdateSalary : AppCompatActivity() {
 
     private fun firebaseListenerInit() {
         if (mAuth != null) {
-            Log.e("tmt data", "it will run this")
             val db = FirebaseFirestore.getInstance()
             db.collection(Parameter.root_User)
                     .get()
@@ -59,7 +58,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
-                                Log.e("tmt", document.toString())
+                                Log.e("tmt",document.data.toString())
                                 var mUser = User(document.data[Parameter.comp_UId] as String,
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
@@ -67,13 +66,12 @@ class ListUserForUpdateSalary : AppCompatActivity() {
                                         document.data[Parameter.comp_address] as String,
                                         document.data[Parameter.comp_email] as String,
                                         document.data[Parameter.comp_birthday] as String,
-                                        if ((document.data[Parameter.comp_toCongTac] as String).length > 0) document.data[Parameter.comp_toCongTac] as String else "",
+                                        document.data[Parameter.comp_toCongTac] as String,
                                         document.data[Parameter.comp_chucVu] as String,
-                                        if ((document.data[Parameter.comp_url] as String).length > 0) document.data[Parameter.comp_url] as String else "abc",
+                                        document.data[Parameter.comp_url] as String,
                                         document.data[Parameter.comp_action] as Boolean,
-                                        if ((document.data[Parameter.comp_baseSalary] as String).length > 0) document.data[Parameter.comp_baseSalary] as String else "abc",
-                                        if ((document.data[Parameter.comp_uidDevice] as String).length > 0) document.data[Parameter.comp_uidDevice] as String else "abc"
-                                )
+                                        document.data[Parameter.comp_baseSalary] as String,
+                                        document.data[Parameter.comp_uidDevice] as String)
                                 if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)
                             }

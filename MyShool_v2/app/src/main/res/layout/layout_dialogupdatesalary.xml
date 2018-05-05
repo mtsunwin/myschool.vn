@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,6 +33,7 @@
                 android:id="@+id/txtHesoluongCu_updateSalary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -49,9 +50,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Điền hệ số lương mới"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </LinearLayout>
 
-        </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

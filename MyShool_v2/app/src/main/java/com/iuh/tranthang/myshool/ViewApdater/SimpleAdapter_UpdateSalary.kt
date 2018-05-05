@@ -106,18 +106,18 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<User>) : RecyclerV
             }
             btn_updateSalary.setOnClickListener { v ->
                 var builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                var view: View =LayoutInflater.from(context).inflate(R.layout.layout_dialogupdatesalary,null)
-/*                var inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                var view: View = inflater.inflate(R.layout.layout_dialogupdatesalary, null)*/
+//                var view: View =LayoutInflater.from(context).inflate(R.layout.layout_dialogupdatesalary,null)
+                var inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                var view: View = inflater.inflate(R.layout.layout_dialogupdatesalary, null)
                 builder.setView(view)
                 builder.setTitle("Cập nhật hệ số lương")
                 var txtHeSoLuongCu:TextView?=null
                 var EditTextHeSoLuongMoi:EditText?=null
-                txtHeSoLuongCu=findViewById(R.id.txtHesoluongCu_updateSalary)
-                EditTextHeSoLuongMoi=findViewById(R.id.txtHeSoLuongMoi_update)
+                txtHeSoLuongCu=view.findViewById(R.id.txtHesoluongCu_updateSalary)
+                EditTextHeSoLuongMoi=view.findViewById(R.id.txtHeSoLuongMoi_update)
                 Log.e("txt_luongCoBan",txt_luongCoBan.toString())
-                /*if(!txt_luongCoBan!!.equals("abc")) txtHeSoLuongCu.setText(txt_luongCoBan.toString())
-                else txtHeSoLuongCu.setText("Chưa thiết lập hệ số lương")*/
+                if(!txt_luongCoBan!!.equals("abc") || txt_luongCoBan!!.length>0) txtHeSoLuongCu.setText(txt_luongCoBan.toString())
+                else txtHeSoLuongCu.setText("Chưa thiết lập hệ số lương")
                 builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         p0!!.dismiss()
@@ -136,8 +136,8 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<User>) : RecyclerV
                             // Thực hiện hiện update
                             var washingtonRef: DocumentReference =
                                     dbFireStore.collection(Parameter.root_User).document(txt_uuid!!)
-                            washingtonRef.update(Parameter.comp_baseSalary, false).addOnSuccessListener { void ->
-                                updateSalary(txt_uuid!!,txt_name!!,txt_permission!!,txt_phone!!,txt_address!!,txt_email!!,txt_birthday!!,txt_toCongtac!!,txt_chucVu!!,txt_url!!,txt_action!!,txt_luongCoBan!!,txt_iddevice!!)
+                            washingtonRef.update(Parameter.comp_baseSalary,txt_luongCoBan.toString()).addOnSuccessListener { void ->
+                                //updateSalary(txt_uuid!!,txt_name!!,txt_permission!!,txt_phone!!,txt_address!!,txt_email!!,txt_birthday!!,txt_toCongtac!!,txt_chucVu!!,txt_url!!,txt_action!!,txt_luongCoBan!!,txt_iddevice!!)
                             }.addOnFailureListener { exception ->
                                 Log.e("tmt", "that bai")
                             }
@@ -161,7 +161,6 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<User>) : RecyclerV
                         .get().addOnCompleteListener({ task ->
                     if (task.isSuccessful) {
                         var result: DocumentSnapshot = task.result
-                        result.data[Parameter.comp_address]
                         val items= HashMap<String,Any>()
                         items.put("address",address.toString())
                         items.put("birthday",birhday.toString())
