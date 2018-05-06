@@ -44,7 +44,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     val frm_phone: String = "phone"
     val frm_fullname: String = "fullname"
     val frm_luong:String="luong"
-    var frm_baseSalary:String="Luong co ban"
+    var frm_baseSalary:String=""
     var permission: String = ""
     var viewPager: ViewPager? = null
     var tabLayout: TabLayout? = null
@@ -118,18 +118,6 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                             }
                         }
                     })
-            dbFireStore!!.collection(Parameter.root_Luong).document("Salary")
-                    .get().addOnCompleteListener({ task ->
-                if (task.isSuccessful) {
-                    var result: DocumentSnapshot = task.result
-                    if (result.exists()) {
-                        Log.e("basesalary lay ve",result.data["LuongCoBan"].toString())
-                        frm_baseSalary=result.data["LuongCoBan"].toString()
-                    } else {
-                        Log.e("tmt false", "false")
-                    }
-                }
-            })
         } else {
             // Xử lý quay trở về đăng nhập
             Log.e("tmt", "false")
@@ -200,8 +188,6 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         bundle.putString(frm_email, tMUser.getEmail().toString())
         bundle.putString(frm_phone, tMUser.getNumberphone().toString())
         bundle.putString(frm_luong,tMUser.getCoefficient().toString())
-        Log.e("bundle frm_baseSalary",frm_baseSalary.toString())
-        bundle.putString("baseSalary", frm_baseSalary.toString())
         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)

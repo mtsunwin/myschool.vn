@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
@@ -14,10 +15,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
+import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
+import java.io.File
 
 class AStaffActivity : AppCompatActivity() {
 
@@ -25,6 +38,19 @@ class AStaffActivity : AppCompatActivity() {
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
 
+    //bien cho hien thi avatar navigation
+    private lateinit var dbFireStore: FirebaseFirestore
+    private lateinit var mAuth: FirebaseUser
+    private var view: View? = null
+    private var nav_header_imgAvartar: ImageView?=null
+    private var nav_header_txtName:TextView?=null
+    private var nav_header_txtPermission:TextView?=null
+    private var nav_header_layout: LinearLayout?=null
+    internal var storage: FirebaseStorage? = null
+    private var storageReference: StorageReference? = null
+    private var permission:String=""
+    private var name:String=""
+    private var txtURLImage:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
@@ -50,6 +76,71 @@ class AStaffActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
+
+        // cập nhật avatar navigation
+        view = navigationView!!.inflateHeaderView(R.layout.nav_header_main)
+        nav_header_layout=findViewById(R.id.nav_header_layout)
+        nav_header_imgAvartar= view!!.findViewById(R.id.nav_header_imageView)
+        nav_header_txtName =view!!.findViewById(R.id.nav_header_name)
+        nav_header_txtPermission=view!!.findViewById(R.id.nav_header_permission)
+        nav_header_txtPermission!!.setText(permission.toString())
+        nav_header_txtName!!.setText(name.toString())
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage!!.reference
+        var db = dbConnect(this)
+        if (db.isAuthentication()) {
+            var dbFireStore = FirebaseFirestore.getInstance()
+            dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
+                    .get().addOnCompleteListener({ task ->
+                if (task.isSuccessful) {
+                    Log.e("Tmt inside", "mmmmmmmmmmmmmm")
+                    var result: DocumentSnapshot = task.result
+                    if (result.exists()) {
+                        name = result.data[Parameter.comp_fullname].toString()
+                        when (result.data[Parameter.comp_Permission].toString()) {
+                            "0" -> {
+                                permission = "Kế toán"
+                            }
+                            "1" -> {
+                                permission = "Giáo viên"
+                            }
+                            "2" -> {
+                                permission = "Nhân viên"
+                            }
+                            "3" -> {
+                                permission = "Admin"
+                            }
+                        }
+                        Log.e("Name+permission",name+"----"+permission)
+                        nav_header_txtName!!.setText(name.toString())
+                        nav_header_txtPermission!!.setText(permission.toString())
+                        txtURLImage = result.data[Parameter.comp_url].toString()
+                        Log.e("URL:", txtURLImage.toString())
+                        if (txtURLImage!!.length > 0) {
+                            try {
+                                val tmpFile = File.createTempFile("img", "png")
+                                val reference = FirebaseStorage.getInstance().getReference("images/")
+
+                                //  "id" is name of the image file....
+
+                                reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
+                                    val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
+                                    nav_header_imgAvartar!!.setImageBitmap(image)
+                                })
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+
+                        }
+                    } else {
+                        Log.e("tmt false", "false")
+                    }
+                }
+            })
+        }
+
+
+        //// ket thuc cap nhat avatar/////
 
         val drawerIndicatorEnabled = abdt!!.isDrawerIndicatorEnabled
         drawerLayout!!.addDrawerListener(abdt!!)

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/itemTrangCaNhan"
         android:title="@string/nav.infor"></item>
+
     <item
         android:id="@+id/Quanlycongviec"
         android:title="@string/nav.working"></item>
