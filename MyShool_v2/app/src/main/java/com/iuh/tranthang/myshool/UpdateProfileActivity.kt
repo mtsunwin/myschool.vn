@@ -3,7 +3,6 @@ package com.iuh.tranthang.myshool
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -84,16 +83,11 @@ class UpdateProfileActivity : AppCompatActivity() {
             showFileChooser()
         }
         btnUpdate!!.setOnClickListener { view ->
-<<<<<<< HEAD
-            if(awesomeValidation!!.validate()) {
+
+            if (awesomeValidation!!.validate()) {
                 updateAccount()
 
-            }
-=======
-            if (awesomeValidation!!.validate())
-                updateAccount()
->>>>>>> Thang_0605_AdapterNotification
-            else
+            } else
                 Toast.makeText(this, "nhập đúng định dạng để cập nhật", Toast.LENGTH_SHORT).show()
         }
         setText()
@@ -227,49 +221,6 @@ class UpdateProfileActivity : AppCompatActivity() {
                     .get().addOnCompleteListener({ task ->
                         if (task.isSuccessful) {
 
-<<<<<<< HEAD
-                    Log.e("Tmt inside", "mmmmmmmmmmmmmm")
-                    var result: DocumentSnapshot = task.result
-                    result.data[Parameter.comp_address]
-                    if(filePath!=null){
-                        val progressDialog=ProgressDialog(this)
-                        progressDialog.setTitle("Uploading...")
-                        progressDialog.show()
-                        var imageRef = storageReference!!.child("images/" + result.data[Parameter.comp_UId].toString())
-                        Log.e("Image:",imageRef.path)
-                        imageRef.putFile(filePath!!).addOnSuccessListener {
-                            progressDialog.dismiss()
-                        }
-                                .addOnProgressListener { taskSnapshot ->
-                                    val progress= 100.0* taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                                    progressDialog.setMessage("Uploaded"+progress.toInt()+"")
-                                    progressDialog.setMessage("Uploaded"+progress.toInt()+"")
-                                }
-                    }
-                    val items= HashMap<String,Any>()
-                    items.put("address",update_address.text.toString())
-                    items.put("birthday",update_birthday.text.toString())
-                    items.put("numberphone",update_numberphone.text.toString())
-                    items.put("fullname",update_fullname.text.toString())
-                    items.put("chucVu",result.data[Parameter.comp_chucVu].toString())
-                    items.put("uid",result.data[Parameter.comp_UId].toString())
-                    items.put("permission",result.data[Parameter.comp_Permission].toString())
-                    items.put("email",result.data[Parameter.comp_email].toString())
-
-                    items.put("heSoLuong",result.data[Parameter.comp_baseSalary].toString())
-                    if(filePath!=null)
-                        items.put("url",result.data[Parameter.comp_UId].toString())
-                    else
-                        items.put("url",result.data[Parameter.comp_url].toString())
-                    items.put("toCongTac",result.data[Parameter.comp_toCongTac].toString())
-                    items.put("action",result.data[Parameter.comp_action] as Boolean)
-                    items.put("iddevice",result.data[Parameter.comp_uidDevice].toString())
-                    Log.e("Items",items.toString())
-                    if (result.exists()) {
-                        dbFireStore!!.collection(Parameter.root_User)
-                                .document(userId).set(items).addOnSuccessListener {
-                            Toast.makeText(this,"Successful update",Toast.LENGTH_SHORT).show()
-=======
                             Log.e("Tmt inside", "mmmmmmmmmmmmmm")
                             var result: DocumentSnapshot = task.result
                             result.data[Parameter.comp_address]
@@ -285,6 +236,7 @@ class UpdateProfileActivity : AppCompatActivity() {
                                         .addOnProgressListener { taskSnapshot ->
                                             val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
                                             progressDialog.setMessage("Uploaded" + progress.toInt() + "")
+                                            progressDialog.setMessage("Uploaded" + progress.toInt() + "")
                                         }
                             }
                             val items = HashMap<String, Any>()
@@ -292,35 +244,34 @@ class UpdateProfileActivity : AppCompatActivity() {
                             items.put("birthday", update_birthday.text.toString())
                             items.put("numberphone", update_numberphone.text.toString())
                             items.put("fullname", update_fullname.text.toString())
-
                             items.put("chucVu", result.data[Parameter.comp_chucVu].toString())
                             items.put("uid", result.data[Parameter.comp_UId].toString())
                             items.put("permission", result.data[Parameter.comp_Permission].toString())
                             items.put("email", result.data[Parameter.comp_email].toString())
-                            items.put("heSoLuong", result.data[Parameter.comp_baseSalary].toString())
 
+                            items.put("heSoLuong", result.data[Parameter.comp_baseSalary].toString())
                             if (filePath != null)
                                 items.put("url", result.data[Parameter.comp_UId].toString())
                             else
                                 items.put("url", result.data[Parameter.comp_url].toString())
                             items.put("toCongTac", result.data[Parameter.comp_toCongTac].toString())
-                            items.put("action", result.data[Parameter.comp_action].toString())
+                            items.put("action", result.data[Parameter.comp_action] as Boolean)
+                            items.put("iddevice", result.data[Parameter.comp_uidDevice].toString())
                             Log.e("Items", items.toString())
                             if (result.exists()) {
                                 dbFireStore!!.collection(Parameter.root_User)
                                         .document(userId).set(items).addOnSuccessListener {
                                             Toast.makeText(this, "Successful update", Toast.LENGTH_SHORT).show()
+
                                         }
-                                Log.e("Update", "Successful")
+                            } else {
+                                Log.e("Update", "false")
                             }
-                        } else {
-                            Log.e("Update", "false")
->>>>>>> Thang_0605_AdapterNotification
+
                         }
 
                     })
 
         }
-
     }
 }

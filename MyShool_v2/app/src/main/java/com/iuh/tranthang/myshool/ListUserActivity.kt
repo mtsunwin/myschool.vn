@@ -116,16 +116,11 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         val simpleAdapter = RecycleViewUserAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
-<<<<<<< HEAD
         if (permissionForLogIn.equals("3")){
             val swipeHandler = object : SwipeToDeleteCallback(this) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val adapter = recyclerView!!.adapter as SimpleAdapter
-=======
-        val swipeHandler = object : SwipeToDeleteCallback(this) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
                 val adapter = recyclerView!!.adapter as RecycleViewUserAdapter
->>>>>>> Thang_0605_AdapterNotification
 //                Log.e("tmt deleted", direction.toString())
                     showDialog(adapter, viewHolder)
                 }

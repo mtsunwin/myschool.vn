@@ -12,11 +12,8 @@ import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
-<<<<<<< HEAD:MyShool_v2/app/src/main/java/com/iuh/tranthang/myshool/ViewApdater/SimpleAdapter.kt
 import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 import java.io.File
-=======
->>>>>>> Thang_0605_AdapterNotification:MyShool_v2/app/src/main/java/com/iuh/tranthang/myshool/ViewApdater/RecycleViewUserAdapter.kt
 
 
 /**

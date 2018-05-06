@@ -1,7 +1,6 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.app.Dialog
-import android.app.FragmentManager
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.BitmapFactory
@@ -26,7 +25,6 @@ import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
-import kotlinx.android.synthetic.main.layout_item_list_user.view.*
 import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 import java.io.File
 
@@ -61,15 +59,12 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
     }
 
     class VH_updatesalary(parent: ViewGroup) : RecyclerView.ViewHolder(
-<<<<<<< HEAD
+
 
             LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user_updatesalary, parent, false)) {
         internal var storage: FirebaseStorage? = null
         private var storageReference: StorageReference? = null
-=======
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user_updatesalary,
-                    parent, false)) {
->>>>>>> Thang_0605_AdapterNotification
+
         private var mAuth: FirebaseAuth? = null
         private var dbFireStore: FirebaseFirestore? = null
         private var mUser: mUser? = null
@@ -114,9 +109,9 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
                 "3" -> txt_chucvu_updateSalary.text = "Admin"
                 else -> txt_chucvu_updateSalary.text = ""
             }
-            if(txt_url!!.length>0){
+            if (txt_url!!.length > 0) {
                 try {
-                    val tmpFile = File.createTempFile("img","png")
+                    val tmpFile = File.createTempFile("img", "png")
                     val reference = FirebaseStorage.getInstance().getReference("images/")
 
                     //  "id" is name of the image file....
