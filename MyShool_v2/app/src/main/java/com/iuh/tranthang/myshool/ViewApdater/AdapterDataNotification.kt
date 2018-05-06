@@ -2,7 +2,6 @@ package com.iuh.tranthang.myshool.ViewApdater
 
 import android.content.Context
 import android.support.v7.widget.CardView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,10 @@ import com.iuh.tranthang.myshool.model.mNotification
  */
 class AdapterDataNotification(var context: Context, var listTitle: ArrayList<mNotification>)
     : BaseAdapter(), SwipeAdapterInterface {
+
+//    interface OnItemClickListener {
+//        fun onItemClick(item: ContentItem)
+//    }
 
     override fun getView(position: Int, converview: View, p2: ViewGroup?): View {
         var view: View
@@ -61,7 +64,7 @@ class AdapterDataNotification(var context: Context, var listTitle: ArrayList<mNo
         var group: TextView
         var count: TextView
         var date: TextView
-        lateinit var card: CardView
+        var card: CardView
 
         init {
             title = row.findViewById(R.id.txtList_tile_notification)

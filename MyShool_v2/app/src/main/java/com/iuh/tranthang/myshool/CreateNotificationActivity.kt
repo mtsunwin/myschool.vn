@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -25,10 +26,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.NotificationUtils
 import com.iuh.tranthang.myshool.Firebase.dbConnect
-import com.iuh.tranthang.myshool.ViewApdater.AdapterDataNotification
-import com.iuh.tranthang.myshool.ViewApdater.AdapterDialogAsk
-import com.iuh.tranthang.myshool.ViewApdater.RecycleViewNotificationAdapter
-import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
+import com.iuh.tranthang.myshool.ViewApdater.*
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.Parameter_Notification
 import com.iuh.tranthang.myshool.model.mNotification
@@ -85,7 +83,13 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         }
         // NÚT Gửi thông báo
         btn_sentNotification.setOnClickListener {
+            val fm: FragmentManager? = supportFragmentManager
+            val dialogLoading: AdapterDialogLoading = AdapterDialogLoading().newInstance(
+                    "Đang xử lý bạn vui lòng chờ...", 0)
+            dialogLoading.show(fm, null)
+
             if (awesomeValidation!!.validate()) {
+
                 var strTitle = txt_titleNotification.text
                 var strContent = txt_contentNotification.text
                 var url = "http://ngansotre.com/thangtm/getNotification.php/random_user?title=" +
@@ -204,10 +208,13 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         recycleView = findViewById(R.id.recycleView_notification)
         recycleView.layoutManager = LinearLayoutManager(this)
         if (list.size > 0) {
-            val simpleAdapter = RecycleViewNotificationAdapter(list)
+            val simpleAdapter = RecycleViewNotificationAdapter(list, { partItem: mNotification ->
+                partItemClicked(partItem)
+            })
             var adap = AdapterDataNotification(applicationContext, list)
             recycleView.adapter = simpleAdapter
             adap.notifyDataSetChanged()
+
             swipe_notification.setRefreshing(false)
             val swipeHandler = object : SwipeToDeleteCallback(this) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
@@ -217,7 +224,6 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                     val str: String = "Bạn muốn xóa <b>" + mNo.title + "</b> không?"
                     showDialog(str, 1, mNo.id)
                 }
-
             }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
             itemTouchHelper.attachToRecyclerView(recycleView)
@@ -390,11 +396,10 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         }
     }
 
-    /**
-     * Nhân dữ liệu từ Card View
-     * Sau khi click và Card view dữ liệu sẽ trả về đây
-     */
-    override fun actionClickCard(id: String) {
-
+    private fun partItemClicked(partItem: mNotification) {
+        txt_titleNotification.setText(partItem.title)
+        txt_contentNotification.setText(partItem.content)
+        val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
+        spinner_list.setSelection(partItem.group.toInt())
     }
 }
