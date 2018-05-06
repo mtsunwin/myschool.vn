@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -25,10 +26,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.NotificationUtils
 import com.iuh.tranthang.myshool.Firebase.dbConnect
-import com.iuh.tranthang.myshool.ViewApdater.AdapterDataNotification
-import com.iuh.tranthang.myshool.ViewApdater.AdapterDialogAsk
-import com.iuh.tranthang.myshool.ViewApdater.RecycleViewNotificationAdapter
-import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
+import com.iuh.tranthang.myshool.ViewApdater.*
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.Parameter_Notification
 import com.iuh.tranthang.myshool.model.mNotification
@@ -45,7 +43,6 @@ import java.util.*
 class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendReponse, dbConnect.sendReponse,
         SwipeRefreshLayout.OnRefreshListener {
 
-
     val CONNECTON_TIMEOUT_MILLISECONDS = 60000
     private lateinit var notification: NotificationUtils
     private lateinit var awesomeValidation: AwesomeValidation
@@ -53,43 +50,6 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
     private lateinit var mAuth: FirebaseUser
     private lateinit var db: dbConnect
     private lateinit var recycleView: RecyclerView
-
-    /**
-     * Nhận dữ liệu từ db trả về
-     * Lấy danh sách Các tin nhắn mẫu
-     */
-    override fun getListNotification_Template(list: ArrayList<mNotification>) {
-        Log.e("tmt", "saaaaaaaaaaaa")
-        recycleView = findViewById(R.id.recycleView_notification)
-        recycleView.layoutManager = LinearLayoutManager(this)
-        if (list.size > 0) {
-            val simpleAdapter = RecycleViewNotificationAdapter(list)
-            var adap = AdapterDataNotification(applicationContext, list)
-            recycleView.adapter = simpleAdapter
-            adap.notifyDataSetChanged()
-            swipe_notification.setRefreshing(false)
-            val swipeHandler = object : SwipeToDeleteCallback(this) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-                    val adapter = recycleView.adapter
-                    Log.e("tmt", "swwwwwwwww")
-                    var mNo: mNotification = list.get(viewHolder!!.adapterPosition)
-                    val str: String = "Bạn muốn xóa <b>" + mNo.title + "</b> không?"
-                    showDialog(str, 1, mNo.id)
-                }
-            }
-            val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            itemTouchHelper.attachToRecyclerView(recycleView)
-        }
-        swipe_notification.setRefreshing(false)
-    }
-
-    /**
-     * Swipe Refesh Data
-     */
-    override fun onRefresh() {
-        Log.e("tmt", "refresh")
-        db.getListNotificationTemplate()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,7 +69,6 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                 resources.getStringArray(R.array.select_notification_to_send))
         val actionBar = supportActionBar
         actionBar!!.hide()
-
         // NÚT Tạo tin nhắn mẫu
         btn_createTemplate.setOnClickListener { view ->
             if (awesomeValidation!!.validate()) {
@@ -122,10 +81,15 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                 showDialog(str, 0, "")
             }
         }
-
         // NÚT Gửi thông báo
         btn_sentNotification.setOnClickListener {
+            val fm: FragmentManager? = supportFragmentManager
+            val dialogLoading: AdapterDialogLoading = AdapterDialogLoading().newInstance(
+                    "Đang xử lý bạn vui lòng chờ...", 0)
+            dialogLoading.show(fm, null)
+
             if (awesomeValidation!!.validate()) {
+
                 var strTitle = txt_titleNotification.text
                 var strContent = txt_contentNotification.text
                 var url = "http://ngansotre.com/thangtm/getNotification.php/random_user?title=" +
@@ -236,6 +200,44 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         }
     }
 
+    /**
+     * Nhận dữ liệu từ db trả về
+     * Lấy danh sách Các tin nhắn mẫu
+     */
+    override fun getListNotification_Template(list: ArrayList<mNotification>) {
+        recycleView = findViewById(R.id.recycleView_notification)
+        recycleView.layoutManager = LinearLayoutManager(this)
+        if (list.size > 0) {
+            val simpleAdapter = RecycleViewNotificationAdapter(list, { partItem: mNotification ->
+                partItemClicked(partItem)
+            })
+            var adap = AdapterDataNotification(applicationContext, list)
+            recycleView.adapter = simpleAdapter
+            adap.notifyDataSetChanged()
+
+            swipe_notification.setRefreshing(false)
+            val swipeHandler = object : SwipeToDeleteCallback(this) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
+                    val adapter = recycleView.adapter
+                    Log.e("tmt", "swwwwwwwww")
+                    var mNo: mNotification = list.get(viewHolder!!.adapterPosition)
+                    val str: String = "Bạn muốn xóa <b>" + mNo.title + "</b> không?"
+                    showDialog(str, 1, mNo.id)
+                }
+            }
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(recycleView)
+        }
+        swipe_notification.setRefreshing(false)
+    }
+
+    /**
+     * Swipe Refesh Data
+     */
+    override fun onRefresh() {
+        Log.e("tmt", "refresh")
+        db.getListNotificationTemplate()
+    }
 
     /**
      * Hiển thị Dialog hỏi người dùng có muốn xóa hay không
@@ -245,21 +247,19 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         var inflater: LayoutInflater = layoutInflater
         var view: View = inflater.inflate(R.layout.layout_dialog, null)
         var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
-
         content.setText(Html.fromHtml(str))
         builder.setView(view)
-
-
         builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
+                val adapter = recycleView.adapter
+                adapter.notifyDataSetChanged()
             }
         })
-
         builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 when (ask) {
-                    0 -> {
+                    0 -> { // Tạo tin nhắn mẫu
                         val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
                         var number: String = "0"
                         when (spinner_list.selectedItem) {
@@ -278,16 +278,15 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                         }
                         var cal = Calendar.getInstance()
                         var date = cal.time
-
                         var idDocument = dbFireStore.collection(Parameter_Notification.collection).document()
-
-                        var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(), txt_contentNotification.text.toString()
-                                , number)
+                        var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(),
+                                txt_contentNotification.text.toString(), number)
                         mNo.count = "0"
                         mNo.listView = ArrayList<mNotificationUser>()
                         mNo.dateTime = SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa").format(date)
                         idDocument.set(mNo).addOnCompleteListener { task ->
                             clearText();
+                            db.getListNotificationTemplate()
                         }
                     }
                     1 -> {
@@ -395,5 +394,12 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         } else {
             Log.e("tmt", "xóa không thành công")
         }
+    }
+
+    private fun partItemClicked(partItem: mNotification) {
+        txt_titleNotification.setText(partItem.title)
+        txt_contentNotification.setText(partItem.content)
+        val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
+        spinner_list.setSelection(partItem.group.toInt())
     }
 }

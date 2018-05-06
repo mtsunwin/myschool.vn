@@ -45,7 +45,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txttitletNotifi" />
+                android:text="@string/txttitletNotifi"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txt_titleNotification"
@@ -64,7 +65,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txtContenttNotifi" />
+                android:text="@string/txtContenttNotifi"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txt_contentNotification"
@@ -83,12 +85,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txtGroupNotifi" />
+                android:text="@string/txtGroupNotifi"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spinner_list"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"></Spinner>
+                android:layout_height="40dp"
+                android:textStyle="bold"></Spinner>
         </LinearLayout>
 
         <LinearLayout
