@@ -79,22 +79,22 @@ class AdminActivity : AppCompatActivity() {
         navigationView!!.setNavigationItemSelectedListener(
                 object : NavigationView.OnNavigationItemSelectedListener {
                     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                        var boolean: Boolean?=false
+                        var boolean: Boolean? = false
                         if (item!!.itemId == R.id.DangXuat) {
-                            Log.e("Dang xuat ne","abc")
+                            Log.e("Dang xuat ne", "abc")
                             var builder: AlertDialog.Builder = AlertDialog.Builder(this@AdminActivity)
                             var inflater: LayoutInflater = layoutInflater
                             var view: View = inflater.inflate(R.layout.layout_dialog, null)
                             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
                             content.setText("Bạn có muốn đăng xuất")
                             builder.setView(view)
-                            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+                            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     p0!!.dismiss()
 
                                 }
                             })
-                            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+                            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                                     var editor = token.edit()
@@ -144,22 +144,22 @@ class AdminActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        var boolean: Boolean?=false
+        var boolean: Boolean? = false
         if (item!!.itemId == R.id.DangXuat) {
-            Log.e("Dang xuat ne","abc")
+            Log.e("Dang xuat ne", "abc")
             var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             var inflater: LayoutInflater = layoutInflater
             var view: View = inflater.inflate(R.layout.layout_dialog, null)
             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
             content.setText("Bạn có muốn đăng xuất")
             builder.setView(view)
-            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     p0!!.dismiss()
 
                 }
             })
-            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                     var editor = token.edit()
@@ -177,13 +177,11 @@ class AdminActivity : AppCompatActivity() {
             })
             var dialog: Dialog = builder.create()
             dialog.show()
-        }
-        else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            val intent_profile=Intent(this, ProfileActivity::class.java)
+        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile = Intent(this, ProfileActivity::class.java)
             startActivity(intent_profile)
             boolean = true
-        }
-        else
+        } else
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
 

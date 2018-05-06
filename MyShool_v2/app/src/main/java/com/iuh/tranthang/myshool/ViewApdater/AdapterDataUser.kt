@@ -16,7 +16,7 @@ import com.iuh.tranthang.myshool.model.mUser
  * Created by ThinkPad on 4/7/2018.
  */
 
-class CustomAdapter(var context: Context, var listTitle: ArrayList<mUser>) : BaseAdapter(), SwipeAdapterInterface {
+class AdapterDataUser(var context: Context, var listTitle: ArrayList<mUser>) : BaseAdapter(), SwipeAdapterInterface {
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
         return R.id.swipe_layout

@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
@@ -27,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.iuh.tranthang.myshool.ViewApdater.AdapterDialogAsk
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
 import com.iuh.tranthang.myshool.ViewApdater.RecycleViewUserAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
@@ -35,12 +35,13 @@ import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_list_user.*
 
 
-class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
+        AdapterDialogAsk.sendReponse {
+
 
     private var permissionForLogIn: String? = null
     private var mAuth: FirebaseUser? = null
     private var recyclerView: RecyclerView? = null
-
     val listUser = ArrayList<mUser>()
 
     /**
@@ -60,7 +61,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         Log.e("permission abcxyz:", permissionForLogIn)
         mAuth = FirebaseAuth.getInstance().currentUser
         swipe_container.setOnRefreshListener { onRefresh() }
-        swipe_container.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
         firebaseListenerInit()
     }
 
@@ -78,7 +78,6 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                         if (task.isSuccessful) {
                             listUser.clear()
                             for (document in task.result) {
-
                                 var mUser = mUser(document.data[Parameter.comp_UId] as String,
                                         document.data[Parameter.comp_fullname] as String,
                                         document.data[Parameter.comp_Permission] as String,
@@ -93,7 +92,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                                         document.data[Parameter.comp_baseSalary] as String,
                                         document.data[Parameter.comp_uidDevice] as String
                                 )
-                                Log.e("USER",mUser.getUid().toString())
+                                Log.e("USER", mUser.getUid().toString())
                                 if (document.data[Parameter.comp_action].toString() == "true")
                                     listUser.add(mUser)
                             }
@@ -116,25 +115,20 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         val simpleAdapter = RecycleViewUserAdapter(listMUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
-        if (permissionForLogIn.equals("3")){
+        if (permissionForLogIn.equals("3")) {
             val swipeHandler = object : SwipeToDeleteCallback(this) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-                val adapter = recyclerView!!.adapter as RecycleViewUserAdapter
-//                Log.e("tmt deleted", direction.toString())
+                    val adapter = recyclerView!!.adapter as RecycleViewUserAdapter
                     showDialog(adapter, viewHolder)
                 }
             }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
             itemTouchHelper.attachToRecyclerView(recyclerView)
-
             fab.setOnClickListener { view ->
                 var intent = Intent(this, RegisterActivity::class.java)
                 startActivity(intent)
             }
-        }
-        else fab.hide()
-
+        } else fab.hide()
     }
 
     /**
@@ -147,13 +141,13 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
         content.setText("Bạn có muốn xóa?")
         builder.setView(view)
-        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+        builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
                 adapter!!.notifyDataSetChanged()
             }
         })
-        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+        builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 var dMUser: mUser = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()
@@ -218,5 +212,17 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
             searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return super.onCreateOptionsMenu(menu)
+    }
+
+
+    /**
+     * Nhận giá trị trả về từ hộp thoại Dialog
+     */
+    override fun completed(input: Boolean) {
+        if (input) {
+
+        } else {
+
+        }
     }
 }

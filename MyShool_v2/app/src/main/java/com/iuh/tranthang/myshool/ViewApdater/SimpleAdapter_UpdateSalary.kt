@@ -138,12 +138,12 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
                 Log.e("txt_luongCoBan", txt_luongCoBan.toString())
                 if (!txt_luongCoBan!!.equals("abc") || txt_luongCoBan!!.length > 0) txtHeSoLuongCu.setText(txt_luongCoBan.toString())
                 else txtHeSoLuongCu.setText("Chưa thiết lập hệ số lương")
-                builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+                builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         p0!!.dismiss()
                     }
                 })
-                builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+                builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         var txt_HeSoLuongMoi: String? = ""
                         txt_HeSoLuongMoi = EditTextHeSoLuongMoi!!.editableText.toString()
