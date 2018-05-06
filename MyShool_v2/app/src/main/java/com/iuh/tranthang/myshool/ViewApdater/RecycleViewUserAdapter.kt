@@ -14,6 +14,9 @@ import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
 import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 import java.io.File
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent
+import android.net.Uri
 
 
 /**
@@ -49,6 +52,9 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>)
         internal var storage: FirebaseStorage? = null
         private var storageReference: StorageReference? = null
         private var txt_url:String?=null
+        private var txt_phone:String?=null
+        private var intent_call:Intent?=null
+        private var choose: Intent?=null
         fun bind(uuid:String, name: String, chucvu: String, phone: String,url:String) = with(itemView) {
             val listStringPermission = context.resources.getStringArray(R.array.select_permission)
             storage = FirebaseStorage.getInstance()
@@ -66,6 +72,19 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>)
             }
             if (phone.length > 0) {
                 btn_Call.visibility = visibility
+                txt_phone=phone.toString()
+                Log.e("phone",txt_phone.toString())
+            }
+            btn_Call.setOnClickListener{
+                if (phone.length > 0) {
+                    btn_Call.visibility = visibility
+                    txt_phone=phone.toString()
+                    Log.e("txt_phone",txt_phone.toString())
+                    intent_call= Intent(Intent.ACTION_CALL)
+                    intent_call!!.setData(Uri.parse(txt_phone.toString()))
+                    context.startActivity(intent_call)
+//                    startActivity()
+                }
             }
             if(txt_url!!.length>0){
                 try {

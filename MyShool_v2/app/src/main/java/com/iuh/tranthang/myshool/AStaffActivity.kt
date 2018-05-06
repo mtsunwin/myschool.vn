@@ -123,7 +123,7 @@ class AStaffActivity : AppCompatActivity() {
 
                                 //  "id" is name of the image file....
 
-                                reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
+                                reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener({
                                     val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
                                     nav_header_imgAvartar!!.setImageBitmap(image)
                                 })
