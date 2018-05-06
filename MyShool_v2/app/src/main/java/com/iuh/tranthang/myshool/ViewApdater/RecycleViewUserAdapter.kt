@@ -14,13 +14,16 @@ import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
 import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 import java.io.File
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent
+import android.net.Uri
 
 
 /**
  * Created by ThinkPad on 4/19/2018.
  */
 
-class RecycleViewUserAdapter(private val items: ArrayList<mUser>)
+class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall: (mUser) -> Unit)
     : RecyclerView.Adapter<RecycleViewUserAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -28,7 +31,7 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(items[position].getUid(),items[position].getFullname(), items[position].getPermission(), items[position].getNumberphone(),items[position].getUrl())
+        holder.bind(items.get(position), actionCall)
     }
 
     override fun getItemCount(): Int = items.size
@@ -48,28 +51,44 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>)
             LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_user, parent, false)) {
         internal var storage: FirebaseStorage? = null
         private var storageReference: StorageReference? = null
-        private var txt_url:String?=null
-        fun bind(uuid:String, name: String, chucvu: String, phone: String,url:String) = with(itemView) {
+        private var txt_url: String? = null
+        private var txt_phone: String? = null
+        private var intent_call: Intent? = null
+        private var choose: Intent? = null
+
+        fun bind(mU: mUser, actionCall: (mUser) -> Unit) = with(itemView) {
             val listStringPermission = context.resources.getStringArray(R.array.select_permission)
             storage = FirebaseStorage.getInstance()
             storageReference = storage!!.reference
-            txt_fullname.text = name
-            txt_chucvu.text = chucvu
-            txt_url= url.toString()
-            Log.e("txt_url",url.toString())
-            when (chucvu) {
+            txt_fullname.text = mU.getFullname()
+            txt_url = mU.getUrl()
+            when (mU.getChucVu()) {
                 "0" -> txt_chucvu.text = "Kế toán"
                 "1" -> txt_chucvu.text = "Giáo viên"
                 "2" -> txt_chucvu.text = "Nhân viên"
                 "3" -> txt_chucvu.text = "Admin"
                 else -> txt_chucvu.text = ""
             }
-            if (phone.length > 0) {
+            if (mU.getNumberphone().length > 0) {
                 btn_Call.visibility = visibility
+                txt_phone = mU.getNumberphone()
+                Log.e("phone", txt_phone.toString())
             }
-            if(txt_url!!.length>0){
+            btn_Call.setOnClickListener {
+                //                if (phone.length > 0) {
+//                btn_Call.visibility = visibility
+//                    txt_phone=phone.toString()
+//                    Log.e("txt_phone",txt_phone.toString())
+//                    intent_call= Intent(Intent.ACTION_CALL)
+//                    intent_call!!.setData(Uri.parse(txt_phone.toString()))
+//                    context.startActivity(intent_call)
+//                }
+                actionCall(mU)
+
+            }
+            if (txt_url!!.length > 0) {
                 try {
-                    val tmpFile = File.createTempFile("img","png")
+                    val tmpFile = File.createTempFile("img", "png")
                     val reference = FirebaseStorage.getInstance().getReference("images/")
 
                     //  "id" is name of the image file....

@@ -1,10 +1,12 @@
 package com.iuh.tranthang.myshool
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
@@ -112,7 +114,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         var adapter = DataAdapter(listMUser)
-        val simpleAdapter = RecycleViewUserAdapter(listMUser)
+        val simpleAdapter = RecycleViewUserAdapter(listMUser, { mU: mUser -> callNow(mU) })
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
         if (permissionForLogIn.equals("3")) {
@@ -129,6 +131,19 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                 startActivity(intent)
             }
         } else fab.hide()
+    }
+
+    /**
+     * Callback khi aans vao nut call
+     */
+    @SuppressLint("MissingPermission")
+    private fun callNow(m: mUser) {
+        // xu ly o day
+        if (m.getNumberphone().length > 0) {
+            var intent_call = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + m.getNumberphone()))
+            startActivity(intent_call)
+            Log.e("tmt", "call noew")
+        }
     }
 
     /**
