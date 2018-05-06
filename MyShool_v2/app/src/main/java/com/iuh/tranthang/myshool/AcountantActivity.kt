@@ -1,7 +1,6 @@
 package com.iuh.tranthang.myshool
 
 import android.app.Dialog
-import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -15,16 +14,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import android.widget.EditText
-import android.widget.Toast
-import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.TextView
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
-import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
-import kotlinx.android.synthetic.main.activity_updateprofile.*
-import org.w3c.dom.Text
 import java.util.zip.Inflater
 
 class AcountantActivity : AppCompatActivity() {
@@ -45,7 +39,7 @@ class AcountantActivity : AppCompatActivity() {
         /* customer list view
         var arrayInforMenu: ArrayList<adm_display> = ArrayList()
         arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
-        listview.adapter = CustomAdapter(this, arrayInforMenu)*/
+        listview.adapter = AdapterDataUser(this, arrayInforMenu)*/
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
         listHeader.add(adm_display("Quản lý thông báo", R.drawable.team_group, 2))
@@ -67,7 +61,7 @@ class AcountantActivity : AppCompatActivity() {
         val expandableListAdapter = ExpandableListAdapter(this, listHeader, listChild)
         expandable_list_view.setAdapter(expandableListAdapter)
 
-        //listview.adapter = CustomAdapter(this, arrayInforMenu)
+        //listview.adapter = AdapterDataUser(this, arrayInforMenu)
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
@@ -87,13 +81,13 @@ class AcountantActivity : AppCompatActivity() {
                             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
                             content.setText("Bạn có muốn đăng xuất")
                             builder.setView(view)
-                            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+                            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     p0!!.dismiss()
 
                                 }
                             })
-                            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+                            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                                     var editor = token.edit()
@@ -125,22 +119,22 @@ class AcountantActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        var boolean: Boolean?=false
+        var boolean: Boolean? = false
         if (item!!.itemId == R.id.DangXuat) {
-            Log.e("Dang xuat ne","abc")
+            Log.e("Dang xuat ne", "abc")
             var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             var inflater: LayoutInflater = layoutInflater
             var view: View = inflater.inflate(R.layout.layout_dialog, null)
             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
             content.setText("Bạn có muốn đăng xuất")
             builder.setView(view)
-            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     p0!!.dismiss()
 
                 }
             })
-            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                     var editor = token.edit()
@@ -158,13 +152,11 @@ class AcountantActivity : AppCompatActivity() {
             })
             var dialog: Dialog = builder.create()
             dialog.show()
-        }
-        else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            val intent_profile=Intent(this, ProfileActivity::class.java)
+        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile = Intent(this, ProfileActivity::class.java)
             startActivity(intent_profile)
             boolean = true
-        }
-        else
+        } else
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
     }

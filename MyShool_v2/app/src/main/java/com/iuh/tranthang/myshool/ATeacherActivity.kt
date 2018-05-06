@@ -15,13 +15,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import com.iuh.tranthang.myshool.R.id.expandable_list_view
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.adm_display
 import kotlinx.android.synthetic.main.activity_admin.*
 
 
-class ATeacherActivity: AppCompatActivity() {
+class ATeacherActivity : AppCompatActivity() {
 
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
@@ -32,12 +31,12 @@ class ATeacherActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         val intent = Intent(this, InsideActivity::class.java)
-        val intent_profile=Intent(this,ProfileActivity::class.java)
+        val intent_profile = Intent(this, ProfileActivity::class.java)
         //edit_password.setText(token_pw.getString("loginpassword"," "))
         /* customer list view
         var arrayInforMenu: ArrayList<adm_display> = ArrayList()
         arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
-        listview.adapter = CustomAdapter(this, arrayInforMenu)*/
+        listview.adapter = AdapterDataUser(this, arrayInforMenu)*/
 
 
         val listHeader: ArrayList<adm_display> = ArrayList()
@@ -62,7 +61,7 @@ class ATeacherActivity: AppCompatActivity() {
 
         expandable_list_view.setAdapter(expandableListAdapter)
 
-        //listview.adapter = CustomAdapter(this, arrayInforMenu)
+        //listview.adapter = AdapterDataUser(this, arrayInforMenu)
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.menuNavigation)
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
@@ -73,22 +72,22 @@ class ATeacherActivity: AppCompatActivity() {
         navigationView!!.setNavigationItemSelectedListener(
                 object : NavigationView.OnNavigationItemSelectedListener {
                     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                        var boolean: Boolean?=false
+                        var boolean: Boolean? = false
                         if (item!!.itemId == R.id.DangXuat) {
-                            Log.e("Dang xuat ne","abc")
+                            Log.e("Dang xuat ne", "abc")
                             var builder: AlertDialog.Builder = AlertDialog.Builder(this@ATeacherActivity)
                             var inflater: LayoutInflater = layoutInflater
                             var view: View = inflater.inflate(R.layout.layout_dialog, null)
                             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
                             content.setText("Bạn có muốn đăng xuất")
                             builder.setView(view)
-                            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+                            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     p0!!.dismiss()
 
                                 }
                             })
-                            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+                            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                                     var editor = token.edit()
@@ -121,22 +120,22 @@ class ATeacherActivity: AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        var boolean: Boolean?=false
+        var boolean: Boolean? = false
         if (item!!.itemId == R.id.DangXuat) {
-            Log.e("Dang xuat ne","abc")
+            Log.e("Dang xuat ne", "abc")
             var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             var inflater: LayoutInflater = layoutInflater
             var view: View = inflater.inflate(R.layout.layout_dialog, null)
             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
             content.setText("Bạn có muốn đăng xuất")
             builder.setView(view)
-            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     p0!!.dismiss()
 
                 }
             })
-            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                     var editor = token.edit()
@@ -154,13 +153,11 @@ class ATeacherActivity: AppCompatActivity() {
             })
             var dialog: Dialog = builder.create()
             dialog.show()
-        }
-        else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            val intent_profile=Intent(this, ProfileActivity::class.java)
+        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile = Intent(this, ProfileActivity::class.java)
             startActivity(intent_profile)
             boolean = true
-        }
-        else
+        } else
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
 

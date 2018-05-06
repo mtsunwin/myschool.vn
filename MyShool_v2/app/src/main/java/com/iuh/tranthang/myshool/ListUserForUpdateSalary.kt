@@ -113,13 +113,13 @@ class ListUserForUpdateSalary : AppCompatActivity() {
         var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
         content.setText("Bạn có muốn xóa?")
         builder.setView(view)
-        builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+        builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
                 adapter!!.notifyDataSetChanged()
             }
         })
-        builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+        builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 var dUser: mUser = listUser.get(viewHolder.adapterPosition)
                 var dbFireStore = FirebaseFirestore.getInstance()

@@ -82,6 +82,11 @@ class dbConnect {
                 })
     }
 
+    /**
+     * Thực hiện lấy danh sách Notification
+     * Trả về qua Interface getListNotification_Template
+     *
+     */
     fun getListNotificationTemplate() {
         dbFireStore.collection(Parameter_Notification.collection)
                 .get()
@@ -122,7 +127,21 @@ class dbConnect {
                 }
     }
 
+    fun deleteItemNotificationTemplate(id: String) {
+        var sendReponse: sendReponse = act as sendReponse
+        dbFireStore.collection(Parameter_Notification.collection)
+                .document(id).delete()
+                .addOnSuccessListener { void ->
+                    sendReponse.deleteItemNotification_Template(true)
+                }
+                .addOnFailureListener { exception ->
+                    sendReponse.deleteItemNotification_Template(false)
+                    Log.e("tmt", "xóa không thành công" + exception.message)
+                }
+    }
+
     public interface sendReponse {
         fun getListNotification_Template(list: ArrayList<mNotification>)
+        fun deleteItemNotification_Template(status: Boolean);
     }
 }

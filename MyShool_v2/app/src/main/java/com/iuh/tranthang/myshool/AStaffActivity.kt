@@ -66,13 +66,13 @@ class AStaffActivity : AppCompatActivity() {
                             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
                             content.setText("Bạn có muốn đăng xuất")
                             builder.setView(view)
-                            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+                            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     p0!!.dismiss()
 
                                 }
                             })
-                            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+                            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                                     var editor = token.edit()
@@ -113,13 +113,13 @@ class AStaffActivity : AppCompatActivity() {
             var content: TextView = view.findViewById<View>(R.id.txtDialog_content) as TextView
             content.setText("Bạn có muốn đăng xuất")
             builder.setView(view)
-            builder.setNegativeButton(R.string.dialog_no, object : DialogInterface.OnClickListener { // cancel
+            builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     p0!!.dismiss()
 
                 }
             })
-            builder.setPositiveButton(R.string.dialog_yes, object : DialogInterface.OnClickListener { // apply
+            builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                     var editor = token.edit()
