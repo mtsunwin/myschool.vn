@@ -1,6 +1,8 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.content.Context
+import android.support.v7.widget.CardView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,15 +30,12 @@ class AdapterDataNotification(var context: Context, var listTitle: ArrayList<mNo
             view = converview
             viewHolder = converview!!.tag as vwHolder
         }
-
         var item = listTitle[position]
-
         viewHolder.title.text = item.title.trim()
         viewHolder.content.text = item.content.trim()
         viewHolder.date.text = item.dateTime.trim()
         viewHolder.content.text = item.content.trim()
         viewHolder.group.text = item.group.trim()
-
         return view
     }
 
@@ -62,6 +61,7 @@ class AdapterDataNotification(var context: Context, var listTitle: ArrayList<mNo
         var group: TextView
         var count: TextView
         var date: TextView
+        lateinit var card: CardView
 
         init {
             title = row.findViewById(R.id.txtList_tile_notification)
@@ -69,6 +69,7 @@ class AdapterDataNotification(var context: Context, var listTitle: ArrayList<mNo
             group = row.findViewById(R.id.txtList_group_notification)
             count = row.findViewById(R.id.txtList_count_notification)
             date = row.findViewById(R.id.txtList_time_notification)
+            card = row.findViewById(R.id.card_view)
         }
     }
 }

@@ -60,9 +60,10 @@
                         android:id="@+id/txtList_group_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity=""
+                        android:gravity="center"
                         android:paddingRight="10dp"
                         android:text="Group"
+                        android:textAlignment="center"
                         android:textSize="12dp" />
                 </LinearLayout>
 
