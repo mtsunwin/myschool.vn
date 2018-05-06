@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
-import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter
+import com.iuh.tranthang.myshool.ViewApdater.RecycleViewUserAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter_UpdateSalary
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
@@ -106,7 +106,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
 
     }
 
-    private fun showDialog(adapter: SimpleAdapter, viewHolder: RecyclerView.ViewHolder) {
+    private fun showDialog(adapter: RecycleViewUserAdapter, viewHolder: RecyclerView.ViewHolder) {
         var builder: AlertDialog.Builder = AlertDialog.Builder(this)
         var inflater: LayoutInflater = layoutInflater
         var view: View = inflater.inflate(R.layout.layout_dialog, null)

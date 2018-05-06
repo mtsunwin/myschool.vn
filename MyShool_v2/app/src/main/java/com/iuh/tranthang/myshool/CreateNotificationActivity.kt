@@ -16,6 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.Firebase.NotificationUtils
 import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.DialogAdapter
+import com.iuh.tranthang.myshool.ViewApdater.RecycleViewNotificationAdapter
+import com.iuh.tranthang.myshool.ViewApdater.RecycleViewUserAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.Parameter_Notification
 import com.iuh.tranthang.myshool.model.mNotification
@@ -30,13 +32,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendReponse {
+class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendReponse, dbConnect.sendReponse {
+
+
     val CONNECTON_TIMEOUT_MILLISECONDS = 60000
     private lateinit var notification: NotificationUtils
     private lateinit var awesomeValidation: AwesomeValidation
     private lateinit var dbFireStore: FirebaseFirestore
     private lateinit var mAuth: FirebaseUser
-
+    private lateinit var db: dbConnect
     /**
      * Nhận dữ liệu trả vè từ Dialog Adapter
      */
@@ -44,19 +48,19 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
         Log.e("tmt", input.toString())
         if (input) {
             val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
-            var number: Int = 0
+            var number: String = "0"
             when (spinner_list.selectedItem) {
                 listStringPermission[1] -> {
-                    number = 1
+                    number = "1"
                 }
                 listStringPermission[2] -> {
-                    number = 2
+                    number = "2"
                 }
                 listStringPermission[3] -> {
-                    number = 3
+                    number = "3"
                 }
                 listStringPermission[4] -> {
-                    number = 4
+                    number = "4"
                 }
             }
             var cal = Calendar.getInstance()
@@ -66,7 +70,7 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
 
             var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(), txt_contentNotification.text.toString()
                     , number)
-            mNo.count = 0
+            mNo.count = "0"
             mNo.listView = ArrayList<mNotificationUser>()
             mNo.dateTime = SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa").format(date)
             idDocument.set(mNo).addOnCompleteListener { task ->
@@ -77,14 +81,25 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
         }
     }
 
+    /**
+     * Nhận dữ liệu từ db trả về
+     * Lấy danh sách Các tin nhắn mẫu
+     */
+    override fun getListNotification_Template(list: ArrayList<mNotification>) {
+        if (list.size > 0) {
+            val simpleAdapter = RecycleViewNotificationAdapter(list)
+            recycleView_notification.adapter = simpleAdapter
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_notification)
         notification = NotificationUtils(applicationContext)
-
+        db = dbConnect(this)
         dbFireStore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance().currentUser!!
-
+        db.getListNotificationTemplate()
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.txt_titleNotification, "([a-zA-Z' ]+){6,}", R.string.validation_titleNotification)
@@ -96,7 +111,6 @@ class CreateNotificationActivity : AppCompatActivity(), DialogAdapter.sendRepons
         val actionBar = supportActionBar
         actionBar!!.hide()
 
-        dbConnect().getListNotificationTemplate()
 
         // Lấy danh sách Thông Báo mẫu
 

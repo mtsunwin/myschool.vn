@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="10dp">
+
+        <TextView
+            android:id="@+id/txtList_tile_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thông báo đến toàn thể nhân viên"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtList_content_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:text="Text"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingRight="3dp"
+                    android:src="@drawable/ic_group_profile_users" />
+
+                <TextView
+                    android:id="@+id/txtList_group_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity=""
+                    android:paddingRight="10dp"
+                    android:text="Group"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right|center">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingRight="3dp"
+                    android:src="@drawable/ic_eye" />
+
+                <TextView
+                    android:id="@+id/txtList_count_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingRight="15dp"
+                    android:text="0"
+                    android:textAlignment="viewEnd"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_calendar_1" />
+
+                <TextView
+                    android:id="@+id/txtList_time_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="2018-05-05"
+                    android:textAlignment="viewEnd"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

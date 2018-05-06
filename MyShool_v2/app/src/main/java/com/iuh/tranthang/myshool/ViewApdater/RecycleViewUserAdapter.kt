@@ -12,15 +12,19 @@ import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
+<<<<<<< HEAD:MyShool_v2/app/src/main/java/com/iuh/tranthang/myshool/ViewApdater/SimpleAdapter.kt
 import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 import java.io.File
+=======
+>>>>>>> Thang_0605_AdapterNotification:MyShool_v2/app/src/main/java/com/iuh/tranthang/myshool/ViewApdater/RecycleViewUserAdapter.kt
 
 
 /**
  * Created by ThinkPad on 4/19/2018.
  */
 
-class SimpleAdapter(private val items: ArrayList<mUser>) : RecyclerView.Adapter<SimpleAdapter.VH>() {
+class RecycleViewUserAdapter(private val items: ArrayList<mUser>)
+    : RecyclerView.Adapter<RecycleViewUserAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(parent)
