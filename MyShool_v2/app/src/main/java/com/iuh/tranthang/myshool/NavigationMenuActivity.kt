@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import org.w3c.dom.Text
 
@@ -19,6 +20,9 @@ class NavigationMenuActivity : AppCompatActivity() {
     private var navigationView: NavigationView? = null
     private var view: View? = null
     private var txtDangXuat: Text? = null
+    private var nav_header_imgAvartar: ImageView?=null
+    private var nav_header_txtName:TextView?=null
+    private var nav_header_txtPermission:TextView?=null
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
@@ -26,6 +30,9 @@ class NavigationMenuActivity : AppCompatActivity() {
         setContentView(R.menu.navigation_menu)
         navigationView = findViewById<NavigationView>(R.id.menuNavigation) as NavigationView
         view = navigationView!!.getHeaderView(0)
+        nav_header_imgAvartar= view!!.findViewById(R.id.nav_header_imageView)
+        nav_header_txtName =view!!.findViewById(R.id.nav_header_name)
+        nav_header_txtPermission=view!!.findViewById(R.id.nav_header_permission)
         navigationView!!.setOnClickListener { view ->
             when (view.id) {
                 R.id.DangXuat -> {

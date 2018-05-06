@@ -65,7 +65,7 @@
     <!--Thông báo Toast-->
     <string name="created.success">Bạn đã tạo tài khoản thành công!</string>
     <string name="title_activity_teacher">TeacherActivity</string>
-
+    <string name="coefficient_profile">Hệ số lương là </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="usernameLogInError">email không hợp lệ</string>

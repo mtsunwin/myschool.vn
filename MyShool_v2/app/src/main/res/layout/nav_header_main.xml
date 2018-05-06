@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:id="@+id/nav_header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:background="@drawable/background_nav">
+    <ImageView
+        android:id="@+id/nav_header_imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:paddingTop="8dp"
+
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/nav_header_name"
+        android:gravity="center"
+        android:textColor="#000"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    <TextView
+        android:id="@+id/nav_header_permission"
+        android:gravity="center"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+</LinearLayout>
+</android.support.constraint.ConstraintLayout>
