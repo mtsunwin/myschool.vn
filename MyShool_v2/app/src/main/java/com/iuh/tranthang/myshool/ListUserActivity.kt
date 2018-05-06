@@ -140,8 +140,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     private fun callNow(m: mUser) {
         // xu ly o day
         if (m.getNumberphone().length > 0) {
-            var intent_call = Intent(Intent.ACTION_CALL)
-            intent_call.setData(Uri.parse(m.getNumberphone()))
+            var intent_call = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + m.getNumberphone()))
             startActivity(intent_call)
             Log.e("tmt", "call noew")
         }
