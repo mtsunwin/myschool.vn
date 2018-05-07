@@ -59,6 +59,11 @@ class AcountantActivity : AppCompatActivity() {
         //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
+
+        // Khởi tạo các đối tượng giao tiếp với firebase
+        mAuth = FirebaseAuth.getInstance().currentUser!!
+        dbFireStore = FirebaseFirestore.getInstance()
+
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
         //edit_password.setText(token_pw.getString("loginpassword"," "))

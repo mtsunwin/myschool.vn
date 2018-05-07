@@ -61,8 +61,9 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall
             storage = FirebaseStorage.getInstance()
             storageReference = storage!!.reference
             txt_fullname.text = mU.getFullname()
+
             txt_url = mU.getUrl()
-            when (mU.getChucVu()) {
+            when (mU.getPermission()) {
                 "0" -> txt_chucvu.text = "Kế toán"
                 "1" -> txt_chucvu.text = "Giáo viên"
                 "2" -> txt_chucvu.text = "Nhân viên"
@@ -84,7 +85,6 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall
 //                    context.startActivity(intent_call)
 //                }
                 actionCall(mU)
-
             }
             if (txt_url!!.length > 0) {
                 try {
