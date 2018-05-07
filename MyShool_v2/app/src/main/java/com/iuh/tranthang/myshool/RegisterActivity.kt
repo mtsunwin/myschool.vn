@@ -52,22 +52,21 @@ class RegisterActivity : AppCompatActivity() {
     private var spinnerPerTeacher: Spinner? = null
     private var spinnerPerTeacherLead: Spinner? = null
     private var intPermisstion: Int? = 0
-    private var txtErrorUserName: TextView? = null
     private var txtErrorPassword: TextView? = null
     private var awesomeValidation: AwesomeValidation? = null
-
     private var textCongviec: Boolean? = true
     private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
     private var mMUser: mUser? = null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
+    private var txtSelectUser: TextView? = null
+    private var txtSelectUser_1: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         initialise()
-        Log.e("CongViecCreate:......", textCongviec.toString())
     }
 
     private fun initialise() {
@@ -78,7 +77,12 @@ class RegisterActivity : AppCompatActivity() {
         address = findViewById<View>(R.id.address) as EditText?
         numberphone = findViewById<View>(R.id.numberphone) as EditText?
         birthday = findViewById<View>(R.id.birthday) as EditText?
-        txtErrorUserName = findViewById<TextView>(R.id.ErrorUserName_register)
+        txtSelectUser = findViewById<View>(R.id.selectPerTeacher_1) as TextView?
+        txtSelectUser_1 = findViewById<View>(R.id.selectPerTeacherLead_1) as TextView?
+
+        txtSelectUser!!.visibility = View.GONE
+        txtSelectUser_1!!.visibility = View.GONE
+        
 //      upload file
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
@@ -94,9 +98,13 @@ class RegisterActivity : AppCompatActivity() {
                 if (selectedItem.equals("Giáo viên")) {
                     spinnerPerTeacher!!.visibility = View.VISIBLE
                     spinnerPerTeacherLead!!.visibility = View.VISIBLE
+                    txtSelectUser!!.visibility = View.VISIBLE
+                    txtSelectUser_1!!.visibility = View.VISIBLE
                 } else {
                     spinnerPerTeacher!!.visibility = View.GONE
                     spinnerPerTeacherLead!!.visibility = View.GONE
+                    txtSelectUser!!.visibility = View.GONE
+                    txtSelectUser_1!!.visibility = View.GONE
                 }
                 if (!selectedItem.equals("Công việc..")) {
                     textCongviec = false
@@ -168,7 +176,6 @@ class RegisterActivity : AppCompatActivity() {
         mDatabaseReference = mDatabase!!.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
         username!!.setOnClickListener {
-            txtErrorUserName!!.setText("")
         }
         password!!.setOnClickListener {
             txtErrorPassword!!.setText("")
@@ -180,11 +187,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (password!!.text.length < 6)
                     txtErrorPassword!!.setText("Password characters must be more than 6")
                 if (!Patterns.EMAIL_ADDRESS.matcher(username!!.text.toString()).matches()) {
-                    txtErrorUserName!!.setText("Wrong format email.")
-                }
-/*                if (txtErrorUserName!!.text.length > 0 || txtErrorPassword!!.text.length > 0)
-                    Toast.makeText(this, "Input complete username and password", Toast.LENGTH_SHORT).show()*/
-                else if (textCongviec == true)
+                } else if (textCongviec == true)
                     Toast.makeText(this, "Chọn công việc", Toast.LENGTH_SHORT).show()
                 else createNewAccount()
             }
