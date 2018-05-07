@@ -46,7 +46,6 @@ class ProfileFragment : Fragment() {
         frm_txtNumPhone.setText(if (txt_phone.length > 0) txt_phone else resources.getString(R.string.updateInfor))
         frm_txtEmail.setText(if (txt_email.length > 0) txt_email else resources.getString(R.string.updateInfor))
         frm_txtBirthday.setText(if (txt_birthday.length > 0) txt_birthday else resources.getString(R.string.updateInfor))
-
         frm_txtLuong.setText(if(txt_luong!!.length>0) txt_luong.toString() else resources.getString(R.string.updateInfor))
 
     }
@@ -57,8 +56,7 @@ class ProfileFragment : Fragment() {
         txt_phone = arguments.getString(ProfileActivity().frm_phone)
         txt_email = arguments.getString(ProfileActivity().frm_email)
         txt_birthday = arguments.getString(ProfileActivity().frm_birthday)
-
-            txt_luong=arguments.getString(ProfileActivity().frm_luong)
+        txt_luong=arguments.getString(ProfileActivity().frm_luong)
         updateUI()
     }
 }// Required empty public constructor
