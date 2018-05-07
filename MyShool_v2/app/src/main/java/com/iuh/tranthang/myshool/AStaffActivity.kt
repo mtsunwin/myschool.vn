@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -55,6 +56,11 @@ class AStaffActivity : AppCompatActivity() {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
+
+        // Khởi tạo các đối tượng giao tiếp với firebase
+        mAuth = FirebaseAuth.getInstance().currentUser!!
+        dbFireStore = FirebaseFirestore.getInstance()
+
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
         val listHeader: ArrayList<adm_display> = ArrayList()
