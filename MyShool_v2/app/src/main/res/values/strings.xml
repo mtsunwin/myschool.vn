@@ -18,6 +18,9 @@
     <string name="btnSendNotifi">Gửi thông báo</string>
     <string name="txtContenttNotifi">Nội dung thông báo</string>
     <string name="txtGroupNotifi">Nhóm nhận thông báo</string>
+    <string name="txtJob">Công việc của người dùng:</string>
+    <string name="txtGroupJob">Người dùng thuộc tổ công tác:</string>
+    <string name="txtGroupPermisstion">Là:</string>
     <string name="txttitletNotifi">Tiêu đề thông báo</string>
     <string name="do.delete">Bạn có muốn xóa </string>
     <string name="titleListNotification">Mẫu thông báo:</string>

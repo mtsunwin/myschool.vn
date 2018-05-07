@@ -54,15 +54,18 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_notification)
+
         notification = NotificationUtils(applicationContext)
         db = dbConnect(this)
         dbFireStore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance().currentUser!!
         db.getListNotificationTemplate()
+
         // Validation
         awesomeValidation = AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation!!.addValidation(this, R.id.txt_titleNotification, "([a-zA-Z' ]+){6,}", R.string.validation_titleNotification)
         awesomeValidation!!.addValidation(this, R.id.txt_contentNotification, "([a-zA-Z' ]+){12,}", R.string.validation_contentNotification)
+
         // END - Validation
         swipe_notification.setOnRefreshListener { onRefresh() }
         spinner_list.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
