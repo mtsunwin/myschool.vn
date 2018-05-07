@@ -14,25 +14,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fullname.vn"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/fullname"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/fullname.vn"
-                android:textColor="@color/color.Text.in.Background"
-                android:textColorHint="@color/color.Text.in.Background.Dark" />
+                android:layout_height="50dp" />
+
+            <TextView
+                android:id="@+id/selectPermission_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txtJob"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/selectPermission"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColor="@color/color.Text.in.Background"
-                android:textColorHint="@color/color.Text.in.Background.Dark"></Spinner>
+                android:layout_height="50dp"></Spinner>
+
+            <TextView
+                android:id="@+id/selectPerTeacher_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txtGroupJob"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/selectPerTeacher"
@@ -41,6 +57,13 @@
                 android:textColor="@color/color.Text.in.Background"
                 android:textColorHint="@color/color.Text.in.Background.Dark"></Spinner>
 
+            <TextView
+                android:id="@+id/selectPerTeacherLead_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txtGroupPermisstion"
+                android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/selectPerTeacherLead"
                 android:layout_width="match_parent"
@@ -48,61 +71,74 @@
                 android:textColor="@color/color.Text.in.Background"
                 android:textColorHint="@color/color.Text.in.Background.Dark"></Spinner>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address.vn"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/address.vn"
-                android:textColor="@color/color.Text.in.Background"
-                android:textColorHint="@color/color.Text.in.Background.Dark" />
+                android:layout_height="50dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phonenumber.vn"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/numberphone"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/phonenumber.vn"
-                android:textColor="@color/color.Text.in.Background"
-                android:textColorHint="@color/color.Text.in.Background.Dark" />
+                android:layout_height="50dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/birthday.vn"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="@string/birthday.vn"
-                android:inputType="date"
-                android:textColor="@color/color.Text.in.Background"
-                android:textColorHint="@color/color.Text.in.Background.Dark" />
+                android:inputType="date" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username.vn"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="@string/username.vn"
                     android:textColor="@color/color.Text.in.Background"
                     android:textColorHint="@color/color.Text.in.Background.Dark" />
-
-                <TextView
-                    android:id="@+id/ErrorUserName_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#73fa0000" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical">@string/password.vn
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password.vn"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="@string/password.vn"
                     android:inputType="textPassword"
                     android:textColor="@color/color.Text.in.Background"
                     android:textColorHint="@color/color.Text.in.Background.Dark" />

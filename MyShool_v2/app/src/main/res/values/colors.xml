@@ -3,11 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
-    <color name="color.Background">#7f03158b</color>
+    <color name="colorNavBar">#0a000000</color>
+    <color name="color.BorderButtom">#3c000000</color>
+    <color name="color.Background">#7fe7e9f1</color>
     <color name="color.Background.Opacity">#280c2aea</color>
     <!--Màu Text START-->
-    <color name="color.Text.in.Background">#FFFFFF</color>
+    <color name="color.Text.in.Background">#f5f5f5</color>
     <color name="color.Text.in.Background.Dark">#caffffff</color>
     <!--Màu Text END-->
 </resources>
