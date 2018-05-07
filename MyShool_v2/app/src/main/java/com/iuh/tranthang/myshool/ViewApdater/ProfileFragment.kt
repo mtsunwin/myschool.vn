@@ -21,10 +21,11 @@ class ProfileFragment : Fragment() {
     private var txt_phone: String = ""
     private var txt_email: String = ""
     private var txt_birthday: String = ""
-    private var txt_luong: Float? = null
-    private var txt_basesalary: String? = ""
-    private var luongCB: String? = ""
-    private var txt_luongThang: String? = null
+
+    private var txt_luong:String?=""
+    private var txt_basesalary:String?=""
+    private var luongCB:String?=""
+    private var txt_luongThang:String?=null
 
     interface OnSelectedListener {
         fun onSelected(dMUser: mUser)
@@ -45,7 +46,9 @@ class ProfileFragment : Fragment() {
         frm_txtNumPhone.setText(if (txt_phone.length > 0) txt_phone else resources.getString(R.string.updateInfor))
         frm_txtEmail.setText(if (txt_email.length > 0) txt_email else resources.getString(R.string.updateInfor))
         frm_txtBirthday.setText(if (txt_birthday.length > 0) txt_birthday else resources.getString(R.string.updateInfor))
-        frm_txtLuong.setText(if (txt_luong!! > 0) txt_luong.toString() else resources.getString(R.string.updateInfor))
+
+        frm_txtLuong.setText(if(txt_luong!!.length>0) txt_luong.toString() else resources.getString(R.string.updateInfor))
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -54,8 +57,8 @@ class ProfileFragment : Fragment() {
         txt_phone = arguments.getString(ProfileActivity().frm_phone)
         txt_email = arguments.getString(ProfileActivity().frm_email)
         txt_birthday = arguments.getString(ProfileActivity().frm_birthday)
-        txt_luong = arguments.getString(ProfileActivity().frm_luong).toFloat()
 
+            txt_luong=arguments.getString(ProfileActivity().frm_luong)
         updateUI()
     }
 }// Required empty public constructor
