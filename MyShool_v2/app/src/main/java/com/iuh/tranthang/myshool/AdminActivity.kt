@@ -67,6 +67,9 @@ class AdminActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
 
+        val actionBar = supportActionBar
+        actionBar!!.hide()
+
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
 
@@ -156,7 +159,6 @@ class AdminActivity : AppCompatActivity() {
                         }
                     })
         }
-
 
         //// ket thuc cap nhat avatar/////
         abdt = ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close)
