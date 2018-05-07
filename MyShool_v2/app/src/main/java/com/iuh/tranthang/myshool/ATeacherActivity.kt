@@ -58,6 +58,9 @@ class ATeacherActivity : AppCompatActivity() {
         //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
+
+
+        // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
         val intent = Intent(this, InsideActivity::class.java)
@@ -76,7 +79,6 @@ class ATeacherActivity : AppCompatActivity() {
         val inforStaff: ArrayList<adm_display> = ArrayList()
         inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.team_group, 11))
         inforStaff.add(adm_display("Xem lịch biểu công việc", R.drawable.team_group, 16))
-
 
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.team_group, 21))

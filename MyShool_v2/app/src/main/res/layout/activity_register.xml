@@ -139,9 +139,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:inputType="textPassword"
-                    android:textColor="@color/color.Text.in.Background"
-                    android:textColorHint="@color/color.Text.in.Background.Dark" />
+                    android:inputType="textPassword" />
 
             </LinearLayout>
 
@@ -154,8 +152,7 @@
                 android:paddingLeft="80dp"
                 android:paddingRight="80dp"
                 android:paddingTop="15dp"
-                android:text="@string/btnRegister"
-                android:textColor="@color/color.Text.in.Background" />
+                android:text="@string/btnRegister" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

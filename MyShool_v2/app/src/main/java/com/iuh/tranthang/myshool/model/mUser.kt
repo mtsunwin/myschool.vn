@@ -16,7 +16,7 @@ class mUser {
     private lateinit var url: String
     private var action: Boolean = false
     private lateinit var idDevice: String
-    private lateinit var coefficient: String
+    private lateinit var heSoluong: String
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
@@ -33,7 +33,7 @@ class mUser {
         this.url = url
         this.action = action
         this.idDevice = iddevice
-        this.coefficient = coefficient
+        this.heSoluong = coefficient
     }
 
     constructor()
@@ -79,7 +79,7 @@ class mUser {
     }
 
     public fun getCoefficient(): String {
-        return coefficient
+        return heSoluong
     }
 
     public fun setUid(id: String) {
@@ -135,7 +135,7 @@ class mUser {
     }
 
     public fun setCoefficient(coefficient: String) {
-        this.coefficient = coefficient
+        this.heSoluong = coefficient
     }
 
     fun toMap(): HashMap<String, String> {
