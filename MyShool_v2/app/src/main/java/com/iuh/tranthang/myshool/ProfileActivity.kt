@@ -98,9 +98,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                                     try {
                                         val tmpFile = File.createTempFile("img","png")
                                         val reference = FirebaseStorage.getInstance().getReference("images/")
-
                                         //  "id" is name of the image file....
-
                                         reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
                                             val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
                                             imgAvatar!!.setImageBitmap(image)
@@ -108,7 +106,6 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
-
                                 }
                                 Log.e("Tmt inside abcd", tUser.getFullname() + "-" + tUser.getAddress() + "-" + tUser.getBirthday() + "-" +
                                         tUser.getNumberphone()+"-"+tUser.getCoefficient())
