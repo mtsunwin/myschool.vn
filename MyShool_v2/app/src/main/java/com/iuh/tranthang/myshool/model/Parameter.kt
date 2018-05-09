@@ -19,5 +19,4 @@ object Parameter {
     public val comp_action = "action"
     public val comp_uidDevice = "iddevice"
     public val comp_baseSalary="heSoLuong"
-
 }

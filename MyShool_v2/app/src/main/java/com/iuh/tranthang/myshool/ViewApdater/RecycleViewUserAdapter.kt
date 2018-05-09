@@ -12,18 +12,15 @@ import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.layout_item_list_user.view.*
-import kotlinx.android.synthetic.main.layout_item_list_user_updatesalary.view.*
 import java.io.File
-import android.support.v4.content.ContextCompat.startActivity
-import android.content.Intent
-import android.net.Uri
 
 
 /**
  * Created by ThinkPad on 4/19/2018.
  */
 
-class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall: (mUser) -> Unit)
+class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall: (mUser) -> Unit,
+                             val actionClick: (mUser) -> Unit)
     : RecyclerView.Adapter<RecycleViewUserAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -31,7 +28,7 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(items.get(position), actionCall)
+        holder.bind(items.get(position), actionCall, actionClick)
     }
 
     override fun getItemCount(): Int = items.size
@@ -53,11 +50,8 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall
         private var storageReference: StorageReference? = null
         private var txt_url: String? = null
         private var txt_phone: String? = null
-        private var intent_call: Intent? = null
-        private var choose: Intent? = null
 
-        fun bind(mU: mUser, actionCall: (mUser) -> Unit) = with(itemView) {
-            val listStringPermission = context.resources.getStringArray(R.array.select_permission)
+        fun bind(mU: mUser, actionCall: (mUser) -> Unit, actionClick: (mUser) -> Unit) = with(itemView) {
             storage = FirebaseStorage.getInstance()
             storageReference = storage!!.reference
             txt_fullname.text = mU.getFullname()
@@ -76,16 +70,12 @@ class RecycleViewUserAdapter(private val items: ArrayList<mUser>, val actionCall
                 Log.e("phone", txt_phone.toString())
             }
             btn_Call.setOnClickListener {
-                //                if (phone.length > 0) {
-//                btn_Call.visibility = visibility
-//                    txt_phone=phone.toString()
-//                    Log.e("txt_phone",txt_phone.toString())
-//                    intent_call= Intent(Intent.ACTION_CALL)
-//                    intent_call!!.setData(Uri.parse(txt_phone.toString()))
-//                    context.startActivity(intent_call)
-//                }
                 actionCall(mU)
             }
+            card_view_user.setOnClickListener {
+                actionClick(mU)
+            }
+
             if (txt_url!!.length > 0) {
                 try {
                     val tmpFile = File.createTempFile("img", "png")

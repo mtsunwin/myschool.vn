@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:minWidth="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#011059"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp" />
+
+        <ImageView
+            android:id="@+id/imgAvatar_pop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-70dp"
+            android:background="@drawable/avatar" />
+
+        <TextView
+            android:id="@+id/txt_nickname_pop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="abc"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="26dp" />
+
+        <TextView
+            android:id="@+id/txt_chucvu_pop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Xin chào các bạn"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:background="@color/color.Background.Opacity"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_gift" />
+
+                    <TextView
+                        android:id="@+id/frm_txtBirthday_pop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="50dp"
+                        android:text="Ngày tháng năm sinh" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/color.Background.Opacity"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_place_localizer" />
+
+                    <TextView
+                        android:id="@+id/frm_txtAddress_pop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="50dp"
+                        android:text="Địa chỉ" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/color.Background.Opacity"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_gift" />
+
+                    <TextView
+                        android:id="@+id/frm_txtEmail_pop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="50dp"
+                        android:text="Địa chỉ email" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_numberphone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/color.Background.Opacity"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_gift" />
+
+                    <TextView
+                        android:id="@+id/frm_txtNumPhone_pop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="50dp"
+                        android:text="Số điện thoại" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_salary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/color.Background.Opacity"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_attach_money_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/frm_txtLuong_pop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="50dp"
+                        android:text="Lương hằng tháng" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>
+
+

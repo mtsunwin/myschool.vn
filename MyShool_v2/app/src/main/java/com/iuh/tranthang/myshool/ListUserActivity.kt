@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -28,10 +29,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.iuh.tranthang.myshool.ViewApdater.AdapterDialogAsk
-import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
-import com.iuh.tranthang.myshool.ViewApdater.RecycleViewUserAdapter
-import com.iuh.tranthang.myshool.ViewApdater.SwipeToDeleteCallback
+import com.iuh.tranthang.myshool.ViewApdater.*
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_list_user.*
@@ -59,8 +57,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         var token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user)
+
         permissionForLogIn = token_ps!!.getString("permission", " ")
-        Log.e("permission abcxyz:", permissionForLogIn)
         mAuth = FirebaseAuth.getInstance().currentUser
         swipe_container.setOnRefreshListener { onRefresh() }
         firebaseListenerInit()
@@ -113,8 +111,8 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     private fun callAdapter(listMUser: ArrayList<mUser>) {
         recyclerView = findViewById<RecyclerView>(R.id.recycle) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(this)
-        var adapter = DataAdapter(listMUser)
-        val simpleAdapter = RecycleViewUserAdapter(listMUser, { mU: mUser -> callNow(mU) })
+        var adapter = AdapterDataListUser(listMUser)
+        val simpleAdapter = RecycleViewUserAdapter(listMUser, { mU: mUser -> callNow(mU) }, { mU: mUser -> cardView(mU) })
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
         if (permissionForLogIn.equals("3")) {
@@ -134,15 +132,22 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     /**
-     * Callback khi aans vao nut call
+     * Sử lý sự kiện khi người dùng click vào CardView
+     */
+    private fun cardView(mU: mUser) {
+        val fm: FragmentManager = supportFragmentManager
+        val userInfoDialogAsk: AdapterDialogProfile = AdapterDialogProfile().newInstance(mU)
+        userInfoDialogAsk.show(fm, null)
+    }
+
+    /**
+     * Callback khi tương tác với CardView
      */
     @SuppressLint("MissingPermission")
     private fun callNow(m: mUser) {
-        // xu ly o day
         if (m.getNumberphone().length > 0) {
             var intent_call = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + m.getNumberphone()))
             startActivity(intent_call)
-            Log.e("tmt", "call noew")
         }
     }
 
