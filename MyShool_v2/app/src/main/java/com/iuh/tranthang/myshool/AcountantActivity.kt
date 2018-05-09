@@ -73,16 +73,16 @@ class AcountantActivity : AppCompatActivity() {
         arrayInforMenu.add(adm_display("Thông tin nhân viên", R.drawable.team_group))
         listview.adapter = AdapterDataUser(this, arrayInforMenu)*/
         val listHeader: ArrayList<adm_display> = ArrayList()
-        listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
-        listHeader.add(adm_display("Quản lý thông báo", R.drawable.team_group, 2))
+        listHeader.add(adm_display("Thông tin nhân viên", R.drawable.ic_communication, 1))
+        listHeader.add(adm_display("Quản lý thông báo", R.drawable.ic_notification, 2))
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
-        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.team_group, 11))
-        inforStaff.add(adm_display("Cập nhật hệ số lương", R.drawable.team_group, 14))
-        inforStaff.add(adm_display("Cập nhật lương cơ bản", R.drawable.team_group, 15))
+        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
+        inforStaff.add(adm_display("Cập nhật hệ số lương", R.drawable.ic_dollar, 14))
+        inforStaff.add(adm_display("Cập nhật lương cơ bản", R.drawable.ic_dollar_luongcoban, 15))
 
         val inforNotify: ArrayList<adm_display> = ArrayList()
-        inforNotify.add(adm_display("Danh sách thông báo", R.drawable.team_group, 21))
+        inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
 
         val fruitsList = listOf("Thang", "Nghia")
         val listChild = HashMap<String, ArrayList<adm_display>>()
