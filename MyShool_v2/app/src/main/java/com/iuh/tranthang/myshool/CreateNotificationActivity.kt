@@ -297,7 +297,7 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                     }
                 }
             }
-
+            
         })
         var dialog: Dialog = builder.create()
         dialog.show()

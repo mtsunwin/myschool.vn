@@ -21,13 +21,13 @@ class UpdateBaseSalary : AppCompatActivity() {
     private var txtSalary_old: TextView? = null
     private var btnXacNhan: Button? = null
     private var txtHeSoLuongcoban: String? = ""
+
     private var dbFireStore:FirebaseFirestore?=null
     private var txtHeSoLuongCoBanOld:TextView?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_dialogupdatebasesalary)
         val db = FirebaseFirestore.getInstance()
-
         txtSalary = findViewById(R.id.txtHeSoLuongCoBan)
         txtSalary_old = findViewById(R.id.txtHeSoLuongCoBanOld)
         btnXacNhan = findViewById(R.id.btnXacNhanUpdateBaseSalary)

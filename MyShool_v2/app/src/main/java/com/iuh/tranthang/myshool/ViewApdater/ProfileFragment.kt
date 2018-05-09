@@ -56,7 +56,9 @@ class ProfileFragment : Fragment() {
         txt_phone = arguments.getString(ProfileActivity().frm_phone)
         txt_email = arguments.getString(ProfileActivity().frm_email)
         txt_birthday = arguments.getString(ProfileActivity().frm_birthday)
+
         txt_luong=arguments.getString(ProfileActivity().frm_luong)
+
         updateUI()
     }
 }// Required empty public constructor

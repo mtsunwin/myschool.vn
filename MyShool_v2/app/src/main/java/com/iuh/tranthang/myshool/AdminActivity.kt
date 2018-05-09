@@ -74,17 +74,17 @@ class AdminActivity : AppCompatActivity() {
         val intent_profile = Intent(this, ProfileActivity::class.java)
 
         val listHeader: ArrayList<adm_display> = ArrayList()
-        listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
-        listHeader.add(adm_display("Quản lý thông báo", R.drawable.team_group, 2))
+        listHeader.add(adm_display("Thông tin nhân viên", R.drawable.ic_communication, 1))
+        listHeader.add(adm_display("Quản lý thông báo", R.drawable.ic_notification, 2))
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
-        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.team_group, 11))
-        inforStaff.add(adm_display("Thêm tài khoản", R.drawable.team_group, 12))
-        inforStaff.add(adm_display("Xóa nhân viên", R.drawable.team_group, 13))
+        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
+        inforStaff.add(adm_display("Thêm tài khoản", R.drawable.ic_user, 12))
+        inforStaff.add(adm_display("Xóa nhân viên", R.drawable.ic_trash, 13))
 
         val inforNotify: ArrayList<adm_display> = ArrayList()
-        inforNotify.add(adm_display("Danh sách thông báo", R.drawable.team_group, 21))
-        inforNotify.add(adm_display("Tạo thông báo", R.drawable.team_group, 22))
+        inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
+        inforNotify.add(adm_display("Tạo thông báo", R.drawable.ic_create, 22))
 
         val listChild = HashMap<String, ArrayList<adm_display>>()
 
@@ -132,8 +132,6 @@ class AdminActivity : AppCompatActivity() {
                                         permission = "Admin"
                                     }
                                 }
-                                Log.e("Name+permission", name + "----" + permission)
-                                txtChucVu.text = permission
                                 nav_header_txtName!!.setText(name.toString())
                                 nav_header_txtPermission!!.setText(permission.toString())
                                 txtURLImage = result.data[Parameter.comp_url].toString()
@@ -142,9 +140,7 @@ class AdminActivity : AppCompatActivity() {
                                     try {
                                         val tmpFile = File.createTempFile("img", "png")
                                         val reference = FirebaseStorage.getInstance().getReference("images/")
-
                                         //  "id" is name of the image file....
-
                                         reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
                                             val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
                                             nav_header_imgAvartar!!.setImageBitmap(image)
