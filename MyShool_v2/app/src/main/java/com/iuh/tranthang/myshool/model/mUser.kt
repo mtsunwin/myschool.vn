@@ -21,7 +21,7 @@ class mUser {
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
                 address: String, email: String, birthday: String, toCongTac: String, chucVu: String, url: String,
-                action: Boolean, coefficient: String, iddevice: String) {
+                action: Boolean, heSoLuong: String, iddevice: String) {
         this.address = address
         this.email = email
         this.fullname = fullname
@@ -34,7 +34,7 @@ class mUser {
         this.url = url
         this.action = action
         this.idDevice = iddevice
-        this.heSoluong = coefficient
+        this.heSoluong = heSoLuong
     }
 
     constructor()
