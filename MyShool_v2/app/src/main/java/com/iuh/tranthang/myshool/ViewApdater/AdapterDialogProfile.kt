@@ -49,7 +49,7 @@ class AdapterDialogProfile : DialogFragment() {
         arg.putString(key_Birthday, mU.getBirthday())
         arg.putString(key_Address, mU.getAddress())
         arg.putString(key_NumberPhone, mU.getNumberphone())
-        arg.putString(key_Salary, mU.getCoefficient())
+        arg.putString(key_Salary, mU.getHeSoLuong())
         arg.putString(key_Email, mU.getEmail())
         arg.putString(key_Avatar, mU.getUrl())
 

@@ -27,7 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="@string/fullname.vn"
-                android:textColor="@color/color.Text.in.Background"
                 android:textColorHint="@color/color.Text.in.Background.Dark" />
 
 
@@ -36,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="@string/address.vn"
-                android:textColor="@color/color.Text.in.Background"
                 android:textColorHint="@color/color.Text.in.Background.Dark" />
 
             <EditText
@@ -44,7 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="@string/phonenumber.vn"
-                android:textColor="@color/color.Text.in.Background"
                 android:textColorHint="@color/color.Text.in.Background.Dark" />
 
             <EditText
@@ -53,7 +50,6 @@
                 android:layout_height="50dp"
                 android:hint="@string/birthday.vn"
                 android:inputType="date"
-                android:textColor="@color/color.Text.in.Background"
                 android:textColorHint="@color/color.Text.in.Background.Dark" />
 
             <LinearLayout
@@ -86,8 +82,7 @@
                 android:paddingLeft="80dp"
                 android:paddingRight="80dp"
                 android:paddingTop="15dp"
-                android:text="@string/btnUpdate"
-                android:textColor="@color/color.Text.in.Background" />
+                android:text="@string/btnUpdate" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
