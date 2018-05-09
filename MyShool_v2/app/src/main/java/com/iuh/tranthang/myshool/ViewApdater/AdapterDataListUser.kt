@@ -11,9 +11,9 @@ import com.iuh.tranthang.myshool.model.mUser
 /**
  * Created by ThinkPad on 4/19/2018.
  */
-internal class DataAdapter(private val names: ArrayList<mUser>) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
+internal class AdapterDataListUser(private val names: ArrayList<mUser>) : RecyclerView.Adapter<AdapterDataListUser.ViewHolder>() {
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): DataAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): AdapterDataListUser.ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.layout_item_list_user, viewGroup, false)
         return ViewHolder(view)
     }

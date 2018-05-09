@@ -139,6 +139,8 @@ class mUser {
         this.heSoluong = coefficient
     }
 
+
+
     fun toMap(): HashMap<String, String> {
         val result = HashMap<String, String>()
         result.put(Parameter.comp_fullname, fullname)

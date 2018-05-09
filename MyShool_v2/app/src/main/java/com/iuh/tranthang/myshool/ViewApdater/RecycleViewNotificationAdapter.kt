@@ -28,7 +28,6 @@ class RecycleViewNotificationAdapter(var items: ArrayList<mNotification>, val cl
     class rycViewHolder(parent: ViewGroup)
         : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_item_list_notification,
             parent, false)) {
-
         fun bind(item: mNotification,
                  clickListener: (mNotification) -> Unit) = with(itemView) {
             txtList_tile_notification.text = item.title

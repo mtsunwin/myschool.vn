@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.iuh.tranthang.myshool.ViewApdater.DataAdapter
+import com.iuh.tranthang.myshool.ViewApdater.AdapterDataListUser
 import com.iuh.tranthang.myshool.ViewApdater.RecycleViewUserAdapter
 import com.iuh.tranthang.myshool.ViewApdater.SimpleAdapter_UpdateSalary
 import com.iuh.tranthang.myshool.model.Parameter
@@ -99,7 +99,7 @@ class ListUserForUpdateSalary : AppCompatActivity() {
     private fun callAdapter(listUser: ArrayList<mUser>) {
 
         recyclerView!!.layoutManager = LinearLayoutManager(this)
-        var adapter = DataAdapter(listUser)
+        var adapter = AdapterDataListUser(listUser)
         val simpleAdapter = SimpleAdapter_UpdateSalary(listUser)
         recyclerView!!.adapter = simpleAdapter
         adapter!!.notifyDataSetChanged()
