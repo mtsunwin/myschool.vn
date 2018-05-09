@@ -60,19 +60,21 @@ class AStaffActivity : AppCompatActivity() {
         // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
-
+        Log.e("activity","Đã vào activity staff")
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.team_group, 1))
         listHeader.add(adm_display("Quản lý thông báo", R.drawable.team_group, 2))
 
+        val inforStaff: ArrayList<adm_display> = ArrayList()
+        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.team_group, 11))
+
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.team_group, 21))
-
         val fruitsList = listOf("Thang", "Nghia")
         val listChild = HashMap<String, ArrayList<adm_display>>()
-        listChild.put(listHeader[0].getName(), inforNotify)
+        listChild.put(listHeader[0].getName(), inforStaff)
         listChild.put(listHeader[1].getName(), inforNotify)
 
         val expandableListAdapter = ExpandableListAdapter(this, listHeader, listChild)

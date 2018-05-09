@@ -3,6 +3,7 @@ package com.iuh.tranthang.myshool
 
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -40,6 +41,7 @@ class RegisterActivity : AppCompatActivity() {
     private var mDatabaseReference: DatabaseReference? = null
     private var mDatabase: FirebaseDatabase? = null
     private var mAuth: FirebaseAuth? = null
+    private var dbFireStore:FirebaseFirestore?=null
 
     private var txtFullname: String? = ""
     private var txtUsername: String? = ""
@@ -62,7 +64,8 @@ class RegisterActivity : AppCompatActivity() {
     private var storageReference: StorageReference? = null
     private var txtSelectUser: TextView? = null
     private var txtSelectUser_1: TextView? = null
-
+    private var txtusername:String?=null
+    private var txtpassword:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -70,6 +73,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
+        val db = FirebaseFirestore.getInstance()
         fullname = findViewById<View>(R.id.fullname) as EditText?
         username = findViewById<View>(R.id.username) as EditText?
         password = findViewById<View>(R.id.password) as EditText?
@@ -215,6 +219,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun createNewAccount() {
+        val db = FirebaseFirestore.getInstance()
         txtFullname = fullname?.text.toString()
         txtUsername = username?.text.toString()
         txtPassword = password?.text.toString()
@@ -249,7 +254,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Log.d("tmt", "createUserWithEmail:success")
                                 val userId = mAuth!!.currentUser!!.uid
                                 // update user profile information
-                                val db = FirebaseFirestore.getInstance()
+
                                 if (intPermisstion == 1) {
                                     mMUser = mUser(userId, txtFullname.toString(), intPermisstion.toString()
                                             , txtNumberphone.toString(), txtAddress.toString(), txtUsername.toString(),
@@ -261,9 +266,17 @@ class RegisterActivity : AppCompatActivity() {
 
                                 // Khởi tạo Root
                                 db.collection(Parameter.root_User)
-                                        .document(userId).set(mMUser)
-                                        .addOnSuccessListener { documentReference ->
-                                            updateUserInfoAndUI()
+                                            .document(userId).set(mMUser)
+                                                .addOnSuccessListener {
+                                                finish()
+                                                    var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+                                                    var token_pw = getSharedPreferences("password", Context.MODE_PRIVATE)
+                                                    txtusername = token!!.getString("loginusername", " ")
+                                                    txtpassword= token_pw!!.getString("password"," ")
+                                                    Log.e("username +password", txtusername+"--"+txtpassword)
+                                                    mAuth!!.signOut()
+                                                    mAuth!!.signInWithEmailAndPassword(txtusername!!,txtpassword!!)
+                                            Toast.makeText(this,R.string.registerCompleted,Toast.LENGTH_SHORT).show()
                                         }
                                         .addOnFailureListener { exception ->
                                             Log.e("tmt err", exception.toString())

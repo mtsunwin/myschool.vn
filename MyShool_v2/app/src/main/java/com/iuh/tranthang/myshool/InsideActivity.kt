@@ -139,8 +139,12 @@ class InsideActivity : AppCompatActivity() {
                             // Authentication
                             var token = getSharedPreferences("username", Context.MODE_PRIVATE)
                             var editor = token.edit()
+                            var token_pw = getSharedPreferences("password", Context.MODE_PRIVATE)
+                            var editor_pw = token_pw.edit()
                             editor.putString("loginusername", email)
                             editor.commit()
+                            editor_pw.putString("password", password)
+                            editor_pw.commit()
                             // Check Permission
                             if (document.data[Parameter.comp_action].toString() == "true")
                                 changeActivy(document.data[Parameter.comp_Permission] as String)

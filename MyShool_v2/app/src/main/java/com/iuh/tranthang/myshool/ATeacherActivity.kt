@@ -58,7 +58,7 @@ class ATeacherActivity : AppCompatActivity() {
         //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
-
+        Log.e("activity","Đã vào activity teacher")
 
         // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
