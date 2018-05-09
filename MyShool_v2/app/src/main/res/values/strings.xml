@@ -73,6 +73,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="usernameLogInError">email không hợp lệ</string>
     <string name="PasswordLogInError">mật khẩu cần nhiều hơn 6 kí tự</string>
+    <string name="registerCompleted">Tạo tài khoản thành công</string>
 
     <!--NavBar-->
     <string name="nav.infor">Thông tin cá nhân</string>

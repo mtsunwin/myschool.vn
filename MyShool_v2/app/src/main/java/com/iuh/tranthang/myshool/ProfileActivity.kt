@@ -108,7 +108,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
                                     }
                                 }
                                 Log.e("Tmt inside abcd", tUser.getFullname() + "-" + tUser.getAddress() + "-" + tUser.getBirthday() + "-" +
-                                        tUser.getNumberphone()+"-"+tUser.getCoefficient())
+                                        tUser.getNumberphone()+"-"+tUser.getHeSoLuong())
                                 updateUI(tUser)
                             } else {
                                 Log.e("tmt false", "false")
@@ -184,7 +184,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         bundle.putString(frm_birthday, tMUser.getBirthday().toString())
         bundle.putString(frm_email, tMUser.getEmail().toString())
         bundle.putString(frm_phone, tMUser.getNumberphone().toString())
-        bundle.putString(frm_luong,tMUser.getCoefficient().toString())
+        bundle.putString(frm_luong,tMUser.getHeSoLuong().toString())
         var fragment_profile = ProfileFragment()
         fragment_profile.arguments = bundle
         pageAdapter = PageAdapter(supportFragmentManager)

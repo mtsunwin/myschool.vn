@@ -42,7 +42,7 @@ class SimpleAdapter_UpdateSalary(private val items: ArrayList<mUser>) : Recycler
     override fun onBindViewHolder(holder: VH_updatesalary?, position: Int) {
         holder!!.bind(items[position].getUid(), items[position].getFullname(), items[position].getPermission(), items[position].getNumberphone(),
                 items[position].getAddress(), items[position].getEmail(), items[position].getBirthday(), items[position].getToCongTac(),
-                items[position].getChucVu(), items[position].getUrl(), items[position].isAction(), items[position].getCoefficient(), items[position].getIdDevice())
+                items[position].getChucVu(), items[position].getUrl(), items[position].isAction(), items[position].getHeSoLuong(), items[position].getIddevice())
     }
 
     override fun getItemCount(): Int = items.size
