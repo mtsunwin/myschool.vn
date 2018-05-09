@@ -4,6 +4,7 @@ package com.iuh.tranthang.myshool.model
  * Created by ThinkPad on 4/6/2018.
  */
 open class adm_display {
+
     private var name: String = ""
     private var img: Int = 0
     private var id: Int = 0
