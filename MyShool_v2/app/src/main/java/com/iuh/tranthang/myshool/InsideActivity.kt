@@ -110,7 +110,6 @@ class InsideActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         mProgressBar!!.hide()
                         if (task.isSuccessful) {
-
                             updateUI()
                         } else {
                             Log.e("tm", "signInWithEmail:failure", task.exception)

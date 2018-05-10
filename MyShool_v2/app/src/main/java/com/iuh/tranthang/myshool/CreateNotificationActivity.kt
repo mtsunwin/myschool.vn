@@ -41,7 +41,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendReponse, dbConnect.sendReponse,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, dbConnect.sendNotification {
+
 
     val CONNECTON_TIMEOUT_MILLISECONDS = 60000
     private lateinit var notification: NotificationUtils
@@ -50,6 +51,7 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
     private lateinit var mAuth: FirebaseUser
     private lateinit var db: dbConnect
     private lateinit var recycleView: RecyclerView
+    private lateinit var dialogLoading: AdapterDialogLoading
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +74,8 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                 resources.getStringArray(R.array.select_notification_to_send))
         val actionBar = supportActionBar
         actionBar!!.hide()
+        dialogLoading = AdapterDialogLoading().newInstance(
+                "Đang xử lý bạn vui lòng chờ...", 0)
         // NÚT Tạo tin nhắn mẫu
         btn_createTemplate.setOnClickListener { view ->
             if (awesomeValidation!!.validate()) {
@@ -87,19 +91,17 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         // NÚT Gửi thông báo
         btn_sentNotification.setOnClickListener {
             val fm: FragmentManager? = supportFragmentManager
-            val dialogLoading: AdapterDialogLoading = AdapterDialogLoading().newInstance(
-                    "Đang xử lý bạn vui lòng chờ...", 0)
             dialogLoading.show(fm, null)
-
             if (awesomeValidation!!.validate()) {
-
-                var strTitle = txt_titleNotification.text
-                var strContent = txt_contentNotification.text
+                var strTitle = xulyChuoi(txt_titleNotification.text.toString())
+                var strContent = xulyChuoi(txt_contentNotification.text.toString())
+                var randomUUIDString: UUID = UUID.randomUUID()
                 var url = "http://ngansotre.com/thangtm/getNotification.php/random_user?title=" +
-                        strTitle + "&content=" + strContent
+                        strTitle + "&content=" + strContent + "&id=" + randomUUIDString.toString()
                 val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
+
                 when (spinner_list.selectedItem) {
-                    listStringPermission[0] -> {
+                    listStringPermission[0] -> { // gửi cho tất cả
                         dbFireStore.collection(Parameter.root_User)
                                 .get()
                                 .addOnCompleteListener({ task ->
@@ -108,15 +110,16 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                                             var idDevice = document.data[Parameter.comp_uidDevice] as String
                                             if (document.data[Parameter.comp_action].toString() == "true"
                                                     && idDevice.length > 0) {
-                                                url += "&regid=" + idDevice
+                                                Log.e("MINH THANG", document.data[Parameter.comp_email].toString())
+                                                url += "&regid=" + idDevice.trim()
+                                                Log.e("MINH THANG", url)
                                                 pushNotification().execute(url)
                                             }
                                         }
-                                    } else {
-                                        Log.d("tmt", "Error getting documents: ", task.exception)
-                                        // Lỗi trả về
                                     }
                                 })
+                        db.addNotification(randomUUIDString.toString(),
+                                strTitle.toString(), strContent.toString(), "0")
                     }
                     listStringPermission[1] -> {
                         dbFireStore.collection(Parameter.root_User)
@@ -132,11 +135,9 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                                                 pushNotification().execute(url)
                                             }
                                         }
-                                    } else {
-                                        Log.d("tmt", "Error getting documents: ", task.exception)
-                                        // Lỗi trả về
                                     }
                                 })
+                        db.addNotification(randomUUIDString.toString(), strTitle.toString(), strContent.toString(), "1")
                     }
                     listStringPermission[2] -> {
                         dbFireStore.collection(Parameter.root_User)
@@ -152,11 +153,10 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                                                 pushNotification().execute(url)
                                             }
                                         }
-                                    } else {
-                                        Log.d("tmt", "Error getting documents: ", task.exception)
-                                        // Lỗi trả về
                                     }
                                 })
+
+                        db.addNotification(randomUUIDString.toString(), strTitle.toString(), strContent.toString(), "2")
                     }
                     listStringPermission[3] -> {
                         dbFireStore.collection(Parameter.root_User)
@@ -172,11 +172,10 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                                                 pushNotification().execute(url)
                                             }
                                         }
-                                    } else {
-                                        Log.d("tmt", "Error getting documents: ", task.exception)
-                                        // Lỗi trả về
                                     }
                                 })
+
+                        db.addNotification(randomUUIDString.toString(), strTitle.toString(), strContent.toString(), "3")
                     }
                     listStringPermission[4] -> {
                         dbFireStore.collection(Parameter.root_User)
@@ -192,14 +191,14 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                                                 pushNotification().execute(url)
                                             }
                                         }
-                                    } else {
-                                        Log.d("tmt", "Error getting documents: ", task.exception)
-                                        // Lỗi trả về
                                     }
                                 })
+
+                        db.addNotification(randomUUIDString.toString(), strTitle.toString(), strContent.toString(), "4")
                     }
                 }
             }
+
         }
     }
 
@@ -281,7 +280,7 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                         }
                         var cal = Calendar.getInstance()
                         var date = cal.time
-                        var idDocument = dbFireStore.collection(Parameter_Notification.collection).document()
+                        var idDocument = dbFireStore.collection(Parameter_Notification.collection_template).document()
                         var mNo = mNotification(idDocument.id, txt_titleNotification.text.toString(),
                                 txt_contentNotification.text.toString(), number)
                         mNo.count = "0"
@@ -297,7 +296,7 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
                     }
                 }
             }
-            
+
         })
         var dialog: Dialog = builder.create()
         dialog.show()
@@ -404,5 +403,20 @@ class CreateNotificationActivity : AppCompatActivity(), AdapterDialogAsk.sendRep
         txt_contentNotification.setText(partItem.content)
         val listStringPermission = resources.getStringArray(R.array.select_notification_to_send)
         spinner_list.setSelection(partItem.group.toInt())
+    }
+
+    /**
+     * Nhập dữ liệu khi lưu tin nhắn gửi đi vào CSDL
+     */
+    override fun pushNotification(status: Boolean) {
+        if (status) {
+            clearText()
+            dialogLoading.dismiss()
+        }
+
+    }
+
+    private fun xulyChuoi(str: String): String {
+        return str.replace(" ", ".-.")
     }
 }

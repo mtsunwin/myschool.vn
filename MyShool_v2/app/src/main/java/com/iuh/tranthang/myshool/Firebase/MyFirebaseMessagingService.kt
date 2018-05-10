@@ -1,17 +1,14 @@
 package com.iuh.tranthang.myshool.Firebase
 
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.iuh.tranthang.myshool.AdminActivity
-import com.iuh.tranthang.myshool.R
+import com.iuh.tranthang.myshool.NotificationPanActivity
+import com.iuh.tranthang.myshool.model.Parameter
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -54,42 +51,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val pushNotification = Intent("pushNotification")
             pushNotification.putExtra("message", message)
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
-            // play notification sound
-            val notificationUtils = NotificationUtils(applicationContext)
-//            notificationUtils.playNotificationSound()
-        } else {
-            // If the app is in background, firebase itself handles the notification
         }
-    }
-
-
-    private fun showNotification(message: String?) {
-        var i: Intent = Intent(this, AdminActivity::class.java)
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        var pendingIntent: PendingIntent = PendingIntent.getActivity(this,
-                0, i, PendingIntent.FLAG_CANCEL_CURRENT)
-        var builder: NotificationCompat.Builder = NotificationCompat.Builder(this)
-                .setAutoCancel(true)
-                .setContentTitle("oke baby")
-                .setContentText(message)
-                .setSmallIcon(R.drawable.ic_house)
-                .setContentIntent(pendingIntent)
-        var manager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(0, builder.build())
     }
 
     private fun handleDataMessage(json: JSONObject) {
         try {
             val data = json.getJSONObject("data")
-            val title = data.getString("title")
-            val message = data.getString("message")
+            val title = xulyChuoi(data.getString("title"))
+            val message = xulyChuoi(data.getString("message"))
             val isBackground = data.getBoolean("is_background")
             val imageUrl = data.getString("image")
             val timestamp = data.getString("timestamp")
             val payload = data.getJSONObject("payload")
-
-            val resultIntent = Intent(applicationContext, AdminActivity::class.java)
-            resultIntent.putExtra("message", message)
+            val resultIntent = Intent(applicationContext, NotificationPanActivity::class.java)
+            resultIntent.putExtra(Parameter.KEY_CONTENT_MESS, message)
+            resultIntent.putExtra(Parameter.KEY_ID_MESS, imageUrl)
+            resultIntent.putExtra(Parameter.KEY_Title_MESS, title)
             showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
 
             if (!notificationUtils!!.isAppIsInBackground()) {
@@ -97,21 +74,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val pushNotification = Intent("pushNotification")
                 pushNotification.putExtra("message", message)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
-
-                // play notification sound
-                val notificationUtils = NotificationUtils(applicationContext)
-//                notificationUtils.playNotificationSound()
             } else {
-                // app is in background, show the notification in notification tray
-                //                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-                //                resultIntent.putExtra("message", message);
-
-                // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {
                     showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
-                } else {
-                    // image is present, show notification with image
-//                    showNotificationMessageWithBigImage(applicationContext, title, message, timestamp, resultIntent, imageUrl)
                 }
             }
         } catch (e: JSONException) {
@@ -121,9 +86,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun showNotificationMessage(context: Context, title: String, message: String, timeStamp: String, intent: Intent) {
+    private fun showNotificationMessage(context: Context, title: String, message: String,
+                                        timeStamp: String, intent: Intent) {
         notificationUtils = NotificationUtils(context)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         notificationUtils!!.showNotificationMessage(title, message, timeStamp, intent)
+    }
+
+    private fun xulyChuoi(str: String): String {
+        return str.replace(".-.", " ")
     }
 }

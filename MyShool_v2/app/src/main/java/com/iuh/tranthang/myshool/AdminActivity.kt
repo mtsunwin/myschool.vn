@@ -66,11 +66,10 @@ class AdminActivity : AppCompatActivity() {
         // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
-
+        // Tắt menu
         val actionBar = supportActionBar
         actionBar!!.hide()
 
-        val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
 
         val listHeader: ArrayList<adm_display> = ArrayList()
@@ -80,6 +79,7 @@ class AdminActivity : AppCompatActivity() {
         val inforStaff: ArrayList<adm_display> = ArrayList()
         inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
         inforStaff.add(adm_display("Thêm tài khoản", R.drawable.ic_user, 12))
+      inforStaff.add(adm_display("Xóa nhân viên", R.drawable.ic_trash, 13))
 
 
         val inforNotify: ArrayList<adm_display> = ArrayList()
