@@ -61,6 +61,9 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        // Tắt menu
+        val actionBar = supportActionBar
+        actionBar!!.hide()
 
         mAuth = FirebaseAuth.getInstance()
         val intent = Intent(this, InsideActivity::class.java)

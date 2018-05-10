@@ -4,7 +4,8 @@ package com.iuh.tranthang.myshool.model
  * Created by ThinkPad on 5/4/2018.
  */
 object Parameter_Notification {
-    val collection = "notification_template"
+    val collection_template = "notification_template"
+    val collection_list = "notification_sent"
     val field_content = "content"
     val field_count = "count"
     val field_dateTime = "dateTime"

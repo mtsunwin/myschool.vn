@@ -274,7 +274,7 @@ class AcountantActivity : AppCompatActivity() {
             if (txtHeSoLuongcoban!!.length() > 0) {
                 val items = HashMap<String, Any>()
                 items.put("LuongCoBan", txtHeSoLuongcoban!!.text.toString())
-                db.collection(Parameter().root_Luong)
+                db.collection_template(Parameter().root_Luong)
                         .document("Salary").set(items)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(this, "Successful update", Toast.LENGTH_SHORT).show()

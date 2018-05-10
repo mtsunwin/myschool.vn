@@ -41,7 +41,6 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         listHeaderText.setTypeface(null, Typeface.BOLD)
         listHeaderText.text = headerTitle.getName()
         listHeaderImg.setImageResource(headerTitle.getImg())
-
         return view
 
     }
@@ -81,10 +80,16 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 22 -> createNotification(converView)
                 14 -> updateHeSoLuong(converView)
                 15 -> updateBaseSalary(converView)
+                21 -> listNotification(converView)
             }
         })
 
         return view
+    }
+
+    private fun listNotification(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListNotificationActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
     }
 
     // ID 11: Xem danh sách tài khoản
@@ -92,12 +97,14 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
         ContextCompat.startActivity(context, intent, null)
     }
+
     // ID 12: Thêm tài khoản
     private fun addAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, RegisterActivity::class.java)
         ContextCompat.startActivity(context, intent, null)
     }
 
+    // Tạo thông báo
     private fun createNotification(converView: View?) {
         var intent: Intent = Intent(converView!!.context, CreateNotificationActivity::class.java)
         ContextCompat.startActivity(context, intent, null)
@@ -112,6 +119,7 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
         return listOfHeaderData.size
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
     //ID 14: update he so luong (Accountant)
     private fun updateHeSoLuong(converView: View?) {
         var intent: Intent = Intent(converView!!.context, ListUserForUpdateSalary::class.java)

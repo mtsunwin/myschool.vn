@@ -6,8 +6,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,7 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ForgetPasswordActivity" />
         <activity
             android:name=".RegisterActivity"
@@ -43,16 +42,16 @@
         <activity
             android:name=".ProfileActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ATeacherActivity"
             android:label="@string/title_activity_teacher"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AStaffActivity" />
         <activity android:name=".AcountantActivity" />
-        <activity android:name=".UpdateBaseSalary"></activity>
+        <activity android:name=".UpdateBaseSalary" />
         <activity android:name=".ListUserActivity" />
         <activity android:name=".UpdateProfileActivity" />
+
         <service android:name=".Firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -63,8 +62,12 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <activity android:name=".CreateNotificationActivity" />
 
+        <activity android:name=".CreateNotificationActivity" />
+        <activity android:name=".ListNotificationActivity">
+        </activity>
+        <activity android:name=".NotificationPanActivity">
+        </activity>
     </application>
 
 </manifest>

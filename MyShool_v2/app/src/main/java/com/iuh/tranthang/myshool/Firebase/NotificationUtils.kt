@@ -30,16 +30,15 @@ class NotificationUtils {
         this.mContext = context!!
     }
 
-    public fun showNotificationMessage(title: String, message: String, timeStamp: String, intent: Intent) {
+    fun showNotificationMessage(title: String, message: String, timeStamp: String, intent: Intent) {
         // Check for empty push message
         if (TextUtils.isEmpty(message)) {
             Log.e("tmt", "empty")
             return
         }
         // notification icon
-        val icon = R.mipmap.ic_launcher
+        val icon =  R.drawable.ic_notification_sent
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-
         val resultPendingIntent = PendingIntent.getActivity(
                 mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         val mBuilder = NotificationCompat.Builder(mContext)
@@ -49,7 +48,9 @@ class NotificationUtils {
         showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound)
     }
 
-    private fun showSmallNotification(mBuilder: NotificationCompat.Builder, icon: Int, title: String, message: String, timeStamp: String, resultPendingIntent: PendingIntent?, alarmSound: Uri?) {
+    private fun showSmallNotification(mBuilder: NotificationCompat.Builder, icon: Int,
+                                      title: String, message: String, timeStamp: String,
+                                      resultPendingIntent: PendingIntent?, alarmSound: Uri?) {
         val inboxStyle = NotificationCompat.InboxStyle()
         inboxStyle.addLine(message)
         val notification: Notification
@@ -60,11 +61,10 @@ class NotificationUtils {
                 .setSound(alarmSound)
                 .setStyle(inboxStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon( R.drawable.ic_notification_sent)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext!!.getResources(), icon))
                 .setContentText(message)
                 .build()
-
         val notificationManager = mContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(100, notification)
     }

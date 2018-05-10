@@ -10,7 +10,8 @@ import kotlinx.android.synthetic.main.layout_item_list_notification.view.*
 /**
  * Created by ThinkPad on 5/5/2018.
  */
-class RecycleViewNotificationAdapter(var items: ArrayList<mNotification>, val clickListener: (mNotification) -> Unit)
+class RecycleViewNotificationAdapter(var items: ArrayList<mNotification>,
+                                     val clickListener: (mNotification) -> Unit)
     : RecyclerView.Adapter<RecycleViewNotificationAdapter.rycViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): rycViewHolder {

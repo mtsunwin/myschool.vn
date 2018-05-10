@@ -19,4 +19,8 @@ object Parameter {
     public val comp_action = "action"
     public val comp_uidDevice = "iddevice"
     public val comp_baseSalary="heSoLuong"
+
+    val KEY_ID_MESS: String = "1"
+    val KEY_CONTENT_MESS: String = "2"
+    val KEY_Title_MESS: String = "3"
 }
