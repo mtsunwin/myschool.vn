@@ -145,7 +145,6 @@
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:textColor="@color/color.Text.in.Background"
                     android:textColorHint="@color/color.Text.in.Background.Dark" />
             </LinearLayout>
 

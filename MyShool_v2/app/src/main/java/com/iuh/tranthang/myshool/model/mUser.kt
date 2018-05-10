@@ -16,7 +16,7 @@ class mUser {
     private lateinit var chucVu: String
     private lateinit var url: String
     private var action: Boolean = false
-    private lateinit var idDevice: String
+    private lateinit var iddevice: String
     private lateinit var heSoluong: String
 
     constructor(id: String, fullname: String, permission: String, numberphone: String,
@@ -33,7 +33,7 @@ class mUser {
         this.chucVu = chucVu
         this.url = url
         this.action = action
-        this.idDevice = iddevice
+        this.iddevice = iddevice
         this.heSoluong = heSoLuong
     }
 
@@ -79,7 +79,7 @@ class mUser {
         return toCongTac
     }
 
-    public fun getCoefficient(): String {
+    public fun getHeSoLuong(): String {
         return heSoluong
     }
 
@@ -131,12 +131,12 @@ class mUser {
         this.toCongTac = toCongTac
     }
 
-    public fun getIdDevice(): String {
-        return this.idDevice
+    public fun getIddevice(): String {
+        return this.iddevice
     }
 
-    public fun setCoefficient(coefficient: String) {
-        this.heSoluong = coefficient
+    public fun setCoefficient(heSoLuong: String) {
+        this.heSoluong = heSoLuong
     }
 
 

@@ -79,7 +79,8 @@ class AdminActivity : AppCompatActivity() {
         val inforStaff: ArrayList<adm_display> = ArrayList()
         inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
         inforStaff.add(adm_display("Thêm tài khoản", R.drawable.ic_user, 12))
-//        inforStaff.add(adm_display("Xóa nhân viên", R.drawable.ic_trash, 13))
+      inforStaff.add(adm_display("Xóa nhân viên", R.drawable.ic_trash, 13))
+
 
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
