@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <!--android:roundIcon="@mipmap/ic_launcher_round"-->
+
+    <!-- android:roundIcon="@mipmap/ic_launcher_round" -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_presentation"
@@ -63,8 +64,12 @@
         </service>
 
         <activity android:name=".CreateNotificationActivity" />
-        <activity android:name=".ListNotificationActivity"/>
-        <activity android:name=".NotificationPanActivity"/>
+        <activity android:name=".ListNotificationActivity" />
+        <activity android:name=".NotificationPanActivity" />
+        <activity android:name=".takeLeaveActivity">
+        </activity>
+        <activity android:name=".ListTakeLeavesActivity">
+        </activity>
     </application>
 
 </manifest>

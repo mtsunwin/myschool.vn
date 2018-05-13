@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iuh.tranthang.myshool.takeLeaveActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color.Background.Opacity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start|center"
+                android:paddingLeft="10dp"
+                android:text="Đơn xin nghỉ phép"
+                android:textColor="#0018ce"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="50dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Nội dung"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtTakeLeave_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Thời gian bắt đầu"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtTakeLeave_timeStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="datetime" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Thời gian Kết thúc"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtTakeLeave_timeEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="datetime" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnTakeLeave_nhaplai"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:text="Nhập lại"
+                android:textSize="16dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btnTakeLeave_gui"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:text="Gửi"
+                android:textSize="16dp"
+                android:layout_weight="2"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

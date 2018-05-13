@@ -81,10 +81,22 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 14 -> updateHeSoLuong(converView)
                 15 -> updateBaseSalary(converView)
                 21 -> listNotification(converView)
+                31 -> takeleave(converView)
+                32 -> takeleaveAll(converView)
             }
         })
 
         return view
+    }
+
+    private fun takeleaveAll(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListTakeLeavesActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
+    }
+
+    private fun takeleave(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, takeLeaveActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
     }
 
     private fun listNotification(converView: View?) {
