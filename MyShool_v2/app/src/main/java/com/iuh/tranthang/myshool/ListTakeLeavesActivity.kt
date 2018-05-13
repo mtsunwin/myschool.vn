@@ -1,20 +1,23 @@
 package com.iuh.tranthang.myshool
 
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import com.iuh.tranthang.myshool.model.Parameter_Take_Leaves
+import com.iuh.tranthang.myshool.Firebase.dbConnect
+import com.iuh.tranthang.myshool.ViewApdater.AdapterDataTakeLeaves
+import com.iuh.tranthang.myshool.ViewApdater.RecycleViewTakeLeavesAdapter
 import com.iuh.tranthang.myshool.model.mTakeLeave
 
-class ListTakeLeavesActivity : AppCompatActivity() {
+class ListTakeLeavesActivity : AppCompatActivity(),
+        SwipeRefreshLayout.OnRefreshListener,
+        dbConnect.returnList {
 
-    private lateinit var dbFireStore: FirebaseFirestore
-    private lateinit var mAuth: FirebaseUser
-    private lateinit var mList: ArrayList<mTakeLeave>
-
+    private lateinit var ryr: RecyclerView
+    private lateinit var db: dbConnect
+    private lateinit var ref: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +25,34 @@ class ListTakeLeavesActivity : AppCompatActivity() {
 
         val actionBar = supportActionBar
         actionBar!!.hide()
-        mList = ArrayList<mTakeLeave>()
 
-        dbFireStore = FirebaseFirestore.getInstance()
-        mAuth = FirebaseAuth.getInstance().currentUser!!
+        db = dbConnect(this)
 
-        dbFireStore.collection(Parameter_Take_Leaves.collection).whereEqualTo(Parameter_Take_Leaves.UserId, mAuth.uid)
-                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                    for (document in querySnapshot) {
-                        Log.e("qqqq", "taaodkaspodkpokds")
-                        val myObject = document.toObject(mTakeLeave::class.java)
-                        mList.add(myObject)
-                    }
-                }
+        ryr = findViewById(R.id.cyc_takeleaves)
+        ref = findViewById(R.id.swipe_takeleaves_main)
+        ref.setOnRefreshListener { onRefresh() }
+        db.getListTakeLeaves()
+    }
+
+    fun loadList(list: ArrayList<mTakeLeave>) {
+        ryr.layoutManager = LinearLayoutManager(this)
+        if (list.size > 0) {
+            val simple = RecycleViewTakeLeavesAdapter(list, { mTake: mTakeLeave ->
+                Log.e("tmt", "simple")
+            })
+            var adap = AdapterDataTakeLeaves(applicationContext, list)
+            ryr.adapter = simple
+            adap.notifyDataSetChanged()
+            ref.setRefreshing(false)
+        }
+    }
+
+    override fun onRefresh() {
+        ref.setRefreshing(true)
+        db.getListTakeLeaves()
+    }
+
+    override fun listTakeLeaves(mList: java.util.ArrayList<mTakeLeave>) {
+        loadList(mList)
     }
 }

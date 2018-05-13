@@ -24,11 +24,11 @@ import android.view.Menu
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.*
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mUser
@@ -36,20 +36,20 @@ import kotlinx.android.synthetic.main.activity_list_user.*
 
 
 class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
-        AdapterDialogAsk.sendReponse {
-
+        AdapterDialogAsk.sendReponse, dbConnect.sendListUser {
 
     private var permissionForLogIn: String? = null
     private var mAuth: FirebaseUser? = null
+    private lateinit var db: dbConnect
     private var recyclerView: RecyclerView? = null
-    val listUser = ArrayList<mUser>()
+    private lateinit var type_list: String
+    private lateinit var listUser: ArrayList<mUser>
 
     /**
      * Swipe Refresh
      */
     override fun onRefresh() {
-        Toast.makeText(this, "Showw", Toast.LENGTH_LONG).show()
-        firebaseListenerInit()
+        firebaseListenerInit(type_list)
         swipe_container.setRefreshing(false)
     }
 
@@ -57,51 +57,40 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         var token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_user)
-
+        db = dbConnect(this)
         permissionForLogIn = token_ps!!.getString("permission", " ")
         mAuth = FirebaseAuth.getInstance().currentUser
         swipe_container.setOnRefreshListener { onRefresh() }
-        firebaseListenerInit()
+        type_list = intent.getStringExtra(Parameter.intent_user)
+        firebaseListenerInit(type_list)
     }
 
     /**
      * Lấy danh sách mUser từ Firebase
      * Thực hiện cập nhật lại listview
      */
-    private fun firebaseListenerInit() {
+    private fun firebaseListenerInit(type: String) {
         if (mAuth != null) {
-            Log.e("tmt data", "it will run this")
-            val db = FirebaseFirestore.getInstance()
-            db.collection(Parameter.root_User)
-                    .get()
-                    .addOnCompleteListener({ task ->
-                        if (task.isSuccessful) {
-                            listUser.clear()
-                            for (document in task.result) {
-                                var mUser = mUser(document.data[Parameter.comp_UId] as String,
-                                        document.data[Parameter.comp_fullname] as String,
-                                        document.data[Parameter.comp_Permission] as String,
-                                        document.data[Parameter.comp_numberphone] as String,
-                                        document.data[Parameter.comp_address] as String,
-                                        document.data[Parameter.comp_email] as String,
-                                        document.data[Parameter.comp_birthday] as String,
-                                        document.data[Parameter.comp_toCongTac] as String,
-                                        document.data[Parameter.comp_chucVu] as String,
-                                        document.data[Parameter.comp_url] as String,
-                                        document.data[Parameter.comp_action] as Boolean,
-                                        document.data[Parameter.comp_baseSalary] as String,
-                                        document.data[Parameter.comp_uidDevice] as String
-                                )
-                                Log.e("USER", mUser.getUid().toString())
-                                if (document.data[Parameter.comp_action].toString() == "true")
-                                    listUser.add(mUser)
-                            }
-                            callAdapter(listUser)
-                        } else {
-                            Log.d("tmt", "Error getting documents: ", task.exception)
-                            // Lỗi trả về
-                        }
-                    })
+            when (type) {
+                Parameter.intent_all_user -> {
+                    db.getAllListUser("4")
+                }
+                Parameter.intent_teacher_user -> {
+                    db.getAllListUser("1")
+                }
+                Parameter.intent_staff_user -> {
+                    db.getAllListUser("2")
+                }
+                Parameter.intent_ketoan_user -> {
+                    db.getAllListUser("0")
+                }
+                Parameter.intent_manager_user -> {
+                    db.getAllListUser("3")
+                }
+                else -> {
+                    db.getAllListUser("4")
+                }
+            }
         }
     }
 
@@ -177,7 +166,7 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
                 var washingtonRef: DocumentReference =
                         dbFireStore.collection(Parameter.root_User).document(dMUser.getUid())
                 washingtonRef.update(Parameter.comp_action, false).addOnSuccessListener { void ->
-                    firebaseListenerInit()
+                    firebaseListenerInit(type_list)
                 }.addOnFailureListener { exception ->
                     Log.e("tmt", "that bai")
                 }
@@ -234,6 +223,14 @@ class ListUserActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListen
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun list(list: ArrayList<mUser>) {
+        listUser = list
+    }
+
+    override fun listUserDB(listUser: ArrayList<mUser>) {
+        list(listUser)
+        callAdapter(listUser)
+    }
 
     /**
      * Nhận giá trị trả về từ hộp thoại Dialog

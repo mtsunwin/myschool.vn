@@ -77,11 +77,10 @@ class ATeacherActivity : AppCompatActivity() {
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
         inforStaff.add(adm_display("Tất cả", R.drawable.ic_clipboard, 11))
-        inforStaff.add(adm_display("Giáo viên", R.drawable.ic_clipboard, 12))
-        inforStaff.add(adm_display("Quản lý", R.drawable.ic_clipboard, 13))
-        inforStaff.add(adm_display("Kế toán", R.drawable.ic_clipboard, 14))
-        inforStaff.add(adm_display("Xem lịch biểu công việc", R.drawable.ic_calendar_1, 16))
-
+        inforStaff.add(adm_display("Giáo viên", R.drawable.ic_classroom, 991))
+        inforStaff.add(adm_display("Quản lý", R.drawable.ic_customer_service, 992))
+        inforStaff.add(adm_display("Kế toán", R.drawable.ic_accounting, 993))
+        inforStaff.add(adm_display("Danh sách nhân viên", R.drawable.ic_teacher, 995))
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
 

@@ -51,6 +51,7 @@
                     android:layout_weight="1">
 
                     <ImageView
+                        android:id="@+id/img_group"
                         android:layout_width="14dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -75,6 +76,7 @@
                     android:gravity="right|center">
 
                     <ImageView
+                        android:id="@+id/ic_eye"
                         android:layout_width="16dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -92,6 +94,7 @@
                         android:textSize="12dp" />
 
                     <ImageView
+                        android:id="@+id/ic_calendar_1"
                         android:layout_width="14dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

@@ -18,12 +18,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.Firebase.dbConnect
@@ -43,15 +41,15 @@ class AStaffActivity : AppCompatActivity() {
     private lateinit var dbFireStore: FirebaseFirestore
     private lateinit var mAuth: FirebaseUser
     private var view: View? = null
-    private var nav_header_imgAvartar: ImageView?=null
-    private var nav_header_txtName:TextView?=null
-    private var nav_header_txtPermission:TextView?=null
-    private var nav_header_layout: LinearLayout?=null
+    private var nav_header_imgAvartar: ImageView? = null
+    private var nav_header_txtName: TextView? = null
+    private var nav_header_txtPermission: TextView? = null
+    private var nav_header_layout: LinearLayout? = null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
-    private var permission:String=""
-    private var name:String=""
-    private var txtURLImage:String=""
+    private var permission: String = ""
+    private var name: String = ""
+    private var txtURLImage: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
@@ -60,7 +58,7 @@ class AStaffActivity : AppCompatActivity() {
         // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
-        Log.e("activity","Đã vào activity staff")
+        Log.e("activity", "Đã vào activity staff")
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
         val listHeader: ArrayList<adm_display> = ArrayList()
@@ -69,7 +67,10 @@ class AStaffActivity : AppCompatActivity() {
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
         inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
-
+        inforStaff.add(adm_display("Danh sách Giáo viên", R.drawable.ic_classroom, 991))
+        inforStaff.add(adm_display("Danh sách Quản lý", R.drawable.ic_customer_service, 992))
+        inforStaff.add(adm_display("Danh sách Kế toán", R.drawable.ic_accounting, 993))
+        inforStaff.add(adm_display("Danh sách nhân viên", R.drawable.ic_teacher, 995))
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
         val fruitsList = listOf("Thang", "Nghia")
@@ -87,10 +88,10 @@ class AStaffActivity : AppCompatActivity() {
 
         // cập nhật avatar navigation
         view = navigationView!!.inflateHeaderView(R.layout.nav_header_main)
-        nav_header_layout=findViewById(R.id.nav_header_layout)
-        nav_header_imgAvartar= view!!.findViewById(R.id.nav_header_imageView)
-        nav_header_txtName =view!!.findViewById(R.id.nav_header_name)
-        nav_header_txtPermission=view!!.findViewById(R.id.nav_header_permission)
+        nav_header_layout = findViewById(R.id.nav_header_layout)
+        nav_header_imgAvartar = view!!.findViewById(R.id.nav_header_imageView)
+        nav_header_txtName = view!!.findViewById(R.id.nav_header_name)
+        nav_header_txtPermission = view!!.findViewById(R.id.nav_header_permission)
         nav_header_txtPermission!!.setText(permission.toString())
         nav_header_txtName!!.setText(name.toString())
         storage = FirebaseStorage.getInstance()
@@ -100,51 +101,51 @@ class AStaffActivity : AppCompatActivity() {
             var dbFireStore = FirebaseFirestore.getInstance()
             dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
-                if (task.isSuccessful) {
-                    Log.e("Tmt inside", "mmmmmmmmmmmmmm")
-                    var result: DocumentSnapshot = task.result
-                    if (result.exists()) {
-                        name = result.data[Parameter.comp_fullname].toString()
-                        when (result.data[Parameter.comp_Permission].toString()) {
-                            "0" -> {
-                                permission = "Kế toán"
-                            }
-                            "1" -> {
-                                permission = "Giáo viên"
-                            }
-                            "2" -> {
-                                permission = "Nhân viên"
-                            }
-                            "3" -> {
-                                permission = "Admin"
+                        if (task.isSuccessful) {
+                            Log.e("Tmt inside", "mmmmmmmmmmmmmm")
+                            var result: DocumentSnapshot = task.result
+                            if (result.exists()) {
+                                name = result.data[Parameter.comp_fullname].toString()
+                                when (result.data[Parameter.comp_Permission].toString()) {
+                                    "0" -> {
+                                        permission = "Kế toán"
+                                    }
+                                    "1" -> {
+                                        permission = "Giáo viên"
+                                    }
+                                    "2" -> {
+                                        permission = "Nhân viên"
+                                    }
+                                    "3" -> {
+                                        permission = "Admin"
+                                    }
+                                }
+                                Log.e("Name+permission", name + "----" + permission)
+                                nav_header_txtName!!.setText(name.toString())
+                                nav_header_txtPermission!!.setText(permission.toString())
+                                txtURLImage = result.data[Parameter.comp_url].toString()
+                                Log.e("URL:", txtURLImage.toString())
+                                if (txtURLImage!!.length > 0) {
+                                    try {
+                                        val tmpFile = File.createTempFile("img", "png")
+                                        val reference = FirebaseStorage.getInstance().getReference("images/")
+
+                                        //  "id" is name of the image file....
+
+                                        reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener({
+                                            val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
+                                            nav_header_imgAvartar!!.setImageBitmap(image)
+                                        })
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
+                                }
+                            } else {
+                                Log.e("tmt false", "false")
                             }
                         }
-                        Log.e("Name+permission",name+"----"+permission)
-                        nav_header_txtName!!.setText(name.toString())
-                        nav_header_txtPermission!!.setText(permission.toString())
-                        txtURLImage = result.data[Parameter.comp_url].toString()
-                        Log.e("URL:", txtURLImage.toString())
-                        if (txtURLImage!!.length > 0) {
-                            try {
-                                val tmpFile = File.createTempFile("img", "png")
-                                val reference = FirebaseStorage.getInstance().getReference("images/")
-
-                                //  "id" is name of the image file....
-
-                                reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener({
-                                    val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
-                                    nav_header_imgAvartar!!.setImageBitmap(image)
-                                })
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-
-                        }
-                    } else {
-                        Log.e("tmt false", "false")
-                    }
-                }
-            })
+                    })
         }
 
 
@@ -156,9 +157,9 @@ class AStaffActivity : AppCompatActivity() {
         navigationView!!.setNavigationItemSelectedListener(
                 object : NavigationView.OnNavigationItemSelectedListener {
                     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                        var boolean: Boolean?=false
+                        var boolean: Boolean? = false
                         if (item!!.itemId == R.id.DangXuat) {
-                            Log.e("Dang xuat ne","abc")
+                            Log.e("Dang xuat ne", "abc")
                             var builder: AlertDialog.Builder = AlertDialog.Builder(this@AStaffActivity)
                             var inflater: LayoutInflater = layoutInflater
                             var view: View = inflater.inflate(R.layout.layout_dialog, null)
@@ -203,9 +204,9 @@ class AStaffActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        var boolean: Boolean?=false
+        var boolean: Boolean? = false
         if (item!!.itemId == R.id.DangXuat) {
-            Log.e("Dang xuat ne","abc")
+            Log.e("Dang xuat ne", "abc")
             var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             var inflater: LayoutInflater = layoutInflater
             var view: View = inflater.inflate(R.layout.layout_dialog, null)
@@ -236,13 +237,11 @@ class AStaffActivity : AppCompatActivity() {
             })
             var dialog: Dialog = builder.create()
             dialog.show()
-        }
-        else if (item!!.itemId == R.id.itemTrangCaNhan) {
-            val intent_profile=Intent(this, ProfileActivity::class.java)
+        } else if (item!!.itemId == R.id.itemTrangCaNhan) {
+            val intent_profile = Intent(this, ProfileActivity::class.java)
             startActivity(intent_profile)
             boolean = true
-        }
-        else
+        } else
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
 

@@ -77,7 +77,11 @@ class AdminActivity : AppCompatActivity() {
         listHeader.add(adm_display("Quản lý thông báo", R.drawable.ic_notification, 2))
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
-        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
+        inforStaff.add(adm_display("Danh sách tất cả tài khoản", R.drawable.ic_clipboard, 11))
+        inforStaff.add(adm_display("Danh sách Giáo viên", R.drawable.ic_classroom, 991))
+        inforStaff.add(adm_display("Danh sách Quản lý", R.drawable.ic_customer_service, 992))
+        inforStaff.add(adm_display("Danh sách Kế toán", R.drawable.ic_accounting, 993))
+        inforStaff.add(adm_display("Danh sách nhân viên", R.drawable.ic_teacher, 995))
         inforStaff.add(adm_display("Thêm tài khoản", R.drawable.ic_user, 12))
 //      inforStaff.add(adm_display("Xóa nhân viên", R.drawable.ic_trash, 13))
 

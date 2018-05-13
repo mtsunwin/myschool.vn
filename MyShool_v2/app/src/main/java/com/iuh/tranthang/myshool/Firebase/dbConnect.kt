@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iuh.tranthang.myshool.model.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -236,6 +237,60 @@ class dbConnect {
         }
     }
 
+    fun getListTakeLeaves() {
+        dbFireStore.collection(Parameter_Take_Leaves.collection).whereEqualTo(Parameter_Take_Leaves.UserId, mAuth!!.uid)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    var mList: ArrayList<mTakeLeave> = ArrayList<mTakeLeave>()
+                    var returnList = act as returnList
+                    for (document in querySnapshot) {
+                        Log.e("qqqq", "taaodkaspodkpokds")
+                        val myObject = document.toObject(mTakeLeave::class.java)
+                        mList.add(myObject)
+                    }
+                    returnList.listTakeLeaves(mList)
+                }
+    }
+
+    fun getAllListUser(type: String) {
+        dbFireStore.collection(Parameter.root_User)
+                .get()
+                .addOnCompleteListener({ task ->
+                    if (task.isSuccessful) {
+                        var sendListUser = act as sendListUser
+                        val listUser = ArrayList<mUser>()
+                        for (document in task.result) {
+                            var mUser = mUser(document.data[Parameter.comp_UId] as String,
+                                    document.data[Parameter.comp_fullname] as String,
+                                    document.data[Parameter.comp_Permission] as String,
+                                    document.data[Parameter.comp_numberphone] as String,
+                                    document.data[Parameter.comp_address] as String,
+                                    document.data[Parameter.comp_email] as String,
+                                    document.data[Parameter.comp_birthday] as String,
+                                    document.data[Parameter.comp_toCongTac] as String,
+                                    document.data[Parameter.comp_chucVu] as String,
+                                    document.data[Parameter.comp_url] as String,
+                                    document.data[Parameter.comp_action] as Boolean,
+                                    document.data[Parameter.comp_baseSalary] as String,
+                                    document.data[Parameter.comp_uidDevice] as String
+                            )
+                            if (type != "4") {
+                                if (document.data[Parameter.comp_action].toString() == "true"
+                                        && document.data[Parameter.comp_Permission] == type)
+                                    listUser.add(mUser)
+                            } else {
+                                if (document.data[Parameter.comp_action].toString() == "true")
+                                    listUser.add(mUser)
+                            }
+                        }
+                        sendListUser.listUserDB(listUser)
+                    }
+                })
+    }
+
+    interface sendListUser {
+        fun listUserDB(listUser: ArrayList<mUser>)
+    }
+
     interface sendReponse {
         fun getListNotification_Template(list: ArrayList<mNotification>)
         fun deleteItemNotification_Template(status: Boolean)
@@ -244,7 +299,12 @@ class dbConnect {
     interface sendNotification {
         fun pushNotification(status: Boolean)
     }
-    interface sendListNotification{
+
+    interface sendListNotification {
         fun getList(list: ArrayList<mNotification>)
+    }
+
+    interface returnList {
+        fun listTakeLeaves(mList: ArrayList<mTakeLeave>)
     }
 }

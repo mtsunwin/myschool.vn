@@ -38,19 +38,19 @@ class AdapterDataTakeLeaves(var context: Context, var listTakesLeaves: ArrayList
     }
 
     override fun getItem(p0: Int): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listTakesLeaves.get(p0)
     }
 
     override fun getItemId(p0: Int): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return p0.toLong()
     }
 
     override fun getCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listTakesLeaves.size
     }
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return R.id.swipe_takeleaves_main
     }
 
     class vwmHolder(row: View) {

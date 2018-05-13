@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import com.iuh.tranthang.myshool.*
+import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.adm_display
 
 /**
@@ -83,10 +84,20 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 21 -> listNotification(converView)
                 31 -> takeleave(converView)
                 32 -> takeleaveAll(converView)
+                991 -> listAccountTeacher(converView)
+                992 -> listAccountManager(converView)
+                993 -> listAccountKeToan(converView)
+                995 -> listAccountNhanvien(converView)
             }
         })
 
         return view
+    }
+
+    private fun listAccountNhanvien(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
+        intent.putExtra(Parameter.intent_user, Parameter.intent_staff_user)
+        ContextCompat.startActivity(context, intent, null)
     }
 
     private fun takeleaveAll(converView: View?) {
@@ -107,6 +118,25 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
     // ID 11: Xem danh sách tài khoản
     private fun listAccount(converView: View?) {
         var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
+        intent.putExtra(Parameter.intent_user, Parameter.intent_all_user)
+        ContextCompat.startActivity(context, intent, null)
+    }// ID 11: Xem danh sách tài khoản
+
+    private fun listAccountTeacher(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
+        intent.putExtra(Parameter.intent_user, Parameter.intent_teacher_user)
+        ContextCompat.startActivity(context, intent, null)
+    }// ID 11: Xem danh sách tài khoản
+
+    private fun listAccountManager(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
+        intent.putExtra(Parameter.intent_user, Parameter.intent_manager_user)
+        ContextCompat.startActivity(context, intent, null)
+    }// ID 11: Xem danh sách tài khoản
+
+    private fun listAccountKeToan(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, ListUserActivity::class.java)
+        intent.putExtra(Parameter.intent_user, Parameter.intent_ketoan_user)
         ContextCompat.startActivity(context, intent, null)
     }
 

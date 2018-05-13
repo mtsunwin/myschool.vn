@@ -86,6 +86,13 @@ class takeLeaveActivity : AppCompatActivity() {
 
             }
         }
+
+        btnTakeLeave_nhaplai.setOnClickListener { view ->
+            txtTakeLeave_timeEnd.setText("")
+            txtTakeLeave_timeStart.setText("")
+            txtTakeLeave_content.setText("")
+            txtTakeLeave_content.isFocusable = true
+        }
     }
 
     /**

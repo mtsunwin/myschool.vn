@@ -78,6 +78,10 @@ class AcountantActivity : AppCompatActivity() {
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
         inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
+        inforStaff.add(adm_display("Danh sách giáo viên", R.drawable.ic_classroom, 991))
+        inforStaff.add(adm_display("Danh sách quản lý", R.drawable.ic_customer_service, 992))
+        inforStaff.add(adm_display("Danh sách kế toán", R.drawable.ic_accounting, 993))
+        inforStaff.add(adm_display("Danh sách nhân viên", R.drawable.ic_teacher, 995))
         inforStaff.add(adm_display("Cập nhật hệ số lương", R.drawable.ic_dollar, 14))
         inforStaff.add(adm_display("Cập nhật lương cơ bản", R.drawable.ic_dollar_luongcoban, 15))
 
