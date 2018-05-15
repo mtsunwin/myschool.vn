@@ -227,6 +227,23 @@ class dbConnect {
         sendNotification.pushNotification(false)
     }
 
+    fun updateDonXin(id: String) {
+        Log.e("tmt id id ", id)
+        val docData = HashMap<String, Any>()
+        dbFireStore.collection(Parameter_Take_Leaves.collection)
+                .document(id)
+                .update(Parameter_Take_Leaves.status, "2")
+                .addOnSuccessListener { void ->
+                    var donxin = act as donxin
+                    donxin.getdonxin(true)
+                }
+                .addOnFailureListener { exception ->
+                    var donxin = act as donxin
+                    donxin.getdonxin(false)
+                }
+
+    }
+
     /**
      * Lấy nội dung thông tin theo thời gian thực
      */
@@ -322,9 +339,10 @@ class dbConnect {
                 }
     }
 
-    interface donxin{
-        fun getdonxin()
+    interface donxin {
+        fun getdonxin(status: Boolean)
     }
+
     interface sendListUser {
         fun listUserDB(listUser: ArrayList<mUser>)
     }

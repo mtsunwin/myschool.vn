@@ -194,7 +194,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
         pageAdapter = PageAdapter(supportFragmentManager)
 
         pageAdapter!!.addFragment(fragment_profile, resources.getString(R.string.frmInfo))
-        pageAdapter!!.addFragment(ActivityFragment(), resources.getString(R.string.frmAction))
+//        pageAdapter!!.addFragment(ActivityFragment(), resources.getString(R.string.frmAction))
 
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)

@@ -1,6 +1,8 @@
 package com.iuh.tranthang.myshool
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +11,7 @@ import android.util.Log
 import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.AdapterDataTakeLeaves
 import com.iuh.tranthang.myshool.ViewApdater.RecycleViewXetDonAdaptervar
+import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.mTakeLeave
 import com.iuh.tranthang.myshool.model.mUser
 
@@ -55,11 +58,26 @@ class DuyetDonActivity : AppCompatActivity(), dbConnect.inforUserLogin, dbConnec
 
     fun loadList(list: ArrayList<mTakeLeave>) {
         ryr.layoutManager = LinearLayoutManager(this)
+        var listTemp: ArrayList<mTakeLeave> = ArrayList<mTakeLeave>()
         if (list.size > 0) {
-            val simple = RecycleViewXetDonAdaptervar(list, { mTake: mTakeLeave ->
+            for (item in list) {
+                if (item.status.compareTo("1") == 0) {
+                    listTemp.add(item)
+                }
+            }
+        }
+        if (listTemp.size > 0) {
+            val simple = RecycleViewXetDonAdaptervar(listTemp, { mTake: mTakeLeave ->
                 Log.e("tmt", "simple" + mTake.fullname)
+
+                var intent: Intent = Intent(this, DuyenDonApplyActivity::class.java)
+                intent.putExtra(Parameter.takeLeave_id, mTake.id)
+                intent.putExtra(Parameter.takeLeave_title, mTake.fullname)
+                intent.putExtra(Parameter.takeLeave_content, mTake.content)
+                intent.putExtra(Parameter.takeLeave_date, mTake.timeStart + " - " + mTake.timeEnd)
+                ContextCompat.startActivity(this, intent, null)
             })
-            var adap = AdapterDataTakeLeaves(applicationContext, list)
+            var adap = AdapterDataTakeLeaves(applicationContext, listTemp)
             ryr.adapter = simple
             adap.notifyDataSetChanged()
             ref.setRefreshing(false)
