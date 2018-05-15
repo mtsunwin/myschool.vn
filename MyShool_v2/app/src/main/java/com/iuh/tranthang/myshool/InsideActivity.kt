@@ -50,12 +50,16 @@ class InsideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
+
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         var token_ps = getSharedPreferences("permission", Context.MODE_PRIVATE)
 
         Log.e("permission abc:", token_ps!!.getString("permission", " "))
         permissionForLogIn = token_ps!!.getString("permission", " ")
         Log.e("permission abc:", permissionForLogIn)
+
+        //Ẩn Menubar
+        supportActionBar!!.hide()
 
         if (token!!.getString("loginusername", " ") != " ") {
             when (permissionForLogIn) {
@@ -75,8 +79,7 @@ class InsideActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        //Ẩn Menubar
-        supportActionBar!!.hide()
+
         btn_login.setOnClickListener(View.OnClickListener {
             Log.e("tmt", "sign in")
             loginUser()
