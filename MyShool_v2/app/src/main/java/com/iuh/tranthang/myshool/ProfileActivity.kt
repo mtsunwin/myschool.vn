@@ -58,6 +58,7 @@ class ProfileActivity : ProfileFragment.OnSelectedListener, AppCompatActivity() 
     private var txtURLImage:String? =""
     private var txtBirthDay:String?=""
     private var imgAvatar:ImageView?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)

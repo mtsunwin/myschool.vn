@@ -18,51 +18,57 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.adm_display
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_admin.*
 import java.io.File
 
 
-class ATeacherActivity : AppCompatActivity() {
+class ATeacherActivity : AppCompatActivity(), dbConnect.inforUserLogin {
 
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
+    private lateinit var db: dbConnect
+    private lateinit var mUser: mUser
 
     //bien cho hien thi avatar navigation
     private lateinit var dbFireStore: FirebaseFirestore
     private lateinit var mAuth: FirebaseUser
     private var view: View? = null
-    private var nav_header_imgAvartar: ImageView?=null
-    private var nav_header_txtName:TextView?=null
-    private var nav_header_txtPermission:TextView?=null
-    private var nav_header_layout: LinearLayout?=null
+    private var nav_header_imgAvartar: ImageView? = null
+    private var nav_header_txtName: TextView? = null
+    private var nav_header_txtPermission: TextView? = null
+    private var nav_header_layout: LinearLayout? = null
     internal var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
-    private var permission:String=""
-    private var name:String=""
-    private var txtURLImage:String=""
+    private var permission: String = ""
+    private var name: String = ""
+    private var txtURLImage: String = ""
+    private lateinit var inforLichBieu: ArrayList<adm_display>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
-        Log.e("activity","Đã vào activity teacher")
+        Log.e("activity", "Đã vào activity teacher")
+        db = dbConnect(this)
+        db.getUser()
 
         // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
+
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
         //edit_password.setText(token_pw.getString("loginpassword"," "))
@@ -74,20 +80,28 @@ class ATeacherActivity : AppCompatActivity() {
 
         val listHeader: ArrayList<adm_display> = ArrayList()
         listHeader.add(adm_display("Thông tin nhân viên", R.drawable.ic_communication, 1))
-        listHeader.add(adm_display("Quản lý thông báo", R.drawable.ic_notification, 2))
+        listHeader.add(adm_display("Thông báo", R.drawable.ic_notification, 2))
+        listHeader.add(adm_display("Đơn xin phép", R.drawable.ic_communication, 3))
 
         val inforStaff: ArrayList<adm_display> = ArrayList()
-        inforStaff.add(adm_display("Danh sách tài khoản", R.drawable.ic_clipboard, 11))
-        inforStaff.add(adm_display("Xem lịch biểu công việc", R.drawable.ic_calendar_1, 16))
+        inforStaff.add(adm_display("Tất cả", R.drawable.ic_clipboard, 11))
+        inforStaff.add(adm_display("Giáo viên", R.drawable.ic_classroom, 991))
+        inforStaff.add(adm_display("Quản lý", R.drawable.ic_customer_service, 992))
+        inforStaff.add(adm_display("Kế toán", R.drawable.ic_accounting, 993))
+        inforStaff.add(adm_display("Danh sách nhân viên", R.drawable.ic_teacher, 995))
 
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
 
-        val fruitsList = listOf("Thang", "Nghia")
+        inforLichBieu = ArrayList()
+        inforLichBieu.add(adm_display("Thông tin", R.drawable.ic_list_2, 32))
+        inforLichBieu.add(adm_display("Xin nghỉ phép", R.drawable.ic_list_2, 31))
+
         val listChild = HashMap<String, ArrayList<adm_display>>()
 
         listChild.put(listHeader[0].getName(), inforStaff)
         listChild.put(listHeader[1].getName(), inforNotify)
+        listChild.put(listHeader[2].getName(), inforLichBieu)
 
         val expandableListAdapter = ExpandableListAdapter(this, listHeader, listChild)
 
@@ -101,10 +115,10 @@ class ATeacherActivity : AppCompatActivity() {
 
         // cập nhật avatar navigation
         view = navigationView!!.inflateHeaderView(R.layout.nav_header_main)
-        nav_header_layout=findViewById(R.id.nav_header_layout)
-        nav_header_imgAvartar= view!!.findViewById(R.id.nav_header_imageView)
-        nav_header_txtName =view!!.findViewById(R.id.nav_header_name)
-        nav_header_txtPermission=view!!.findViewById(R.id.nav_header_permission)
+        nav_header_layout = findViewById(R.id.nav_header_layout)
+        nav_header_imgAvartar = view!!.findViewById(R.id.nav_header_imageView)
+        nav_header_txtName = view!!.findViewById(R.id.nav_header_name)
+        nav_header_txtPermission = view!!.findViewById(R.id.nav_header_permission)
         nav_header_txtPermission!!.setText(permission.toString())
         nav_header_txtName!!.setText(name.toString())
         storage = FirebaseStorage.getInstance()
@@ -114,56 +128,55 @@ class ATeacherActivity : AppCompatActivity() {
             var dbFireStore = FirebaseFirestore.getInstance()
             dbFireStore!!.collection(Parameter.root_User).document(mAuth!!.uid!!)
                     .get().addOnCompleteListener({ task ->
-                if (task.isSuccessful) {
-                    Log.e("Tmt inside", "mmmmmmmmmmmmmm")
-                    var result: DocumentSnapshot = task.result
-                    if (result.exists()) {
-                        name = result.data[Parameter.comp_fullname].toString()
-                        when (result.data[Parameter.comp_Permission].toString()) {
-                            "0" -> {
-                                permission = "Kế toán"
-                            }
-                            "1" -> {
-                                permission = "Giáo viên"
-                            }
-                            "2" -> {
-                                permission = "Nhân viên"
-                            }
-                            "3" -> {
-                                permission = "Admin"
+                        if (task.isSuccessful) {
+                            Log.e("Tmt inside", "mmmmmmmmmmmmmm")
+                            var result: DocumentSnapshot = task.result
+                            if (result.exists()) {
+                                name = result.data[Parameter.comp_fullname].toString()
+                                when (result.data[Parameter.comp_Permission].toString()) {
+                                    "0" -> {
+                                        permission = "Kế toán"
+                                    }
+                                    "1" -> {
+                                        permission = "Giáo viên"
+                                    }
+                                    "2" -> {
+                                        permission = "Nhân viên"
+                                    }
+                                    "3" -> {
+                                        permission = "Admin"
+                                    }
+                                }
+                                Log.e("Name+permission", name + "----" + permission)
+                                nav_header_txtName!!.setText(name.toString())
+                                nav_header_txtPermission!!.setText(permission.toString())
+                                txtURLImage = result.data[Parameter.comp_url].toString()
+                                Log.e("URL:", txtURLImage.toString())
+                                if (txtURLImage!!.length > 0) {
+                                    try {
+                                        val tmpFile = File.createTempFile("img", "png")
+                                        val reference = FirebaseStorage.getInstance().getReference("images/")
+
+                                        //  "id" is name of the image file....
+
+                                        reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener({
+                                            val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
+                                            nav_header_imgAvartar!!.setImageBitmap(image)
+                                        })
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
+                                }
+                            } else {
+                                Log.e("tmt false", "false")
                             }
                         }
-                        Log.e("Name+permission",name+"----"+permission)
-                        nav_header_txtName!!.setText(name.toString())
-                        nav_header_txtPermission!!.setText(permission.toString())
-                        txtURLImage = result.data[Parameter.comp_url].toString()
-                        Log.e("URL:", txtURLImage.toString())
-                        if (txtURLImage!!.length > 0) {
-                            try {
-                                val tmpFile = File.createTempFile("img", "png")
-                                val reference = FirebaseStorage.getInstance().getReference("images/")
-
-                                //  "id" is name of the image file....
-
-                                reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener({
-                                    val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
-                                    nav_header_imgAvartar!!.setImageBitmap(image)
-                                })
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-
-                        }
-                    } else {
-                        Log.e("tmt false", "false")
-                    }
-                }
-            })
+                    })
         }
 
 
         //// ket thuc cap nhat avatar/////
-
 
 
         val drawerIndicatorEnabled = abdt!!.isDrawerIndicatorEnabled
@@ -184,7 +197,6 @@ class ATeacherActivity : AppCompatActivity() {
                             builder.setNegativeButton(R.string.dialogAsk_no, object : DialogInterface.OnClickListener { // cancel
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     p0!!.dismiss()
-
                                 }
                             })
                             builder.setPositiveButton(R.string.dialogAsk_yes, object : DialogInterface.OnClickListener { // apply
@@ -261,5 +273,15 @@ class ATeacherActivity : AppCompatActivity() {
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
 
+    }
+
+    /**
+     * Lấy thông tin user
+     */
+    override fun getInfoUser(mU: mUser) {
+        mUser = mU
+        if (mUser.getChucVu().equals("Tổ trưởng") || mUser.getChucVu().equals("Tổ phó")) {
+            inforLichBieu.add(adm_display("Xét duyệt đơn", R.drawable.ic_list_2, 996))
+        }
     }
 }

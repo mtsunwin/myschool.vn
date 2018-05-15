@@ -54,7 +54,11 @@
             <EditText
                 android:id="@+id/fullname"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/selectPermission_1"
@@ -105,7 +109,11 @@
             <EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -116,7 +124,11 @@
             <EditText
                 android:id="@+id/numberphone"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -128,7 +140,11 @@
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:inputType="date" />
+                android:inputType="date"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,6 +161,10 @@
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:singleLine="true"
                     android:textColorHint="@color/color.Text.in.Background.Dark" />
             </LinearLayout>
 
@@ -163,7 +183,11 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:singleLine="true" />
 
             </LinearLayout>
 

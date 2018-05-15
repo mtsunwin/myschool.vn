@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
     private var mDatabaseReference: DatabaseReference? = null
     private var mDatabase: FirebaseDatabase? = null
     private var mAuth: FirebaseAuth? = null
-    private var dbFireStore:FirebaseFirestore?=null
+    private var dbFireStore: FirebaseFirestore? = null
 
     private var txtFullname: String? = ""
     private var txtUsername: String? = ""
@@ -64,8 +64,9 @@ class RegisterActivity : AppCompatActivity() {
     private var storageReference: StorageReference? = null
     private var txtSelectUser: TextView? = null
     private var txtSelectUser_1: TextView? = null
-    private var txtusername:String?=null
-    private var txtpassword:String?=null
+    private var txtusername: String? = null
+    private var txtpassword: String? = null
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -86,7 +87,7 @@ class RegisterActivity : AppCompatActivity() {
 
         txtSelectUser!!.visibility = View.GONE
         txtSelectUser_1!!.visibility = View.GONE
-        
+
 //      upload file
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
@@ -266,17 +267,17 @@ class RegisterActivity : AppCompatActivity() {
 
                                 // Khởi tạo Root
                                 db.collection(Parameter.root_User)
-                                            .document(userId).set(mMUser)
-                                                .addOnSuccessListener {
-                                                finish()
-                                                    var token = getSharedPreferences("username", Context.MODE_PRIVATE)
-                                                    var token_pw = getSharedPreferences("password", Context.MODE_PRIVATE)
-                                                    txtusername = token!!.getString("loginusername", " ")
-                                                    txtpassword= token_pw!!.getString("password"," ")
-                                                    Log.e("username +password", txtusername+"--"+txtpassword)
-                                                    mAuth!!.signOut()
-                                                    mAuth!!.signInWithEmailAndPassword(txtusername!!,txtpassword!!)
-                                            Toast.makeText(this,R.string.registerCompleted,Toast.LENGTH_SHORT).show()
+                                        .document(userId).set(mMUser)
+                                        .addOnSuccessListener {
+                                            finish()
+                                            var token = getSharedPreferences("username", Context.MODE_PRIVATE)
+                                            var token_pw = getSharedPreferences("password", Context.MODE_PRIVATE)
+                                            txtusername = token!!.getString("loginusername", " ")
+                                            txtpassword = token_pw!!.getString("password", " ")
+                                            Log.e("username +password", txtusername + "--" + txtpassword)
+                                            mAuth!!.signOut()
+                                            mAuth!!.signInWithEmailAndPassword(txtusername!!, txtpassword!!)
+                                            Toast.makeText(this, R.string.registerCompleted, Toast.LENGTH_SHORT).show()
                                         }
                                         .addOnFailureListener { exception ->
                                             Log.e("tmt err", exception.toString())
