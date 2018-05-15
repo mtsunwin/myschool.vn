@@ -72,6 +72,8 @@
         </activity>
         <activity android:name=".DuyetDonActivity">
         </activity>
+        <activity android:name=".DuyenDonApplyActivity">
+        </activity>
     </application>
 
 </manifest>

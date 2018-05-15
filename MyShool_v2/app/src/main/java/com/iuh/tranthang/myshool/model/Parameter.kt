@@ -31,5 +31,9 @@ object Parameter {
     val intent_ketoan_user: String = "4"
     val intent_staff_user: String = "5"
 
+    val takeLeave_title: String = "1"
+    val takeLeave_content: String = "2"
+    val takeLeave_date: String = "3"
+    val takeLeave_id: String = "4"
 
 }

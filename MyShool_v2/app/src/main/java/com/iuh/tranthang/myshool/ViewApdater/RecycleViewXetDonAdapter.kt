@@ -1,6 +1,7 @@
 package com.iuh.tranthang.myshool.ViewApdater
 
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,13 @@ class RecycleViewXetDonAdaptervar(var items: ArrayList<mTakeLeave>,
         fun bind(item: mTakeLeave,
                  clickListener: (mTakeLeave) -> Unit) = with(itemView) {
             txtList_tile_notification.text = "Đơn xin nghỉ phép"
-            txtList_content_notification.text = "Từ " + item.timeStart + " đến " + item.timeEnd
+
+            var strTemp: String = ""
+            strTemp += "<b>" + item.fullname + "</b> với lý do:<br>"
+            strTemp += item.content + "<br>"
+            strTemp += "<b>Từ</b> " + item.timeStart + " <b>đến</b> " + item.timeEnd
+
+            txtList_content_notification.text = Html.fromHtml(strTemp)
             img_group.visibility = View.GONE
             ic_eye.visibility = View.GONE
             txtList_count_notification.visibility = View.GONE

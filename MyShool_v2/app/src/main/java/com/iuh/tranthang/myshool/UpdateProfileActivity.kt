@@ -10,10 +10,7 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
 import com.google.firebase.auth.FirebaseAuth
@@ -62,7 +59,7 @@ class UpdateProfileActivity : AppCompatActivity() {
     private var textCongviec: Boolean? = true
     private var textToCongTac: String? = ""
     private var textChucVu: String? = "Nhan vien"
-    private var btnUpload: Button? = null
+    private var btnUpload: TextView? = null
     private val PICK_IMAGE_REQUEST = 1234
     private var filePath: Uri? = null
     private var mMUser: mUser? = null
