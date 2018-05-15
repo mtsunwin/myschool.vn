@@ -28,15 +28,18 @@ import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ViewApdater.ExpandableListAdapter
 import com.iuh.tranthang.myshool.model.Parameter
 import com.iuh.tranthang.myshool.model.adm_display
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_admin.*
 import java.io.File
 
 
-class ATeacherActivity : AppCompatActivity() {
+class ATeacherActivity : AppCompatActivity(), dbConnect.inforUserLogin {
 
     private var drawerLayout: DrawerLayout? = null
     private var abdt: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
+    private lateinit var db: dbConnect
+    private lateinit var mUser: mUser
 
     //bien cho hien thi avatar navigation
     private lateinit var dbFireStore: FirebaseFirestore
@@ -51,16 +54,21 @@ class ATeacherActivity : AppCompatActivity() {
     private var permission: String = ""
     private var name: String = ""
     private var txtURLImage: String = ""
+    private lateinit var inforLichBieu: ArrayList<adm_display>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         var token = getSharedPreferences("username", Context.MODE_PRIVATE)
         //var token_pw= getSharedPreferences("password",Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
         Log.e("activity", "Đã vào activity teacher")
+        db = dbConnect(this)
+        db.getUser()
 
         // Khởi tạo các đối tượng giao tiếp với firebase
         mAuth = FirebaseAuth.getInstance().currentUser!!
         dbFireStore = FirebaseFirestore.getInstance()
+
         val intent = Intent(this, InsideActivity::class.java)
         val intent_profile = Intent(this, ProfileActivity::class.java)
         //edit_password.setText(token_pw.getString("loginpassword"," "))
@@ -81,13 +89,13 @@ class ATeacherActivity : AppCompatActivity() {
         inforStaff.add(adm_display("Quản lý", R.drawable.ic_customer_service, 992))
         inforStaff.add(adm_display("Kế toán", R.drawable.ic_accounting, 993))
         inforStaff.add(adm_display("Danh sách nhân viên", R.drawable.ic_teacher, 995))
+
         val inforNotify: ArrayList<adm_display> = ArrayList()
         inforNotify.add(adm_display("Danh sách thông báo", R.drawable.ic_list_2, 21))
 
-        val inforLichBieu: ArrayList<adm_display> = ArrayList()
+        inforLichBieu = ArrayList()
         inforLichBieu.add(adm_display("Thông tin", R.drawable.ic_list_2, 32))
         inforLichBieu.add(adm_display("Xin nghỉ phép", R.drawable.ic_list_2, 31))
-
 
         val listChild = HashMap<String, ArrayList<adm_display>>()
 
@@ -265,5 +273,15 @@ class ATeacherActivity : AppCompatActivity() {
             boolean = super.onOptionsItemSelected(item)
         return boolean!!
 
+    }
+
+    /**
+     * Lấy thông tin user
+     */
+    override fun getInfoUser(mU: mUser) {
+        mUser = mU
+        if (mUser.getChucVu().equals("Tổ trưởng") || mUser.getChucVu().equals("Tổ phó")) {
+            inforLichBieu.add(adm_display("Xét duyệt đơn", R.drawable.ic_list_2, 996))
+        }
     }
 }

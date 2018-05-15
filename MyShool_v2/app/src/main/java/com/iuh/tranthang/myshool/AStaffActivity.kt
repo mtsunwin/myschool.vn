@@ -129,9 +129,7 @@ class AStaffActivity : AppCompatActivity() {
                                     try {
                                         val tmpFile = File.createTempFile("img", "png")
                                         val reference = FirebaseStorage.getInstance().getReference("images/")
-
                                         //  "id" is name of the image file....
-
                                         reference.child(txtURLImage.toString()).getFile(tmpFile).addOnSuccessListener({
                                             val image = BitmapFactory.decodeFile(tmpFile.getAbsolutePath())
                                             nav_header_imgAvartar!!.setImageBitmap(image)
@@ -139,7 +137,6 @@ class AStaffActivity : AppCompatActivity() {
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
-
                                 }
                             } else {
                                 Log.e("tmt false", "false")

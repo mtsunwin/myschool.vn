@@ -55,4 +55,6 @@ class ListTakeLeavesActivity : AppCompatActivity(),
     override fun listTakeLeaves(mList: java.util.ArrayList<mTakeLeave>) {
         loadList(mList)
     }
+
+
 }

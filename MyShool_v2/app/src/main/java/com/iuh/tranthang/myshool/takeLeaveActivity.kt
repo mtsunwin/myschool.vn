@@ -11,16 +11,21 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.model.Parameter_Take_Leaves
 import com.iuh.tranthang.myshool.model.mTakeLeave
+import com.iuh.tranthang.myshool.model.mUser
 import kotlinx.android.synthetic.main.activity_take_leave.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class takeLeaveActivity : AppCompatActivity() {
+class takeLeaveActivity : AppCompatActivity(), dbConnect.inforUserLogin {
 
     private lateinit var dbFireStore: FirebaseFirestore
     private lateinit var mAuth: FirebaseUser
+    private lateinit var db: dbConnect
+    private lateinit var mUser: mUser
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +33,8 @@ class takeLeaveActivity : AppCompatActivity() {
 
         dbFireStore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance().currentUser!!
-
+        db = dbConnect(this)
+        db.getUser()
         val actionBar = supportActionBar
         actionBar!!.hide()
 
@@ -99,11 +105,22 @@ class takeLeaveActivity : AppCompatActivity() {
      * Thực hiện Update lên Db
      */
     private fun updateToDB() {
+        var mto: String = "0"
+        if (mUser.getToCongTac().equals("Tổ Toán")) {
+            mto = "1"
+        }
+        if (mUser.getToCongTac().equals("Tổ Lý")) {
+            mto = "2"
+        }
+        if (mUser.getToCongTac().equals("Tổ Hóa")) {
+            mto = "3"
+        }
+        mto = mUser.getPermission() + mto
         var idDocument = dbFireStore.collection(Parameter_Take_Leaves.collection).document()
-        var mTakeLeave = mTakeLeave(idDocument.id, txtTakeLeave_content.text.toString(),
+        var mTakeLeave = mTakeLeave(mUser.getFullname(), idDocument.id, txtTakeLeave_content.text.toString(),
                 txtTakeLeave_timeStart.text.toString(),
                 txtTakeLeave_timeEnd.text.toString(),
-                "1", mAuth.uid)
+                "1", mAuth.uid, mto)
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(android.R.layout.select_dialog_item, null)
@@ -138,12 +155,10 @@ class takeLeaveActivity : AppCompatActivity() {
         if (timeStart.length > 6 && timeEnd.length > 6) {
             val dateStart = formatter.parse(timeStart.toString())
             val dateEnd = formatter.parse(timeEnd.toString())
-
             if (dateStart.date.toInt() < today.date.toInt() + 6 && dateStart.month.toInt() <= today.month.toInt()
                     && dateStart.year.toInt() <= today.year.toInt()) {
                 return 2
             }
-
             if (dateEnd.date.toInt() < dateStart.date.toInt() && dateEnd.month.toInt() <= dateStart.month.toInt()
                     && dateEnd.year.toInt() <= dateStart.year.toInt()) {
                 return 3
@@ -155,5 +170,12 @@ class takeLeaveActivity : AppCompatActivity() {
             return 1
         }
         return 0
+    }
+
+    /**
+     * Lấy thông tin user login
+     */
+    override fun getInfoUser(mU: mUser) {
+        mUser = mU
     }
 }

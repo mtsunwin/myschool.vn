@@ -39,8 +39,26 @@ class dbConnect {
         this.mUser!!.setAddress(mMUser.getAddress())
     }
 
-    fun getUser(): String {
-        return this.mUser!!.getAddress()
+    fun getUser() {
+        dbFireStore.collection(Parameter.root_User).document(mAuth!!.uid!!)
+                .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                    var mU: mUser = mUser()
+                    mU.setAction(documentSnapshot.data[Parameter.comp_action] as Boolean)
+                    mU.setAddress(documentSnapshot.data[Parameter.comp_address] as String)
+                    mU.setBirthday(documentSnapshot.data[Parameter.comp_birthday] as String)
+                    mU.setChucVu(documentSnapshot.data[Parameter.comp_chucVu] as String)
+                    mU.setCoefficient(documentSnapshot.data[Parameter.comp_baseSalary] as String)
+                    mU.setBirthday(documentSnapshot.data[Parameter.comp_birthday] as String)
+                    mU.setEmail(documentSnapshot.data[Parameter.comp_email] as String)
+                    mU.setNumberphone(documentSnapshot.data[Parameter.comp_numberphone] as String)
+                    mU.setPermission(documentSnapshot.data[Parameter.comp_Permission] as String)
+                    mU.setFullname(documentSnapshot.data[Parameter.comp_fullname] as String)
+                    mU.setToCongTac(documentSnapshot.data[Parameter.comp_toCongTac] as String)
+                    mU.setUid(documentSnapshot.data[Parameter.comp_UId] as String)
+                    mU.setUrl(documentSnapshot.data[Parameter.comp_url] as String)
+                    var sendNotification = act as inforUserLogin
+                    sendNotification.getInfoUser(mU)
+                }
     }
 
     /**
@@ -238,7 +256,8 @@ class dbConnect {
     }
 
     fun getListTakeLeaves() {
-        dbFireStore.collection(Parameter_Take_Leaves.collection).whereEqualTo(Parameter_Take_Leaves.UserId, mAuth!!.uid)
+        dbFireStore.collection(Parameter_Take_Leaves.collection)
+                .whereEqualTo(Parameter_Take_Leaves.UserId, mAuth!!.uid)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     var mList: ArrayList<mTakeLeave> = ArrayList<mTakeLeave>()
                     var returnList = act as returnList
@@ -287,6 +306,25 @@ class dbConnect {
                 })
     }
 
+    public fun getDonXin(key: String) {
+        Log.e("qqqq", "taaodkaspodkpokds" + key)
+        dbFireStore.collection(Parameter_Take_Leaves.collection)
+                .whereEqualTo(Parameter_Take_Leaves.key, key)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    var mList: ArrayList<mTakeLeave> = ArrayList<mTakeLeave>()
+                    var returnList = act as returnList
+                    for (document in querySnapshot) {
+                        Log.e("qqqq", "taaodkaspodkpokds")
+                        val myObject = document.toObject(mTakeLeave::class.java)
+                        mList.add(myObject)
+                    }
+                    returnList.listTakeLeaves(mList)
+                }
+    }
+
+    interface donxin{
+        fun getdonxin()
+    }
     interface sendListUser {
         fun listUserDB(listUser: ArrayList<mUser>)
     }
@@ -306,5 +344,9 @@ class dbConnect {
 
     interface returnList {
         fun listTakeLeaves(mList: ArrayList<mTakeLeave>)
+    }
+
+    interface inforUserLogin {
+        fun getInfoUser(mU: mUser)
     }
 }

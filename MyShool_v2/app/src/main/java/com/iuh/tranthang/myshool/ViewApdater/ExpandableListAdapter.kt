@@ -88,10 +88,16 @@ class ExpandableListAdapter(val context: Context, val listOfHeaderData: ArrayLis
                 992 -> listAccountManager(converView)
                 993 -> listAccountKeToan(converView)
                 995 -> listAccountNhanvien(converView)
+                996 -> listAccountDuyetDon(converView)
             }
         })
 
         return view
+    }
+
+    private fun listAccountDuyetDon(converView: View?) {
+        var intent: Intent = Intent(converView!!.context, DuyetDonActivity::class.java)
+        ContextCompat.startActivity(context, intent, null)
     }
 
     private fun listAccountNhanvien(converView: View?) {

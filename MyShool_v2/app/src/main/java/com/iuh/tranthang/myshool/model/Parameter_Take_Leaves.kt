@@ -11,4 +11,6 @@ object Parameter_Take_Leaves {
     val timeEnd = "timeEnd"
     val status = "status"
     val UserId = "idUser"
+    val lead = "lead"
+    val key = "key"
 }
