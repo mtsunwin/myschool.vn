@@ -36,4 +36,8 @@ object Parameter {
     val takeLeave_date: String = "3"
     val takeLeave_id: String = "4"
 
+    val collection_hesoluongcoban: String = "HeSoLuongCoBan"
+    val salary: String = "Salary"
+    val luongCoBan: String = "LuongCoBan"
+
 }

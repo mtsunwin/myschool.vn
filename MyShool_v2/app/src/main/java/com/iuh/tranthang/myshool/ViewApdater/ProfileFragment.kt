@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.iuh.tranthang.myshool.Firebase.dbConnect
 import com.iuh.tranthang.myshool.ProfileActivity
 import com.iuh.tranthang.myshool.R
 import com.iuh.tranthang.myshool.model.mUser
@@ -17,15 +18,18 @@ import kotlinx.android.synthetic.main.fragment_profile.*
  */
 class ProfileFragment : Fragment() {
 
+
     private var txt_address: String = ""
     private var txt_phone: String = ""
     private var txt_email: String = ""
     private var txt_birthday: String = ""
 
-    private var txt_luong:String?=""
-    private var txt_basesalary:String?=""
-    private var luongCB:String?=""
-    private var txt_luongThang:String?=null
+    private var txt_luong: Double? = 0.0
+    private var txt_basesalary: String? = ""
+    private var luongCB: String? = ""
+    private var txt_luongThang: String? = null
+    private lateinit var db: dbConnect
+
 
     interface OnSelectedListener {
         fun onSelected(dMUser: mUser)
@@ -33,6 +37,7 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         var mView: View = inflater!!.inflate(R.layout.fragment_profile, container, false)
         // Inflate the layout for this fragment
         return mView
@@ -46,7 +51,7 @@ class ProfileFragment : Fragment() {
         frm_txtNumPhone.setText(if (txt_phone.length > 0) txt_phone else resources.getString(R.string.updateInfor))
         frm_txtEmail.setText(if (txt_email.length > 0) txt_email else resources.getString(R.string.updateInfor))
         frm_txtBirthday.setText(if (txt_birthday.length > 0) txt_birthday else resources.getString(R.string.updateInfor))
-        frm_txtLuong.setText(if(txt_luong!!.length>0) txt_luong.toString() else resources.getString(R.string.updateInfor))
+        frm_txtLuong.setText(if (txt_luong!!.compareTo(0.0) > 0.0) txt_luong.toString() else resources.getString(R.string.updateInfor))
 
     }
 
@@ -56,8 +61,7 @@ class ProfileFragment : Fragment() {
         txt_phone = arguments.getString(ProfileActivity().frm_phone)
         txt_email = arguments.getString(ProfileActivity().frm_email)
         txt_birthday = arguments.getString(ProfileActivity().frm_birthday)
-
-        txt_luong=arguments.getString(ProfileActivity().frm_luong)
+        txt_luong = arguments.getDouble(ProfileActivity().frm_luong)
 
         updateUI()
     }
